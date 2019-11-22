@@ -130,6 +130,7 @@
 		56D7BABF2382F79A00CECC71 = {
 			isa = PBXGroup;
 			children = (
+				56113D4B2388717500A7DA6B /* .gitignore */,
 				56D7BACA2382F79A00CECC71 /* StartDeutsch */,
 				56D7BAE42382F7A200CECC71 /* StartDeutschTests */,
 				56D7BAC92382F79A00CECC71 /* Products */,
@@ -163,7 +164,6 @@
 				56D7BADC2382F7A200CECC71 /* Info.plist */,
 				56D7BAD42382F79A00CECC71 /* StartDeutsch.xcdatamodeld */,
 				56113D45238854AE00A7DA6B /* GoogleService-Info.plist */,
-				56113D4B2388717500A7DA6B /* .gitignore */,
 				56113D372386F60900A7DA6B /* New Group */,
 			);
 			path = StartDeutsch;
