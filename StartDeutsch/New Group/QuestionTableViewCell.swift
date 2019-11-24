@@ -28,14 +28,17 @@ class QuestionTableViewCell: UITableViewCell {
     }
     
     @IBAction func didTapFirstButton(_ sender: UIButton) {
+        print("tag ", sender.tag)
         delegate?.indexOfSelectedButton(index: sender.tag, cell: self)
     }
     
     @IBAction func didTapSecondButton(_ sender: UIButton) {
+        print("tag ", sender.tag)
         delegate?.indexOfSelectedButton(index: sender.tag, cell: self)
     }
     
     @IBAction func didTapThirdBUTTON(_ sender: UIButton) {
+        print("tag ", sender.tag)
         delegate?.indexOfSelectedButton(index: sender.tag, cell: self)
     }
     

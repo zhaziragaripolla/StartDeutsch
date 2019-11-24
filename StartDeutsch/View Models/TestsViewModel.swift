@@ -16,7 +16,7 @@ protocol TestsViewModelDelegate: class {
 class TestsViewModel {
     
     weak var delegate: TestsViewModelDelegate?
-    
+    let firebaseManager = FirebaseManager<Test>()
     var firestore: Firestore { return Firestore.firestore() }
     var tests: [DocumentReference] = []
     
@@ -26,28 +26,18 @@ class TestsViewModel {
         return vm
     }
     
-    
-    func getTestsForCourse(index: Int) {
-       
-        firestore.collection("courses/german/listening").getDocuments(completion: { querySnapshot, error in
-            if let querySnapshot = querySnapshot {
-                for doc in querySnapshot.documents {
-                    self.tests.append(doc.reference)
-                }
-//                print(self.tests)
-//                let vm = TestsViewModel()
-//                vm.tests = self.tests
-                DispatchQueue.main.async {
-                    self.delegate?.reloadData()
-                }
-                
-            }
-            if let error = error {
+    func getTests(){
+
+        firebaseManager.getDocuments(.tests(course: .listening)) { result in
+            switch result {
+            case .failure(let error):
                 print(error)
-//                completion(nil)
+            case .success(let response):
+                self.tests = response.map({ return $0.reference })
+                self.delegate?.reloadData()
             }
-        })
-    
+            
+        }
     }
     
     

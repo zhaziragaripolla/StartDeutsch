@@ -1,5 +1,5 @@
 //
-//  QuestionsViewController.swift
+//  ListeningViewController.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 11/21/19.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class QuestionsViewController: UIViewController {
+class ListeningViewController: UIViewController {
     
     var viewModel: QuestionsViewModel!
     
-    var selectedAnswers: [Int] = [0]
+    var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -26,13 +26,13 @@ class QuestionsViewController: UIViewController {
     }
 }
 
-extension QuestionsViewController: QuestionsViewModelDelegate{
+extension ListeningViewController: QuestionsViewModelDelegate{
     func reloadData() {
         tableView.reloadData()
     }
 }
 
-extension QuestionsViewController: UITableViewDelegate, UITableViewDataSource {
+extension ListeningViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.questions.count
     }
@@ -49,11 +49,18 @@ extension QuestionsViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension QuestionsViewController: QuestionTableViewCellDelegate {
+extension ListeningViewController: QuestionTableViewCellDelegate {
     func indexOfSelectedButton(index: Int, cell: UITableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        selectedAnswers[indexPath.row] = index
-        viewModel.checkUserAnswers(answerIndices: selectedAnswers)
+
+        let userAnswer = UserAnswer(value: index, isAnswered: true)
+        userAnswers[indexPath.row] = userAnswer
+        
+        // check only if all 15 questions are answered
+        print(userAnswers)
+        if !userAnswers.contains(where: { $0.isAnswered == false }) {
+            viewModel.checkUserAnswers(userAnswers: userAnswers)
+        }
     }
     
 }

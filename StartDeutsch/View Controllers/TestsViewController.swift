@@ -23,18 +23,18 @@ class TestsViewController: UIViewController {
         view.backgroundColor = .white
         
         viewModel.delegate = self
-        viewModel.getTestsForCourse(index: 0)
+        viewModel.getTests()
         
     }
     
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
                if segue.identifier == "questionsVC",
-                   let destinationVC = segue.destination as? QuestionsViewController {
+                   let destinationVC = segue.destination as? ListeningViewController {
                         let vm = QuestionsViewModel()
                         vm.testRef = viewModel.tests.first
                         destinationVC.viewModel = vm
                }
-           }
+        }
     
 
 }
@@ -52,7 +52,7 @@ extension TestsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let vm = viewModel.getQuestionsViewModel(index: indexPath.row)
-//        let vc = QuestionsViewController()
+//        let vc = ListeningViewController()
 //        vc.viewModel = vm
 //        self.navigationController?.pushViewController(vc, animated: true)
         

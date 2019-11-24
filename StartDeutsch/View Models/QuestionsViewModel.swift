@@ -15,34 +15,41 @@ protocol QuestionsViewModelDelegate: class {
 }
 
 class QuestionsViewModel {
+    
+    let firebaseManager = FirebaseManager<Test>()
+    var testRef: DocumentReference! = nil
+    var questions: [ListeningQuestion] = []
+    weak var delegate: QuestionsViewModelDelegate?
+    
+    // TODO: delete
     var firestore: Firestore { return Firestore.firestore() }
     var storage: Storage { return Storage.storage()}
     let documentsUrl: URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     
-    weak var delegate: QuestionsViewModelDelegate?
     
-    var testRef: DocumentReference! = nil
-    var questions: [ListeningQuestion] = []
-    
-     func getQuestions(){
-            let query = testRef.collection("questions")
-            firestore.collection(query.path).getDocuments(completion: { qSnap, error in
-                if let snap = qSnap {
-                    for doc in snap.documents {
-                        if let question = ListeningQuestion(dictionary: doc.data()) {
-                            self.questions.append(question)
-                            print(question)
-                            self.delegate?.reloadData()
-                        }
-                        else {
-                            print("No question")
-                        }
-                    }
-                }
-                if let error = error {
-                    print(error)
-                }
-            })
+    func getQuestions() {
+        
+        firebaseManager.getDocuments(.questions(test: testRef)) { result in
+            switch result {
+            case .failure(let error):
+                // TODO: delegate error
+                print(error)
+            case .success(let response):
+                
+                self.questions = response.map({
+                    return ListeningQuestion(dictionary: $0.data())!
+                })
+//                for doc in response {
+//                    guard let question = ListeningQuestion(dictionary: doc.data()) else { return }
+//                    self.questions.append(question)
+//                }
+                    
+                self.questions.sort(by: { $0.number < $1.number })
+                self.delegate?.reloadData()
+            }
+            
+        }
+
     }
     
     func getAudios(){
@@ -59,7 +66,6 @@ class QuestionsViewModel {
             // Data for "images/island.jpg" is returned
 //            let image = UIImage(data: data!)
             if let data = data {
-                FileManager.default.createFile(atPath: self.documentsUrl.relativePath, contents: data, attributes: [:])
                 let documentDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create:false)
                 let fileURL = documentDirectory.appendingPathComponent("name.mp3")
                 do {
@@ -80,17 +86,14 @@ class QuestionsViewModel {
     }
     
     
-    func checkUserAnswers(answerIndices: [Int]) {
+    func checkUserAnswers(userAnswers: [UserAnswer])-> Int {
         var count = 0
-        for index in 0..<answerIndices.count {
-            questions.forEach({ question in
-//                if (question.answer.isCorrect(index)) {
-//                    count += 1
-//                }
-            })
+        // TODO: refactor
+        for index in 0..<questions.count{
+            if (questions[index].answer == userAnswers[index].value) {
+                count += 1
+            }
         }
-        print(count)
+        return count
     }
-    
-    
 }
