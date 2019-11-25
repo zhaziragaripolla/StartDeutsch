@@ -10,7 +10,7 @@ import UIKit
 
 class ListeningViewController: UIViewController {
     
-    var viewModel: QuestionsViewModel!
+    var viewModel: ListeningViewModel!
     
     var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
     
@@ -18,15 +18,17 @@ class ListeningViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        viewModel = QuestionsViewModel()
-        viewModel.delegate = self
+//        viewModel = ListeningViewModel(delegate: self)
         viewModel.getQuestions()
         viewModel.getAudios()
-//        tableView.
     }
 }
 
-extension ListeningViewController: QuestionsViewModelDelegate {
+extension ListeningViewController: ListeningViewModelDelegate, ErrorDelegate {
+    func showError(message: String) {
+        print(message)
+    }
+    
     
     func reloadData() {
         tableView.reloadData()
@@ -40,7 +42,7 @@ extension ListeningViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let question = viewModel.questions[indexPath.row]
-//        var cell: ListeningTableViewCellProtocol?
+        // TODO: refactor
         if question.choices?.count == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellMultiple", for: indexPath) as! QuestionTableViewCell
             cell.url = viewModel.documentsUrl.appendingPathComponent("name.mp3")

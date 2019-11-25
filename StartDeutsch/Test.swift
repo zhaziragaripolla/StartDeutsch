@@ -18,7 +18,7 @@ enum Course: String {
 
 enum Test {
     case tests(course: Course)
-    case questions(test: DocumentReference)
+    case questions(test: String)
 }
 
 protocol ReferenceType {
@@ -37,7 +37,7 @@ extension Test: ReferenceType {
         case .tests(let course):
             return baseCollection + course.rawValue
         case .questions(let test):
-            return test.collection("questions").path
+            return baseCollection + "\(test)/questions"
         }
     }
     

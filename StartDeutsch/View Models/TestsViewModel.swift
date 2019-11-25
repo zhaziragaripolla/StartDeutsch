@@ -16,19 +16,23 @@ protocol TestsViewModelDelegate: class {
 class TestsViewModel {
     
     weak var delegate: TestsViewModelDelegate?
-    let firebaseManager = FirebaseManager<Test>()
+    let firebaseManager: FirebaseManagerProtocol
     var firestore: Firestore { return Firestore.firestore() }
     var tests: [DocumentReference] = []
     
-    func getQuestionsViewModel(index: Int)-> QuestionsViewModel {
-        let vm = QuestionsViewModel()
-        vm.testRef = tests[index]
-        return vm
+//    func getQuestionsViewModel(index: Int)-> ListeningViewModel {
+//        let vm = ListeningViewModel()
+//        vm.testRef = tests[index]
+//        return vm
+//    }
+    
+    init(firebaseManager: FirebaseManagerProtocol = FirebaseManager()) {
+        self.firebaseManager = firebaseManager
     }
     
     func getTests(){
 
-        firebaseManager.getDocuments(.tests(course: .listening)) { result in
+        firebaseManager.getDocuments(Test.tests(course: .listening)) { result in
             switch result {
             case .failure(let error):
                 print(error)

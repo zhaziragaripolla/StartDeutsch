@@ -30,8 +30,8 @@ class TestsViewController: UIViewController {
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
                if segue.identifier == "questionsVC",
                    let destinationVC = segue.destination as? ListeningViewController {
-                        let vm = QuestionsViewModel()
-                        vm.testRef = viewModel.tests.first
+                let testPath = (viewModel.tests.first?.path)!
+                let vm = ListeningViewModel(delegate: destinationVC, errorDelegate: destinationVC, test: testPath)
                         destinationVC.viewModel = vm
                }
         }

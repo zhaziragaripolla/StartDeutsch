@@ -10,30 +10,42 @@ import Foundation
 import FirebaseFirestore
 import FirebaseStorage
 
-protocol QuestionsViewModelDelegate: class {
+protocol ListeningViewModelDelegate: class {
     func reloadData()
 }
 
-class QuestionsViewModel {
+protocol ErrorDelegate: class {
+    func showError(message: String)
+}
+
+class ListeningViewModel {
     
-    let firebaseManager = FirebaseManager<Test>()
-    var testRef: DocumentReference! = nil
+    var firebaseManager: FirebaseManagerProtocol
+    var testReference: String
     var questions: [ListeningQuestion] = []
-    weak var delegate: QuestionsViewModelDelegate?
+    var errorMessage: String = ""
+    weak var delegate: ListeningViewModelDelegate?
+    weak var errorDelegate: ErrorDelegate?
     
     // TODO: delete
     var firestore: Firestore { return Firestore.firestore() }
     var storage: Storage { return Storage.storage()}
     let documentsUrl: URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     
+    init(delegate: ListeningViewModelDelegate, errorDelegate: ErrorDelegate, test: String, firebaseManager: FirebaseManagerProtocol = FirebaseManager()) {
+        self.delegate = delegate
+        self.firebaseManager = firebaseManager
+        self.testReference = test
+        self.errorDelegate = errorDelegate
+    }
     
     func getQuestions() {
-        
-        firebaseManager.getDocuments(.questions(test: testRef)) { result in
+        print(testReference)
+        firebaseManager.getDocuments(Test.questions(test: testReference)) { result in
             switch result {
             case .failure(let error):
-                // TODO: delegate error
-                print(error)
+//                self.errorMessage = error.localizedDescription
+                self.errorDelegate?.showError(message: error.localizedDescription)
             case .success(let response):
                 
                 self.questions = response.map({
