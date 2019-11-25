@@ -26,7 +26,8 @@ class ListeningViewController: UIViewController {
     }
 }
 
-extension ListeningViewController: QuestionsViewModelDelegate{
+extension ListeningViewController: QuestionsViewModelDelegate {
+    
     func reloadData() {
         tableView.reloadData()
     }
@@ -38,18 +39,33 @@ extension ListeningViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QuestionTableViewCell
         let question = viewModel.questions[indexPath.row]
-        cell.url = viewModel.documentsUrl.appendingPathComponent("name.mp3")
-        cell.questionLabel.text = question.question
-        cell.delegate = self
-        return cell
+//        var cell: ListeningTableViewCellProtocol?
+        if question.choices?.count == 3 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cellMultiple", for: indexPath) as! QuestionTableViewCell
+            cell.url = viewModel.documentsUrl.appendingPathComponent("name.mp3")
+            cell.questionLabel.text = question.question
+            cell.firstAnswerLabel.text = question.choices?[0]
+            cell.secondAnswerLabel.text = question.choices?[1]
+            cell.thirdAnswerLabel.text = question.choices?[2]
+            cell.delegate = self
+            return cell
+            
+        }
+        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cellBinary", for: indexPath) as! BinaryQuestionTableViewCell
+            cell.url = viewModel.documentsUrl.appendingPathComponent("name.mp3")
+            cell.questionLabel.text = question.question
+            cell.delegate = self
+            return cell
+        }
+        
     }
     
     
 }
 
-extension ListeningViewController: QuestionTableViewCellDelegate {
+extension ListeningViewController: ListeningTableViewCellDelegate {
     func indexOfSelectedButton(index: Int, cell: UITableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
 
@@ -59,7 +75,8 @@ extension ListeningViewController: QuestionTableViewCellDelegate {
         // check only if all 15 questions are answered
         print(userAnswers)
         if !userAnswers.contains(where: { $0.isAnswered == false }) {
-            viewModel.checkUserAnswers(userAnswers: userAnswers)
+            let result = viewModel.checkUserAnswers(userAnswers: userAnswers)
+            print(result)
         }
     }
     
