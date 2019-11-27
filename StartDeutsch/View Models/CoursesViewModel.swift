@@ -9,7 +9,6 @@
 import Foundation
 import FirebaseFirestore
 
-
 enum Courses {
     case listening(String)
     case reading

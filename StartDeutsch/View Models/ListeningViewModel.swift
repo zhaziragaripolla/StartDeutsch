@@ -12,6 +12,7 @@ import FirebaseStorage
 
 protocol ListeningViewModelDelegate: class {
     func reloadData()
+    func questionsDownloaded()
 }
 
 protocol ErrorDelegate: class {
@@ -20,6 +21,9 @@ protocol ErrorDelegate: class {
 
 class ListeningViewModel {
     
+    let storage = FirebaseStorageManager()
+    var storedAudioPaths = [URL?](repeating: nil, count: 15)
+    
     var firebaseManager: FirebaseManagerProtocol
     var testReference: String
     var questions: [ListeningQuestion] = []
@@ -27,85 +31,121 @@ class ListeningViewModel {
     weak var delegate: ListeningViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
+    let fileManager = FileManager.default
+    
     // TODO: delete
-    var firestore: Firestore { return Firestore.firestore() }
-    var storage: Storage { return Storage.storage()}
+//    var firestore: Firestore { return Firestore.firestore() }
+//    var storage: Storage { return Storage.storage()}
     let documentsUrl: URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     
-    init(delegate: ListeningViewModelDelegate, errorDelegate: ErrorDelegate, test: String, firebaseManager: FirebaseManagerProtocol = FirebaseManager()) {
-        self.delegate = delegate
+    init(test: String, firebaseManager: FirebaseManagerProtocol = FirebaseManager()) {
         self.firebaseManager = firebaseManager
         self.testReference = test
-        self.errorDelegate = errorDelegate
+    }
+    
+    func viewModel(for index: Int)-> ListeningQuestionViewModel {
+        let question = questions[index]
+        let audioPath = storedAudioPaths[index]!
+        return ListeningQuestionViewModel(listeningQuestion: question, audioPath: audioPath)
     }
     
     func getQuestions() {
-        print(testReference)
+        
         firebaseManager.getDocuments(Test.questions(test: testReference)) { result in
             switch result {
             case .failure(let error):
-//                self.errorMessage = error.localizedDescription
                 self.errorDelegate?.showError(message: error.localizedDescription)
             case .success(let response):
                 
                 self.questions = response.map({
                     return ListeningQuestion(dictionary: $0.data())!
                 })
+                print(self.questions)
 //                for doc in response {
 //                    guard let question = ListeningQuestion(dictionary: doc.data()) else { return }
 //                    self.questions.append(question)
 //                }
                     
                 self.questions.sort(by: { $0.number < $1.number })
-                self.delegate?.reloadData()
+//                self.delegate?.reloadData()
+//                self.getAudios()
+                self.delegate?.questionsDownloaded()
             }
             
         }
 
     }
     
+    
     func getAudios(){
-        // Create a reference to the file you want to download
-        let testAudiosRef = storage.reference()
-        let audiosRef = testAudiosRef.child("test1/question1.mp3")
         
-        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        audiosRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
-          if let error = error {
-            // Uh-oh, an error occurred!
-            print(error)
-          } else {
-            // Data for "images/island.jpg" is returned
-//            let image = UIImage(data: data!)
-            if let data = data {
-                let documentDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create:false)
-                let fileURL = documentDirectory.appendingPathComponent("name.mp3")
-                do {
-                    try data.write(to: fileURL)
-                }
-                catch {
-                    print(error)
-                }
+        for question in questions {
+            let documentDirectory = try! self.fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create:false)
+            
+            //check if exists
+            
+            let existingFileURL = documentDirectory.appendingPathComponent("\(question.number).mp3")
                 
-                print("saved at \(self.documentsUrl.absoluteString)")
+            if self.fileManager.fileExists(atPath: existingFileURL.path) {
+                self.storedAudioPaths[question.number-1] = existingFileURL
+                
             }
-            self.delegate?.reloadData()
-            print("audio downloaded")
-//            print(data)
-          }
+            else {
+                // download new file
+                self.downloadAudio(at: question.audioPath, name: "\(question.number).mp3", index: question.number-1)
+            }
         }
-        
+        self.delegate?.reloadData()
     }
     
+    func downloadAudio(at path: String, name: String, index: Int) {
+     
+        storage.downloadFile(path) { audio in
+//            print(path)
+            let documentDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create:false)
+            let fileURL = documentDirectory.appendingPathComponent(name)
+            do {
+                try audio.write(to: fileURL)
+                self.storedAudioPaths[index] = fileURL
+                if self.storedAudioPaths.count == 15 {
+                    self.delegate?.reloadData()
+                }
+            }
+            catch {
+                print(error)
+            }
+            print(self.fileManager.fileExists(atPath: fileURL.path))
+            print("Audio with \(name) downloaded and saved at \(fileURL.description)")
+        }
+    }
     
     func checkUserAnswers(userAnswers: [UserAnswer])-> Int {
         var count = 0
         // TODO: refactor
+        
         for index in 0..<questions.count{
             if (questions[index].answer == userAnswers[index].value) {
                 count += 1
             }
         }
         return count
+    }
+}
+
+class FirebaseStorageManager {
+    
+    var storage: Storage { return Storage.storage()}
+    
+    func downloadFile(_ path: String, completion: @escaping (Data)-> Void) {
+
+        storage.reference(withPath: path).getData(maxSize: 2 * 1024 * 1024) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                if let data = data {
+                    completion(data)
+                }
+            }
+        }
     }
 }

@@ -13,7 +13,8 @@ struct ListeningQuestion {
     var answer: Int // index of the correct answer in choices array
     var number: Int
     var choices: [String]?
-    var isMultipleChoice: Bool = true
+    var isMultipleChoice: Bool
+    var audioPath: String
     
     var dictionary: [String: Any] {
         switch isMultipleChoice {
@@ -22,13 +23,15 @@ struct ListeningQuestion {
                 "question": question,
                 "answer": answer,
                 "number": number,
-                "choices": choices ?? []
+                "choices": choices ?? [],
+                "audioPath" : audioPath
         ]
         default:
             return [
                 "question": question,
                 "answer": answer,
                 "number": number,
+                "audioPath" : audioPath
             ]
         }
   
@@ -40,8 +43,11 @@ extension ListeningQuestion: DocumentSerializable {
         guard let question = dictionary["question"] as? String,
             let answer = dictionary["answer"] as? Int,
             let number = dictionary["number"] as? Int,
-            let choices = dictionary["choices"] as? [String]? else {return nil}
+            let audioPath = dictionary["audioPath"] as? String,
+            let choices = dictionary["choices"] as? [String]?,
+            let isMultipleChoice = (choices != nil) ? true : false
+            else {return nil}
              
-        self.init(question: question, answer: answer, number: number, choices: choices)
+        self.init(question: question, answer: answer, number: number, choices: choices, isMultipleChoice: isMultipleChoice, audioPath : audioPath)
      }
 }

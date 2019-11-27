@@ -10,7 +10,6 @@
 		56113D2F23859BC700A7DA6B /* TestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D2E23859BC700A7DA6B /* TestsViewController.swift */; };
 		56113D312386C0AB00A7DA6B /* ListeningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D302386C0AB00A7DA6B /* ListeningViewModel.swift */; };
 		56113D332386C0BA00A7DA6B /* ListeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D322386C0BA00A7DA6B /* ListeningViewController.swift */; };
-		56113D362386F60000A7DA6B /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D352386F60000A7DA6B /* QuestionTableViewCell.swift */; };
 		56113D442388524000A7DA6B /* listening1-5.csv in Resources */ = {isa = PBXBuildFile; fileRef = 56113D422388520600A7DA6B /* listening1-5.csv */; };
 		56113D4A2388563500A7DA6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56113D482388554100A7DA6B /* GoogleService-Info.plist */; };
 		56113D4C2388717600A7DA6B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 56113D4B2388717500A7DA6B /* .gitignore */; };
@@ -19,6 +18,9 @@
 		56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D52238A848300A7DA6B /* UserAnswer.swift */; };
 		56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */; };
 		56113D57238AFC4200A7DA6B /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D56238AFC4200A7DA6B /* Test.swift */; };
+		56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */; };
+		56113D5B238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5A238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift */; };
+		56113D5D238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */; };
 		56968CC423854D07008F56D9 /* CoursesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC323854D07008F56D9 /* CoursesViewModel.swift */; };
 		56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC523854D1D008F56D9 /* LocalCollection.swift */; };
 		56968CC823857512008F56D9 /* TestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC723857512008F56D9 /* TestsViewModel.swift */; };
@@ -49,7 +51,6 @@
 		56113D2E23859BC700A7DA6B /* TestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsViewController.swift; sourceTree = "<group>"; };
 		56113D302386C0AB00A7DA6B /* ListeningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningViewModel.swift; sourceTree = "<group>"; };
 		56113D322386C0BA00A7DA6B /* ListeningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningViewController.swift; sourceTree = "<group>"; };
-		56113D352386F60000A7DA6B /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		56113D422388520600A7DA6B /* listening1-5.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "listening1-5.csv"; sourceTree = "<group>"; };
 		56113D45238854AE00A7DA6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		56113D482388554100A7DA6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -59,6 +60,9 @@
 		56113D52238A848300A7DA6B /* UserAnswer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnswer.swift; sourceTree = "<group>"; };
 		56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		56113D56238AFC4200A7DA6B /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionViewModel.swift; sourceTree = "<group>"; };
+		56113D5A238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryListeningQuestionTableViewCell.swift; sourceTree = "<group>"; };
+		56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceListeningQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		56968CC323854D07008F56D9 /* CoursesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesViewModel.swift; sourceTree = "<group>"; };
 		56968CC523854D1D008F56D9 /* LocalCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCollection.swift; sourceTree = "<group>"; };
 		56968CC723857512008F56D9 /* TestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsViewModel.swift; sourceTree = "<group>"; };
@@ -114,7 +118,8 @@
 		56113D372386F60900A7DA6B /* New Group */ = {
 			isa = PBXGroup;
 			children = (
-				56113D352386F60000A7DA6B /* QuestionTableViewCell.swift */,
+				56113D5A238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift */,
+				56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */,
 			);
 			path = "New Group";
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 		56113D4F238A5C3800A7DA6B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				56113D56238AFC4200A7DA6B /* Test.swift */,
 				56113D4D238A5C2300A7DA6B /* ListeningQuestion.swift */,
 				56113D52238A848300A7DA6B /* UserAnswer.swift */,
 			);
@@ -142,6 +148,7 @@
 				56968CC323854D07008F56D9 /* CoursesViewModel.swift */,
 				56968CC723857512008F56D9 /* TestsViewModel.swift */,
 				56113D302386C0AB00A7DA6B /* ListeningViewModel.swift */,
+				56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -171,8 +178,6 @@
 			isa = PBXGroup;
 			children = (
 				56113D482388554100A7DA6B /* GoogleService-Info.plist */,
-				56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */,
-				56113D56238AFC4200A7DA6B /* Test.swift */,
 				56113D4F238A5C3800A7DA6B /* Models */,
 				56113D3A238803CA00A7DA6B /* data */,
 				56D7BACB2382F79A00CECC71 /* AppDelegate.swift */,
@@ -180,6 +185,7 @@
 				56113D342386C0C100A7DA6B /* View Controllers */,
 				56968CC923859141008F56D9 /* View Models */,
 				56968CC523854D1D008F56D9 /* LocalCollection.swift */,
+				56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */,
 				56D7BAD12382F79A00CECC71 /* Main.storyboard */,
 				56D7BAD72382F7A200CECC71 /* Assets.xcassets */,
 				56D7BAD92382F7A200CECC71 /* LaunchScreen.storyboard */,
@@ -392,7 +398,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56113D362386F60000A7DA6B /* QuestionTableViewCell.swift in Sources */,
 				56D7BAD02382F79A00CECC71 /* ViewController.swift in Sources */,
 				56113D57238AFC4200A7DA6B /* Test.swift in Sources */,
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
@@ -400,12 +405,15 @@
 				56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */,
 				56968CC423854D07008F56D9 /* CoursesViewModel.swift in Sources */,
 				56968CC823857512008F56D9 /* TestsViewModel.swift in Sources */,
+				56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
+				56113D5B238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift in Sources */,
 				56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */,
 				56113D4E238A5C2300A7DA6B /* ListeningQuestion.swift in Sources */,
 				56113D332386C0BA00A7DA6B /* ListeningViewController.swift in Sources */,
 				56113D2F23859BC700A7DA6B /* TestsViewController.swift in Sources */,
 				56D7BAD62382F79A00CECC71 /* StartDeutsch.xcdatamodeld in Sources */,
+				56113D5D238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift in Sources */,
 				56113D312386C0AB00A7DA6B /* ListeningViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

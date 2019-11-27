@@ -27,16 +27,14 @@ class TestsViewController: UIViewController {
         
     }
     
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-               if segue.identifier == "questionsVC",
-                   let destinationVC = segue.destination as? ListeningViewController {
-                let testPath = (viewModel.tests.first?.path)!
-                let vm = ListeningViewModel(delegate: destinationVC, errorDelegate: destinationVC, test: testPath)
-                        destinationVC.viewModel = vm
-               }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "questionsVC", let destinationVC = segue.destination as? ListeningViewController {
+            let testPath = (viewModel.tests.first?.path)!
+            let vm = ListeningViewModel(test: testPath)
+            destinationVC.viewModel = vm
         }
+    }
     
-
 }
 
 extension TestsViewController: UITableViewDelegate, UITableViewDataSource {

@@ -29,7 +29,7 @@ protocol ReferenceType {
 extension Test: ReferenceType {
   
     var baseCollection: String {
-        return "/courses/german/"
+        return "courses/german/"
     }
     
     var subcollection: String {
@@ -37,7 +37,7 @@ extension Test: ReferenceType {
         case .tests(let course):
             return baseCollection + course.rawValue
         case .questions(let test):
-            return baseCollection + "\(test)/questions"
+            return "\(test)/questions"
         }
     }
     

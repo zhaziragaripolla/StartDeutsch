@@ -30,14 +30,16 @@ class ViewController: UIViewController {
 //            if let csvFile: CSV = try? CSV(url: url) {
 //                print(csvFile.enumeratedRows)
 //                csvFile.enumeratedRows.forEach({
+//                    let number = Int($0[1])!
 //                    if $0[0].toBool()!{
 //                        // is Multiple choice
-//                        let question = ListeningQuestion(question: $0[2], answer: Int($0[6])!, number: Int($0[1])!, choices: [$0[3], $0[4], $0[5]], isMultipleChoice: true)
+//
+//                        let question = ListeningQuestion(question: $0[2], answer: Int($0[6])!, number: number, choices: [$0[3], $0[4], $0[5]], isMultipleChoice: true, audioPath: "test1/\(number).mp3")
 //                        viewModel.save(question: question)
 //                    }
 //                    else {
 //                        // true/false question
-//                        let question = ListeningQuestion(question: $0[2], answer: Int($0[6])!, number: Int($0[1])!, choices: nil, isMultipleChoice: false)
+//                        let question = ListeningQuestion(question: $0[2], answer: Int($0[6])!, number: number, choices: nil, isMultipleChoice: false, audioPath: "test1/\(number).mp3")
 //                        viewModel.save(question: question)
 //                    }
 //

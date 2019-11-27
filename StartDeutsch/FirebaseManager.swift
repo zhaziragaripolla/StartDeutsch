@@ -14,13 +14,15 @@ typealias DocumentFetchingCompletion = (_ completion: (Result<[QueryDocumentSnap
 // TODO: rename later
 protocol FirebaseManagerProtocol: class {
 //    associatedtype Reference: ReferenceType
-    func getDocuments<Reference: ReferenceType>(_ reference: Reference, completion: @escaping DocumentFetchingCompletion)
+    func getDocuments(_ reference: ReferenceType, completion: @escaping DocumentFetchingCompletion)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
     
-    func getDocuments<Reference>(_ reference: Reference, completion: @escaping DocumentFetchingCompletion) where Reference : ReferenceType {
-        
+    var firestore: Firestore { return Firestore.firestore() }
+    
+    func getDocuments(_ reference: ReferenceType, completion: @escaping DocumentFetchingCompletion) {
+        print(reference.subcollection)
          firestore.collection(reference.subcollection).getDocuments { querySnapshot, error in
                    if let error = error {
                        // TODO: smth with error
@@ -37,7 +39,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                }
     }
     
-    typealias Reference = Test
-    var firestore: Firestore { return Firestore.firestore() }
+//    typealias Reference = Test
+  
     
 }

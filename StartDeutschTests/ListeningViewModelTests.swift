@@ -11,18 +11,8 @@ import FirebaseFirestore
 @testable import StartDeutsch
 
 class MockListeningViewController: ListeningViewModelDelegate, ErrorDelegate {
-    
-    let successExpectation = XCTestExpectation(description: "Get a call on reloading data")
-    let failureExpectation = XCTestExpectation(description: "Get a call on showing error")
-    
-    func reloadData() {
-        successExpectation.fulfill()
-    }
-    
-    func showError(message: String) {
-        failureExpectation.fulfill()
-    }
-    
+    func reloadData() {}
+    func showError(message: String) {}
 }
 
 class MockFirebaseManager: FirebaseManagerProtocol {
@@ -31,7 +21,7 @@ class MockFirebaseManager: FirebaseManagerProtocol {
     var isGetDocumentsFunctonCalled = false
     var error = NSError(domain: "Check test on failure", code: 1, userInfo: [:])
     
-    var complete: ((Result<[QueryDocumentSnapshot], Error>)->Void)!
+//    var complete: ((Result<[QueryDocumentSnapshot], Error>)->Void)!
     
     func getDocuments<Reference>(_ reference: Reference, completion: @escaping DocumentFetchingCompletion) where Reference : ReferenceType {
         
@@ -45,11 +35,6 @@ class MockFirebaseManager: FirebaseManagerProtocol {
     
     }
     
-//    typealias Reference = Test
-//
-//    func getDocuments<Reference>(_ reference: Reference, completion: @escaping DocumentFetchingCompletion) {
-//
-//    }
 }
 
 
@@ -65,7 +50,9 @@ class ListeningViewModelTests: XCTestCase {
         super.setUp()
         mockFirebaseManager = MockFirebaseManager()
         vc = MockListeningViewController()
-        sut = ListeningViewModel(delegate: vc, errorDelegate: vc, test: "courses/german/listening/test1", firebaseManager: mockFirebaseManager)
+        sut = ListeningViewModel(test: "", firebaseManager: mockFirebaseManager)
+        sut.errorDelegate = vc
+        sut.delegate = vc
         userAnswers = [UserAnswer](repeating: UserAnswer(value: 0, isAnswered: true), count: 15)
         questions = [ListeningQuestion](repeating: ListeningQuestion(question: "", answer: 0, number: 1), count: 15)
     }
@@ -79,7 +66,7 @@ class ListeningViewModelTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: check user answers
+    // MARK: check counting user answers
     
     func testViewModel_whenUserAnswersCollected_countsCorrectAnswers(){
         // given
@@ -92,27 +79,32 @@ class ListeningViewModelTests: XCTestCase {
         XCTAssertEqual(correctAnswersCount, 15)
     }
     
+    // MARK: check making network call
+    
     func testViewModel_whenGetDoumentsCalled_callsFirebaseManager(){
         
         sut.getQuestions()
         
         XCTAssert(mockFirebaseManager.isGetDocumentsFunctonCalled)
     }
+    
+    // MARK: check delegates are not nil
 
     func testViewModel_whenGetDocumentsOnSuccess_callsDelegate(){
         mockFirebaseManager.sendSuccessRequest = true
 
         sut.getQuestions()
-
-        wait(for: [vc!.successExpectation], timeout: 1)
+        
+        XCTAssertNotNil(sut.delegate)
     }
     
     func testViewModel_whenGetDocumentsOnFailure_callsDelegate(){
         mockFirebaseManager.sendSuccessRequest = false
 
         sut.getQuestions()
+        
+        XCTAssertNotNil(sut.errorDelegate)
 
-        wait(for: [vc!.failureExpectation], timeout: 1)
     }
 
 
