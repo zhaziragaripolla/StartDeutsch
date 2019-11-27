@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import FirebaseFirestore
-import FirebaseStorage
 
 protocol ListeningViewModelDelegate: class {
     func reloadData()
@@ -32,12 +30,8 @@ class ListeningViewModel {
     weak var errorDelegate: ErrorDelegate?
     
     let fileManager = FileManager.default
-    
-    // TODO: delete
-//    var firestore: Firestore { return Firestore.firestore() }
-//    var storage: Storage { return Storage.storage()}
-    let documentsUrl: URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    
+    let downloadTasksGroup = DispatchGroup()
+ 
     init(test: String, firebaseManager: FirebaseManagerProtocol = FirebaseManager()) {
         self.firebaseManager = firebaseManager
         self.testReference = test
@@ -60,12 +54,6 @@ class ListeningViewModel {
                 self.questions = response.map({
                     return ListeningQuestion(dictionary: $0.data())!
                 })
-                print(self.questions)
-//                for doc in response {
-//                    guard let question = ListeningQuestion(dictionary: doc.data()) else { return }
-//                    self.questions.append(question)
-//                }
-                    
                 self.questions.sort(by: { $0.number < $1.number })
 //                self.delegate?.reloadData()
 //                self.getAudios()
@@ -80,7 +68,7 @@ class ListeningViewModel {
     func getAudios(){
         
         for question in questions {
-            let documentDirectory = try! self.fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create:false)
+            let documentDirectory = try! self.fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             
             //check if exists
             
@@ -88,14 +76,17 @@ class ListeningViewModel {
                 
             if self.fileManager.fileExists(atPath: existingFileURL.path) {
                 self.storedAudioPaths[question.number-1] = existingFileURL
-                
             }
             else {
                 // download new file
+                self.downloadTasksGroup.enter()
                 self.downloadAudio(at: question.audioPath, name: "\(question.number).mp3", index: question.number-1)
             }
         }
-        self.delegate?.reloadData()
+        
+        downloadTasksGroup.notify(queue: .main) {
+            self.delegate?.reloadData()
+        }
     }
     
     func downloadAudio(at path: String, name: String, index: Int) {
@@ -107,9 +98,10 @@ class ListeningViewModel {
             do {
                 try audio.write(to: fileURL)
                 self.storedAudioPaths[index] = fileURL
-                if self.storedAudioPaths.count == 15 {
-                    self.delegate?.reloadData()
-                }
+//                if self.storedAudioPaths.count == 15 {
+//                    self.delegate?.reloadData()
+//                }
+                self.downloadTasksGroup.leave()
             }
             catch {
                 print(error)
@@ -121,8 +113,6 @@ class ListeningViewModel {
     
     func checkUserAnswers(userAnswers: [UserAnswer])-> Int {
         var count = 0
-        // TODO: refactor
-        
         for index in 0..<questions.count{
             if (questions[index].answer == userAnswers[index].value) {
                 count += 1
@@ -132,20 +122,3 @@ class ListeningViewModel {
     }
 }
 
-class FirebaseStorageManager {
-    
-    var storage: Storage { return Storage.storage()}
-    
-    func downloadFile(_ path: String, completion: @escaping (Data)-> Void) {
-
-        storage.reference(withPath: path).getData(maxSize: 2 * 1024 * 1024) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                if let data = data {
-                    completion(data)
-                }
-            }
-        }
-    }
-}

@@ -24,6 +24,7 @@ class ListeningViewController: UIViewController {
         viewModel.errorDelegate = self
         viewModel.getQuestions()
         
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
             make.top.bottom.trailing.leading.equalTo(view.safeAreaLayoutGuide)
@@ -40,14 +41,17 @@ class ListeningViewController: UIViewController {
 extension ListeningViewController: ListeningViewModelDelegate, ErrorDelegate {
     func questionsDownloaded() {
         viewModel.getAudios()
+        LoadingOverlay.shared.showOverlay(view: view)
+        tableView.isHidden = true
     }
     
     func showError(message: String) {
         print(message)
     }
     
-    
     func reloadData() {
+        LoadingOverlay.shared.hideOverlayView()
+        tableView.isHidden = false
         tableView.reloadData()
     }
 }
@@ -77,7 +81,7 @@ extension ListeningViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let questionViewModel = viewModel.viewModel(for: indexPath.row)
-        return questionViewModel.isMultipleChoice ? 200 : 150
+        return questionViewModel.isMultipleChoice ? 200 : 120
     }
 }
 //

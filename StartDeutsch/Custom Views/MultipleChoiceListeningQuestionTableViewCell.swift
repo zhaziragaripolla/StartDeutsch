@@ -15,6 +15,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        label.font = .systemFont(ofSize: 18)
         return label
     }()
 
@@ -58,12 +59,13 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
             make.leading.equalTo(questionLabel.snp.trailing).offset(10)
             make.top.trailing.equalTo(contentView)
             make.width.height.equalTo(50)
+//            make.centerX.equalTo(questionLabel.snp.centerX)
         })
         
         
         contentView.addSubview(firstChoiceButton)
         firstChoiceButton.snp.makeConstraints({ make in
-            make.top.equalTo(questionLabel.snp.bottom).offset(10)
+            make.top.equalTo(questionLabel.snp.bottom).offset(20)
             make.height.equalTo(contentView).multipliedBy(0.2)
             make.trailing.equalToSuperview()
             make.leading.equalTo(contentView).offset(5)
@@ -108,8 +110,6 @@ fileprivate extension UIButton {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .systemFont(ofSize: 18)
-        button.tintColor = .blue
-        button.backgroundColor = .white
         button.titleLabel?.textAlignment = .left
         return button
     }

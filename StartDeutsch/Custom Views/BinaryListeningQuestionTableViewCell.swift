@@ -16,6 +16,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        label.font = .systemFont(ofSize: 18)
         return label
     }()
 
@@ -71,11 +72,12 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
             make.leading.equalTo(questionLabel.snp.trailing).offset(10)
             make.top.trailing.equalTo(contentView)
             make.width.height.equalTo(50)
+//            make.centerX.equalTo(questionLabel.snp.centerX)
         })
         
         contentView.addSubview(trueButton)
         trueButton.snp.makeConstraints({ make in
-            make.top.equalTo(questionLabel.snp.bottom).offset(10)
+            make.top.equalTo(questionLabel.snp.bottom).offset(20)
             make.height.equalTo(contentView).multipliedBy(0.2)
             make.width.equalTo(contentView).multipliedBy(0.4)
             make.leading.equalTo(contentView).offset(5)
@@ -84,7 +86,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         
         contentView.addSubview(falseButton)
         falseButton.snp.makeConstraints({ make in
-            make.top.equalTo(questionLabel.snp.bottom).offset(10)
+            make.top.equalTo(questionLabel.snp.bottom).offset(20)
             make.height.equalTo(contentView).multipliedBy(0.2)
             make.width.equalTo(contentView).multipliedBy(0.4)
             make.leading.greaterThanOrEqualTo(trueButton.snp.trailing).offset(10)

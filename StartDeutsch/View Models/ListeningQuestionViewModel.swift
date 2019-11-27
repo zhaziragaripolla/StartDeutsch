@@ -13,7 +13,6 @@ struct ListeningQuestionViewModel {
     let listeningQuestion: ListeningQuestion
     let audioPath: URL
     
-
     var question: String {
         return "\(listeningQuestion.number.description). \(listeningQuestion.question)"
     }

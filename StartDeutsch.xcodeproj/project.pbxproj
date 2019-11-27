@@ -21,6 +21,8 @@
 		56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */; };
 		56113D5B238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5A238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift */; };
 		56113D5D238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */; };
+		56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */; };
+		5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */; };
 		56968CC423854D07008F56D9 /* CoursesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC323854D07008F56D9 /* CoursesViewModel.swift */; };
 		56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC523854D1D008F56D9 /* LocalCollection.swift */; };
 		56968CC823857512008F56D9 /* TestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC723857512008F56D9 /* TestsViewModel.swift */; };
@@ -63,6 +65,8 @@
 		56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionViewModel.swift; sourceTree = "<group>"; };
 		56113D5A238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryListeningQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceListeningQuestionTableViewCell.swift; sourceTree = "<group>"; };
+		56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
+		5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 		56968CC323854D07008F56D9 /* CoursesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesViewModel.swift; sourceTree = "<group>"; };
 		56968CC523854D1D008F56D9 /* LocalCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCollection.swift; sourceTree = "<group>"; };
 		56968CC723857512008F56D9 /* TestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsViewModel.swift; sourceTree = "<group>"; };
@@ -115,13 +119,15 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
-		56113D372386F60900A7DA6B /* New Group */ = {
+		56113D372386F60900A7DA6B /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
 				56113D5A238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift */,
 				56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */,
+				5696836C238EFFE6008AF9A4 /* Table View Cells */,
+				5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */,
 			);
-			path = "New Group";
+			path = "Custom Views";
 			sourceTree = "<group>";
 		};
 		56113D3A238803CA00A7DA6B /* data */ = {
@@ -138,8 +144,34 @@
 				56113D56238AFC4200A7DA6B /* Test.swift */,
 				56113D4D238A5C2300A7DA6B /* ListeningQuestion.swift */,
 				56113D52238A848300A7DA6B /* UserAnswer.swift */,
+				56968CC523854D1D008F56D9 /* LocalCollection.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		56968368238EFA00008AF9A4 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */,
+				56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		56968369238EFA1B008AF9A4 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				56D7BACB2382F79A00CECC71 /* AppDelegate.swift */,
+				56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		5696836C238EFFE6008AF9A4 /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Table View Cells";
 			sourceTree = "<group>";
 		};
 		56968CC923859141008F56D9 /* View Models */ = {
@@ -180,19 +212,17 @@
 				56113D482388554100A7DA6B /* GoogleService-Info.plist */,
 				56113D4F238A5C3800A7DA6B /* Models */,
 				56113D3A238803CA00A7DA6B /* data */,
-				56D7BACB2382F79A00CECC71 /* AppDelegate.swift */,
-				56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */,
+				56968369238EFA1B008AF9A4 /* Supporting files */,
 				56113D342386C0C100A7DA6B /* View Controllers */,
 				56968CC923859141008F56D9 /* View Models */,
-				56968CC523854D1D008F56D9 /* LocalCollection.swift */,
-				56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */,
+				56968368238EFA00008AF9A4 /* Networking */,
+				56113D372386F60900A7DA6B /* Custom Views */,
 				56D7BAD12382F79A00CECC71 /* Main.storyboard */,
 				56D7BAD72382F7A200CECC71 /* Assets.xcassets */,
 				56D7BAD92382F7A200CECC71 /* LaunchScreen.storyboard */,
 				56D7BADC2382F7A200CECC71 /* Info.plist */,
 				56D7BAD42382F79A00CECC71 /* StartDeutsch.xcdatamodeld */,
 				56113D45238854AE00A7DA6B /* GoogleService-Info.plist */,
-				56113D372386F60900A7DA6B /* New Group */,
 			);
 			path = StartDeutsch;
 			sourceTree = "<group>";
@@ -402,10 +432,12 @@
 				56113D57238AFC4200A7DA6B /* Test.swift in Sources */,
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,
+				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,
 				56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */,
 				56968CC423854D07008F56D9 /* CoursesViewModel.swift in Sources */,
 				56968CC823857512008F56D9 /* TestsViewModel.swift in Sources */,
 				56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */,
+				5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
 				56113D5B238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift in Sources */,
 				56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */,
@@ -507,7 +539,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -561,7 +593,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
