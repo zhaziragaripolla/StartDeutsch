@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  GermanCourseViewController.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 11/18/19.
@@ -9,7 +9,7 @@
 import UIKit
 import SwiftCSV
 
-class ViewController: UIViewController {
+class GermanCourseViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,29 +26,30 @@ class ViewController: UIViewController {
         viewModel = CoursesViewModel()
         tableView.reloadData()
         
-//        if let url = Bundle.main.url(forResource: "listening1-5", withExtension: "csv") {
-//            if let csvFile: CSV = try? CSV(url: url) {
-//                print(csvFile.enumeratedRows)
-//                csvFile.enumeratedRows.forEach({
-//                    let number = Int($0[1])!
-//                    if $0[0].toBool()!{
-//                        // is Multiple choice
-//
-//                        let question = ListeningQuestion(question: $0[2], answer: Int($0[6])!, number: number, choices: [$0[3], $0[4], $0[5]], isMultipleChoice: true, audioPath: "test1/\(number).mp3")
-//                        viewModel.save(question: question)
-//                    }
-//                    else {
-//                        // true/false question
-//                        let question = ListeningQuestion(question: $0[2], answer: Int($0[6])!, number: number, choices: nil, isMultipleChoice: false, audioPath: "test1/\(number).mp3")
-//                        viewModel.save(question: question)
-//                    }
-//
-//                })
-//            }
-//        }
-//        else {
-//            print("Error")
-//        }
+        if let url = Bundle.main.url(forResource: "listening1-5", withExtension: "csv") {
+            if let csvFile: CSV = try? CSV(url: url) {
+                
+                csvFile.enumeratedRows.forEach({
+                    let id = UUID()
+                    let orderNumber = Int($0[1])!
+                    if $0[0].toBool()!{
+                        // is Multiple choice
+
+                        let question = ListeningQuestion(id: id.description, testId: "BD1C19A0-26AC-46B8-B38A-937422299D8E", questionText: $0[2], orderNumber: orderNumber, answerChoices: [$0[3], $0[4], $0[5]], correctChoiceIndex: Int($0[6])!, isMultipleChoice: true, audioPath: "test1/\(orderNumber).mp3")
+                        viewModel.save(question: question)
+                    }
+                    else {
+                        // true/false questionText
+                        let question = ListeningQuestion(id: id.description, testId: "BD1C19A0-26AC-46B8-B38A-937422299D8E", questionText: $0[2], orderNumber: orderNumber, answerChoices: nil, correctChoiceIndex: Int($0[6])!, isMultipleChoice: false, audioPath: "test1/\(orderNumber).mp3")
+                        viewModel.save(question: question)
+                    }
+
+                })
+            }
+        }
+        else {
+            print("Error")
+        }
         
     }
     
@@ -60,7 +61,7 @@ class ViewController: UIViewController {
        }
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate{
+extension GermanCourseViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return courses.count
     }

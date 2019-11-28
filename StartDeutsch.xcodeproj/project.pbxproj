@@ -23,12 +23,13 @@
 		56113D5D238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */; };
 		56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */; };
 		5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */; };
+		5696836E238FDD88008AF9A4 /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836D238FDD88008AF9A4 /* LocalDatabaseManager.swift */; };
 		56968CC423854D07008F56D9 /* CoursesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC323854D07008F56D9 /* CoursesViewModel.swift */; };
 		56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC523854D1D008F56D9 /* LocalCollection.swift */; };
 		56968CC823857512008F56D9 /* TestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC723857512008F56D9 /* TestsViewModel.swift */; };
 		56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACB2382F79A00CECC71 /* AppDelegate.swift */; };
 		56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */; };
-		56D7BAD02382F79A00CECC71 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACF2382F79A00CECC71 /* ViewController.swift */; };
+		56D7BAD02382F79A00CECC71 /* GermanCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACF2382F79A00CECC71 /* GermanCourseViewController.swift */; };
 		56D7BAD32382F79A00CECC71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56D7BAD12382F79A00CECC71 /* Main.storyboard */; };
 		56D7BAD62382F79A00CECC71 /* StartDeutsch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BAD42382F79A00CECC71 /* StartDeutsch.xcdatamodeld */; };
 		56D7BAD82382F7A200CECC71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56D7BAD72382F7A200CECC71 /* Assets.xcassets */; };
@@ -67,13 +68,14 @@
 		56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceListeningQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
+		5696836D238FDD88008AF9A4 /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDatabaseManager.swift; sourceTree = "<group>"; };
 		56968CC323854D07008F56D9 /* CoursesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesViewModel.swift; sourceTree = "<group>"; };
 		56968CC523854D1D008F56D9 /* LocalCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCollection.swift; sourceTree = "<group>"; };
 		56968CC723857512008F56D9 /* TestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsViewModel.swift; sourceTree = "<group>"; };
 		56D7BAC82382F79A00CECC71 /* StartDeutsch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StartDeutsch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D7BACB2382F79A00CECC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		56D7BACF2382F79A00CECC71 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		56D7BACF2382F79A00CECC71 /* GermanCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GermanCourseViewController.swift; sourceTree = "<group>"; };
 		56D7BAD22382F79A00CECC71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		56D7BAD52382F79A00CECC71 /* StartDeutsch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StartDeutsch.xcdatamodel; sourceTree = "<group>"; };
 		56D7BAD72382F7A200CECC71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -112,7 +114,7 @@
 		56113D342386C0C100A7DA6B /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				56D7BACF2382F79A00CECC71 /* ViewController.swift */,
+				56D7BACF2382F79A00CECC71 /* GermanCourseViewController.swift */,
 				56113D2E23859BC700A7DA6B /* TestsViewController.swift */,
 				56113D322386C0BA00A7DA6B /* ListeningViewController.swift */,
 			);
@@ -223,6 +225,7 @@
 				56D7BADC2382F7A200CECC71 /* Info.plist */,
 				56D7BAD42382F79A00CECC71 /* StartDeutsch.xcdatamodeld */,
 				56113D45238854AE00A7DA6B /* GoogleService-Info.plist */,
+				5696836D238FDD88008AF9A4 /* LocalDatabaseManager.swift */,
 			);
 			path = StartDeutsch;
 			sourceTree = "<group>";
@@ -428,10 +431,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56D7BAD02382F79A00CECC71 /* ViewController.swift in Sources */,
+				56D7BAD02382F79A00CECC71 /* GermanCourseViewController.swift in Sources */,
 				56113D57238AFC4200A7DA6B /* Test.swift in Sources */,
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,
+				5696836E238FDD88008AF9A4 /* LocalDatabaseManager.swift in Sources */,
 				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,
 				56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */,
 				56968CC423854D07008F56D9 /* CoursesViewModel.swift in Sources */,

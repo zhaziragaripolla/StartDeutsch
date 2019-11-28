@@ -9,10 +9,12 @@
 import Foundation
 
 struct ListeningQuestion {
-    var question: String
-    var answer: Int // index of the correct answer in choices array
-    var number: Int
-    var choices: [String]?
+    var id: String
+    var testId: String
+    var questionText: String
+    var orderNumber: Int
+    var answerChoices: [String]?
+    var correctChoiceIndex: Int // index of the correct answer in choices array
     var isMultipleChoice: Bool
     var audioPath: String
     
@@ -20,17 +22,21 @@ struct ListeningQuestion {
         switch isMultipleChoice {
         case true:
             return [
-                "question": question,
-                "answer": answer,
-                "number": number,
-                "choices": choices ?? [],
-                "audioPath" : audioPath
+                "id": id,
+                "testId": testId,
+                "orderNumber": orderNumber,
+                "questionText": questionText,
+                "answerChoices": answerChoices ?? [],
+                "correctChoiceIndex": correctChoiceIndex,
+                "audioPath" : audioPath,
         ]
         default:
             return [
-                "question": question,
-                "answer": answer,
-                "number": number,
+                "id": id,
+                "testId": testId,
+                "questionText": questionText,
+                "correctChoiceIndex": correctChoiceIndex,
+                "orderNumber": orderNumber,
                 "audioPath" : audioPath
             ]
         }
@@ -40,14 +46,16 @@ struct ListeningQuestion {
 
 extension ListeningQuestion: DocumentSerializable {
     init?(dictionary: [String : Any]) {
-        guard let question = dictionary["question"] as? String,
-            let answer = dictionary["answer"] as? Int,
-            let number = dictionary["number"] as? Int,
+        guard let id = dictionary["id"] as? String,
+            let testId = dictionary["testId"] as? String,
+            let questionText = dictionary["questionText"] as? String,
+            let correctChoiceIndex = dictionary["correctChoiceIndex"] as? Int,
+            let orderNumber = dictionary["orderNumber"] as? Int,
             let audioPath = dictionary["audioPath"] as? String,
-            let choices = dictionary["choices"] as? [String]?,
-            let isMultipleChoice = (choices != nil) ? true : false
+            let answerChoices = dictionary["answerChoices"] as? [String]?,
+            let isMultipleChoice = (answerChoices != nil) ? true : false
             else {return nil}
              
-        self.init(question: question, answer: answer, number: number, choices: choices, isMultipleChoice: isMultipleChoice, audioPath : audioPath)
+        self.init(id: id, testId: testId, questionText: questionText, orderNumber: orderNumber, answerChoices: answerChoices, correctChoiceIndex: correctChoiceIndex, isMultipleChoice: isMultipleChoice, audioPath : audioPath)
      }
 }

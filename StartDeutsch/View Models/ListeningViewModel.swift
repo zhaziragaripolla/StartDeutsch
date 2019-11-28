@@ -54,7 +54,7 @@ class ListeningViewModel {
                 self.questions = response.map({
                     return ListeningQuestion(dictionary: $0.data())!
                 })
-                self.questions.sort(by: { $0.number < $1.number })
+                self.questions.sort(by: { $0.orderNumber < $1.orderNumber })
 //                self.delegate?.reloadData()
 //                self.getAudios()
                 self.delegate?.questionsDownloaded()
@@ -72,15 +72,15 @@ class ListeningViewModel {
             
             //check if exists
             
-            let existingFileURL = documentDirectory.appendingPathComponent("\(question.number).mp3")
+            let existingFileURL = documentDirectory.appendingPathComponent("\(question.orderNumber).mp3")
                 
             if self.fileManager.fileExists(atPath: existingFileURL.path) {
-                self.storedAudioPaths[question.number-1] = existingFileURL
+                self.storedAudioPaths[question.orderNumber-1] = existingFileURL
             }
             else {
                 // download new file
                 self.downloadTasksGroup.enter()
-                self.downloadAudio(at: question.audioPath, name: "\(question.number).mp3", index: question.number-1)
+                self.downloadAudio(at: question.audioPath, name: "\(question.orderNumber).mp3", index: question.orderNumber-1)
             }
         }
         
@@ -114,7 +114,7 @@ class ListeningViewModel {
     func checkUserAnswers(userAnswers: [UserAnswer])-> Int {
         var count = 0
         for index in 0..<questions.count{
-            if (questions[index].answer == userAnswers[index].value) {
+            if (questions[index].correctChoiceIndex == userAnswers[index].value) {
                 count += 1
             }
         }

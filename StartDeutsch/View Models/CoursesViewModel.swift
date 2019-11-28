@@ -25,7 +25,7 @@ class CoursesViewModel {
     
     
     func save(question: ListeningQuestion){
-        let collection = Firestore.firestore().collection("/courses/german/listening/test1/questions")
+        let collection = Firestore.firestore().collection("/courses/german/listening/AQKDypZXqF5hLONPYyrg/questions")
         collection.addDocument(data: question.dictionary)
     }
     

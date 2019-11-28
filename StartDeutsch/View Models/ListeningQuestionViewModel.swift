@@ -14,11 +14,11 @@ struct ListeningQuestionViewModel {
     let audioPath: URL
     
     var question: String {
-        return "\(listeningQuestion.number.description). \(listeningQuestion.question)"
+        return "\(listeningQuestion.orderNumber.description). \(listeningQuestion.questionText)"
     }
     
     var answerChoices: [String] {
-        return listeningQuestion.choices ?? []
+        return listeningQuestion.answerChoices ?? []
     }
     
     var isMultipleChoice: Bool {
