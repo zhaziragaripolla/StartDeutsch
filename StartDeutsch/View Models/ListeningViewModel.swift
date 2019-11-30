@@ -19,24 +19,30 @@ protocol ErrorDelegate: class {
 
 class ListeningViewModel {
     
-    let storage = FirebaseStorageManager()
-    var storedAudioPaths = [URL?](repeating: nil, count: 15)
+    // Dependencies
+    let storage: FirebaseStorageManagerProtocol
+    let localDatabase: LocalDatabaseManagerProtocol
+    let firebaseManager: FirebaseManagerProtocol
+    let testReference: String
     
-    var firebaseManager: FirebaseManagerProtocol
-    var testReference: String
+    // Models
+    var storedAudioPaths = [URL?](repeating: nil, count: 15)
     var questions: [ListeningQuestion] = []
-    var errorMessage: String = ""
+    
+    // Delegates
     weak var delegate: ListeningViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
     let fileManager = FileManager.default
     let downloadTasksGroup = DispatchGroup()
  
-    init(test: String, firebaseManager: FirebaseManagerProtocol = FirebaseManager()) {
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, testReference: String) {
         self.firebaseManager = firebaseManager
-        self.testReference = test
+        self.localDatabase = localDatabase
+        self.testReference = testReference
+        self.storage = firebaseStorageManager
     }
-    
+
     func viewModel(for index: Int)-> ListeningQuestionViewModel {
         let question = questions[index]
         let audioPath = storedAudioPaths[index]!

@@ -14,11 +14,12 @@ import FirebaseFirestore
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-//    var db: Firestore!
+    let container = AppDependencyContainer()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-//        db = Firestore.firestore()
+        let rootViewController = container.makeCoursesViewController()
+        
         return true
     }
 

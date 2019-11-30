@@ -17,17 +17,18 @@ class TestsViewModel {
     
     weak var delegate: TestsViewModelDelegate?
     let firebaseManager: FirebaseManagerProtocol
+    let localDatabase: LocalDatabaseManagerProtocol
+    
     var firestore: Firestore { return Firestore.firestore() }
     var tests: [DocumentReference] = []
     
-//    func getQuestionsViewModel(index: Int)-> ListeningViewModel {
-//        let vm = ListeningViewModel()
-//        vm.testRef = tests[index]
-//        return vm
-//    }
     
-    init(firebaseManager: FirebaseManagerProtocol = FirebaseManager()) {
+    let courseId: Int
+
+    init(firebaseManager: FirebaseManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, courseId: Int) {
         self.firebaseManager = firebaseManager
+        self.localDatabase = localDatabase
+        self.courseId = courseId
     }
     
     func getTests(){

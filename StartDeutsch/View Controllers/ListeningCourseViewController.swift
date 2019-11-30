@@ -1,5 +1,5 @@
 //
-//  ListeningViewController.swift
+//  ListeningCourseViewController.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 11/21/19.
@@ -9,14 +9,23 @@
 import UIKit
 import SnapKit
 
-class ListeningViewController: UIViewController {
+class ListeningCourseViewController: UIViewController {
     
     var viewModel: ListeningViewModel!
+    
+    init(viewModel: ListeningViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
     
     let tableView = UITableView()
-//    @IBOutlet weak var tableView: UITableView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,8 +36,7 @@ class ListeningViewController: UIViewController {
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
-            make.top.bottom.trailing.leading.equalTo(view.safeAreaLayoutGuide)
-            
+            make.top.bottom.trailing.leading.equalToSuperview()
         })
         tableView.delegate = self
         tableView.dataSource = self
@@ -38,7 +46,7 @@ class ListeningViewController: UIViewController {
     }
 }
 
-extension ListeningViewController: ListeningViewModelDelegate, ErrorDelegate {
+extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelegate {
     func questionsDownloaded() {
         viewModel.getAudios()
         LoadingOverlay.shared.showOverlay(view: view)
@@ -56,7 +64,7 @@ extension ListeningViewController: ListeningViewModelDelegate, ErrorDelegate {
     }
 }
 
-extension ListeningViewController: UITableViewDelegate, UITableViewDataSource {
+extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.questions.count
     }

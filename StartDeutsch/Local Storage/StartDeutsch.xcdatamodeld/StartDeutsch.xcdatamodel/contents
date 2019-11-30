@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19A603" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="LocalListeningCourse" representedClassName="LocalListeningCourse" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="tests" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LocalTest" inverseName="course" inverseEntity="LocalTest"/>
+    </entity>
+    <entity name="LocalListeningQuestion" representedClassName="LocalListeningQuestion" syncable="YES" codeGenerationType="class">
+        <attribute name="answerChoices" optional="YES" attributeType="Transformable"/>
+        <attribute name="audioPath" optional="YES" attributeType="String"/>
+        <attribute name="correctChoiceIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="orderNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="questionText" optional="YES" attributeType="String"/>
+        <attribute name="testId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="test" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalTest" inverseName="questions" inverseEntity="LocalTest"/>
+    </entity>
+    <entity name="LocalTest" representedClassName="LocalTest" syncable="YES" codeGenerationType="class">
+        <attribute name="courseId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalListeningCourse" inverseName="tests" inverseEntity="LocalListeningCourse"/>
+        <relationship name="questions" optional="YES" toMany="YES" maxCount="15" deletionRule="Cascade" destinationEntity="LocalListeningQuestion" inverseName="test" inverseEntity="LocalListeningQuestion"/>
+    </entity>
+    <elements>
+        <element name="LocalListeningCourse" positionX="-63" positionY="-18" width="128" height="73"/>
+        <element name="LocalTest" positionX="115.625" positionY="-28.9375" width="128" height="103"/>
+        <element name="LocalListeningQuestion" positionX="275.26171875" positionY="-82.90625" width="128" height="163"/>
+    </elements>
+</model>
