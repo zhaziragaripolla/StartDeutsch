@@ -20,58 +20,59 @@ protocol ErrorDelegate: class {
 class ListeningViewModel {
     
     // Dependencies
-    let storage: FirebaseStorageManagerProtocol
-    let localDatabase: LocalDatabaseManagerProtocol
-    let firebaseManager: FirebaseManagerProtocol
-    let testReference: String
+    private let storage: FirebaseStorageManagerProtocol
+    private let localDatabase: LocalDatabaseManagerProtocol
+    private let firebaseManager: FirebaseManagerProtocol
+    private let test: Test
     
     // Models
-    var storedAudioPaths = [URL?](repeating: nil, count: 15)
-    var questions: [ListeningQuestion] = []
+    public var storedAudioPaths = [URL?](repeating: nil, count: 15)
+    public var questions: [ListeningQuestion] = []
     
     // Delegates
     weak var delegate: ListeningViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
-    let fileManager = FileManager.default
-    let downloadTasksGroup = DispatchGroup()
+    private let fileManager = FileManager.default
+    private let downloadTasksGroup = DispatchGroup()
  
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, testReference: String) {
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, test: Test) {
         self.firebaseManager = firebaseManager
         self.localDatabase = localDatabase
-        self.testReference = testReference
+        self.test = test
         self.storage = firebaseStorageManager
     }
 
-    func viewModel(for index: Int)-> ListeningQuestionViewModel {
+    public func viewModel(for index: Int)-> ListeningQuestionViewModel {
         let question = questions[index]
         let audioPath = storedAudioPaths[index]!
         return ListeningQuestionViewModel(listeningQuestion: question, audioPath: audioPath)
     }
     
-    func getQuestions() {
-        
-        firebaseManager.getDocuments(Test.questions(test: testReference)) { result in
+    public func getQuestions() {
+        fetchFromRemoteDatabase()
+    }
+    
+    private func fetchFromRemoteDatabase() {
+        firebaseManager.getDocuments(test.documentPath.appending("/questions")) { result in
             switch result {
             case .failure(let error):
                 self.errorDelegate?.showError(message: error.localizedDescription)
             case .success(let response):
-                
                 self.questions = response.map({
-                    return ListeningQuestion(dictionary: $0.data())!
+                    return ListeningQuestion(dictionary: $0.data(), path: $0.reference.path)!
                 })
                 self.questions.sort(by: { $0.orderNumber < $1.orderNumber })
-//                self.delegate?.reloadData()
-//                self.getAudios()
+                //                self.delegate?.reloadData()
+                //                self.getAudios()
                 self.delegate?.questionsDownloaded()
             }
-            
         }
-
     }
     
+    private func fetchFromLocalDatabase(){}
     
-    func getAudios(){
+    public func getAudios(){
         
         for question in questions {
             let documentDirectory = try! self.fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -95,10 +96,9 @@ class ListeningViewModel {
         }
     }
     
-    func downloadAudio(at path: String, name: String, index: Int) {
+    private func downloadAudio(at path: String, name: String, index: Int) {
      
         storage.downloadFile(path) { audio in
-//            print(path)
             let documentDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create:false)
             let fileURL = documentDirectory.appendingPathComponent(name)
             do {
@@ -117,7 +117,7 @@ class ListeningViewModel {
         }
     }
     
-    func checkUserAnswers(userAnswers: [UserAnswer])-> Int {
+    public func checkUserAnswers(userAnswers: [UserAnswer])-> Int {
         var count = 0
         for index in 0..<questions.count{
             if (questions[index].correctChoiceIndex == userAnswers[index].value) {

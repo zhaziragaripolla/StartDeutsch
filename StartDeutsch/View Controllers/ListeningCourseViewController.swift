@@ -11,7 +11,9 @@ import SnapKit
 
 class ListeningCourseViewController: UIViewController {
     
-    var viewModel: ListeningViewModel!
+    private var viewModel: ListeningViewModel!
+    private var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
+    private let tableView = UITableView()
     
     init(viewModel: ListeningViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -22,18 +24,7 @@ class ListeningCourseViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
-    
-    let tableView = UITableView()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        viewModel.delegate = self
-        viewModel.errorDelegate = self
-        viewModel.getQuestions()
-        
-        
+    fileprivate func setupTableView() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
             make.top.bottom.trailing.leading.equalToSuperview()
@@ -42,6 +33,14 @@ class ListeningCourseViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(BinaryListeningQuestionTableViewCell.self, forCellReuseIdentifier: "binaryQuestion")
         tableView.register(MultipleChoiceListeningQuestionTableViewCell.self, forCellReuseIdentifier: "multipleQuestion")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTableView()
+        viewModel.delegate = self
+        viewModel.errorDelegate = self
+        viewModel.getQuestions()
         
     }
 }

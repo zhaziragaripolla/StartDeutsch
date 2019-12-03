@@ -10,11 +10,13 @@ import Foundation
 import CoreData
 
 protocol LocalDatabaseManagerProtocol {
-    func saveCourse(course: InitialCourse)
+    func saveCourse(course: Course)
 }
 
 class LocalDatabaseManager: LocalDatabaseManagerProtocol {
-    func saveCourse(course: InitialCourse) {
+    
+ 
+    func saveCourse(course: Course) {
         
     }
 

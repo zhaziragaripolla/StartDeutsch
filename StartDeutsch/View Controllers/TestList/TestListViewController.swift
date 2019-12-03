@@ -11,8 +11,8 @@ import SnapKit
 
 class TestListViewController: UIViewController {
     
-    let tableView = UITableView()
-    var viewModel: TestsViewModel!
+    private let tableView = UITableView()
+    private var viewModel: TestsViewModel!
     weak var delegate: TestListViewControllerDelegate?
     
     init(viewModel: TestsViewModel) {
@@ -50,7 +50,7 @@ class TestListViewController: UIViewController {
 
 extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (viewModel?.tests.count)!
+        return viewModel.tests.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,7 +61,7 @@ extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let test = viewModel.tests[indexPath.row]
-        delegate?.didSelectTest(testId: test.path)
+        delegate?.didSelectTest(test: test)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

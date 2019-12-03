@@ -7,48 +7,44 @@
 //
 
 import Foundation
-import FirebaseFirestore
 
-class InitialCourse {
-    let title: String
-    let courseId: Int
-    
-   
-    init(title: String, courseId: Int) {
-        self.title = title
-        self.courseId = courseId
-    }
-}
-
-enum Courses {
-    case listening(String)
-    case reading
-    case writing
-    case speaking
+protocol CoursesViewModelDelegate: class {
+    func reloadData()
 }
 
 class CoursesViewModel {
-    var firestore: Firestore { return Firestore.firestore() }
+
+    public var courses: [Course] = []
+    private let localDatabase: LocalDatabaseManagerProtocol
+    private let firebaseManager: FirebaseManagerProtocol
+    weak var delegate: CoursesViewModelDelegate?
     
-    let courses: [InitialCourse]
-    
-    var tests: [DocumentReference] = []
-    let localDatabase: LocalDatabaseManagerProtocol
-    
-    init(localDatabase: LocalDatabaseManagerProtocol){
-        let listeningCourse = InitialCourse(title: "Hören", courseId: 0)
-        let readingCourse = InitialCourse(title: "Lesen", courseId: 1)
-        let writingCourse = InitialCourse(title: "Schreiben", courseId: 2)
-        let speakingCourse = InitialCourse(title: "Sprechen", courseId: 3)
-        
-        self.courses = [listeningCourse, readingCourse, writingCourse, speakingCourse]
-        
+    init(localDatabase: LocalDatabaseManagerProtocol, firebaseManager: FirebaseManagerProtocol){
         self.localDatabase = localDatabase
+        self.firebaseManager = firebaseManager
     }
     
-    func save(question: ListeningQuestion){
-        let collection = Firestore.firestore().collection("/courses/german/listening/AQKDypZXqF5hLONPYyrg/questions")
-        collection.addDocument(data: question.dictionary)
+    func getCourses(){
+        fetchFromRemoteDatabase()
     }
+    private func fetchFromLocalDatabase(){}
+    
+    private func fetchFromRemoteDatabase(){
+        firebaseManager.getDocuments("/courses") { result in
+            switch result {
+            case .success(let response):
+                self.courses = response.map({ return Course(dictionary: $0.data(), path: $0.reference.path)!})
+                self.delegate?.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    
+//    func save(question: ListeningQuestion){
+//        let collection = Firestore.firestore().collection("/courses/listening/tests/vUscu1si4CBOX63vopgY/questions")
+//        collection.addDocument(data: question.dictionary)
+//    }
     
 }

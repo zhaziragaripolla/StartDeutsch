@@ -9,5 +9,5 @@
 import Foundation
 
 protocol TestListViewControllerDelegate: class {
-    func didSelectTest(testId: String)
+    func didSelectTest(test: Test)
 }

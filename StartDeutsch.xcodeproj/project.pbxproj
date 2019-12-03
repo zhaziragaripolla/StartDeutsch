@@ -17,7 +17,7 @@
 		56113D51238A83D600A7DA6B /* ListeningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D50238A83D500A7DA6B /* ListeningViewModelTests.swift */; };
 		56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D52238A848300A7DA6B /* UserAnswer.swift */; };
 		56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */; };
-		56113D57238AFC4200A7DA6B /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D56238AFC4200A7DA6B /* Test.swift */; };
+		56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */; };
 		56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */; };
 		56113D5B238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5A238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift */; };
 		56113D5D238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */; };
@@ -41,6 +41,8 @@
 		569E98BB239670F6006BC136 /* LocalTest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E98B5239670F6006BC136 /* LocalTest+CoreDataProperties.swift */; };
 		569E98BC239670F6006BC136 /* LocalListeningQuestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E98B6239670F6006BC136 /* LocalListeningQuestion+CoreDataClass.swift */; };
 		569E98BD239670F6006BC136 /* LocalListeningQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E98B7239670F6006BC136 /* LocalListeningQuestion+CoreDataProperties.swift */; };
+		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
+		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
 		56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACB2382F79A00CECC71 /* AppDelegate.swift */; };
 		56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */; };
 		56D7BAD02382F79A00CECC71 /* CourseListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACF2382F79A00CECC71 /* CourseListViewController.swift */; };
@@ -74,7 +76,7 @@
 		56113D50238A83D500A7DA6B /* ListeningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningViewModelTests.swift; sourceTree = "<group>"; };
 		56113D52238A848300A7DA6B /* UserAnswer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnswer.swift; sourceTree = "<group>"; };
 		56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
-		56113D56238AFC4200A7DA6B /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRequest.swift; sourceTree = "<group>"; };
 		56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionViewModel.swift; sourceTree = "<group>"; };
 		56113D5A238E855B00A7DA6B /* BinaryListeningQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryListeningQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		56113D5C238EC69700A7DA6B /* MultipleChoiceListeningQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceListeningQuestionTableViewCell.swift; sourceTree = "<group>"; };
@@ -98,6 +100,8 @@
 		569E98B5239670F6006BC136 /* LocalTest+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalTest+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		569E98B6239670F6006BC136 /* LocalListeningQuestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalListeningQuestion+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		569E98B7239670F6006BC136 /* LocalListeningQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalListeningQuestion+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56D7BAC82382F79A00CECC71 /* StartDeutsch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StartDeutsch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D7BACB2382F79A00CECC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -168,7 +172,8 @@
 		56113D4F238A5C3800A7DA6B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				56113D56238AFC4200A7DA6B /* Test.swift */,
+				56C776ED2396829400D5C9DE /* Course.swift */,
+				56C776EB2396827E00D5C9DE /* Test.swift */,
 				56113D4D238A5C2300A7DA6B /* ListeningQuestion.swift */,
 				56113D52238A848300A7DA6B /* UserAnswer.swift */,
 				56968CC523854D1D008F56D9 /* LocalCollection.swift */,
@@ -179,6 +184,7 @@
 		56968368238EFA00008AF9A4 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */,
 				56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */,
 				56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */,
 			);
@@ -499,9 +505,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56C776EE2396829400D5C9DE /* Course.swift in Sources */,
 				56D7BAD02382F79A00CECC71 /* CourseListViewController.swift in Sources */,
 				5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */,
-				56113D57238AFC4200A7DA6B /* Test.swift in Sources */,
+				56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */,
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,
 				5696836E238FDD88008AF9A4 /* LocalDatabaseManager.swift in Sources */,
@@ -516,6 +523,7 @@
 				5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */,
 				5696837B23927D6D008AF9A4 /* ListeningCourseCoordinator.swift in Sources */,
 				569E98BB239670F6006BC136 /* LocalTest+CoreDataProperties.swift in Sources */,
+				56C776EC2396827E00D5C9DE /* Test.swift in Sources */,
 				569E98B8239670F6006BC136 /* LocalListeningCourse+CoreDataClass.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
 				569683772392741E008AF9A4 /* TestListCoordinator.swift in Sources */,

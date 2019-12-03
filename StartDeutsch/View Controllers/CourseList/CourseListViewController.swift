@@ -12,15 +12,9 @@ import SwiftCSV
 
 class CourseListViewController: UIViewController {
 
-//    @IBOutlet weak var tableView: UITableView!
-    
-    let tableView = UITableView()
-    
+    private let tableView = UITableView()
     weak var delegate: CourseListViewControllerDelegate?
-    
-    let courses: [String] = ["Hören", "Lesen", "Schreiben", "Sprechen"]
-    
-    var viewModel: CoursesViewModel!
+    private var viewModel: CoursesViewModel!
     
     init(viewModel: CoursesViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -31,12 +25,7 @@ class CourseListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        title = "Start Deutsch A1"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        
+    fileprivate func setupTableView() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
             make.top.bottom.trailing.leading.equalToSuperview()
@@ -44,8 +33,19 @@ class CourseListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.reloadData()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        title = "Start Deutsch A1"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        setupTableView()
+        
+        viewModel.delegate = self
+        viewModel.getCourses()
+//
 //        if let url = Bundle.main.url(forResource: "listening1-5", withExtension: "csv") {
 //            if let csvFile: CSV = try? CSV(url: url) {
 //
@@ -55,12 +55,12 @@ class CourseListViewController: UIViewController {
 //                    if $0[0].toBool()!{
 //                        // is Multiple choice
 //
-//                        let question = ListeningQuestion(id: id.description, testId: "BD1C19A0-26AC-46B8-B38A-937422299D8E", questionText: $0[2], orderNumber: orderNumber, answerChoices: [$0[3], $0[4], $0[5]], correctChoiceIndex: Int($0[6])!, isMultipleChoice: true, audioPath: "test1/\(orderNumber).mp3")
+//                        let question = ListeningQuestion(id: id.description, testId: "vUscu1si4CBOX63vopgY", questionText: $0[2], orderNumber: orderNumber, answerChoices: [$0[3], $0[4], $0[5]], correctChoiceIndex: Int($0[6])!, isMultipleChoice: true, audioPath: "test1/\(orderNumber).mp3")
 //                        viewModel.save(question: question)
 //                    }
 //                    else {
 //                        // true/false questionText
-//                        let question = ListeningQuestion(id: id.description, testId: "BD1C19A0-26AC-46B8-B38A-937422299D8E", questionText: $0[2], orderNumber: orderNumber, answerChoices: nil, correctChoiceIndex: Int($0[6])!, isMultipleChoice: false, audioPath: "test1/\(orderNumber).mp3")
+//                        let question = ListeningQuestion(id: id.description, testId: "vUscu1si4CBOX63vopgY", questionText: $0[2], orderNumber: orderNumber, answerChoices: nil, correctChoiceIndex: Int($0[6])!, isMultipleChoice: false, audioPath: "test1/\(orderNumber).mp3")
 //                        viewModel.save(question: question)
 //                    }
 //
@@ -70,26 +70,33 @@ class CourseListViewController: UIViewController {
 //        else {
 //            print("Error")
 //        }
-        
+//
     }
 
 }
 
 extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return courses.count
+        return viewModel.courses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let course = courses[indexPath.row]
-        cell.textLabel?.text = course
+        let course = viewModel.courses[indexPath.row]
+        cell.textLabel?.text = course.title
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSelectCourse(courseId: indexPath.row)
+        let course = viewModel.courses[indexPath.row]
+        delegate?.didSelectCourse(course: course)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension CourseListViewController: CoursesViewModelDelegate {
+    func reloadData() {
+        tableView.reloadData()
     }
 }
 

@@ -27,8 +27,8 @@ class CourseListCoordinator: Coordinator {
 }
 
 extension CourseListCoordinator: CourseListViewControllerDelegate {
-    func didSelectCourse(courseId: Int) {
-        let coordinator = TestListCoordinator(presenter: presenter, container: container, courseId: courseId)
+    func didSelectCourse(course: Course) {
+        let coordinator = TestListCoordinator(presenter: presenter, container: container, course: course)
         self.testListCoordinator = coordinator
         coordinator.start()
     }

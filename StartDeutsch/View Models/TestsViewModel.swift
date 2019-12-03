@@ -16,32 +16,33 @@ protocol TestsViewModelDelegate: class {
 class TestsViewModel {
     
     weak var delegate: TestsViewModelDelegate?
-    let firebaseManager: FirebaseManagerProtocol
-    let localDatabase: LocalDatabaseManagerProtocol
+    private let firebaseManager: FirebaseManagerProtocol
+    private let localDatabase: LocalDatabaseManagerProtocol
     
-    var firestore: Firestore { return Firestore.firestore() }
-    var tests: [DocumentReference] = []
-    
-    
-    let courseId: Int
+    public var tests: [Test] = []
+    private let course: Course
 
-    init(firebaseManager: FirebaseManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, courseId: Int) {
+    init(firebaseManager: FirebaseManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, course: Course) {
         self.firebaseManager = firebaseManager
         self.localDatabase = localDatabase
-        self.courseId = courseId
+        self.course = course
     }
     
-    func getTests(){
-
-        firebaseManager.getDocuments(Test.tests(course: .listening)) { result in
+    public func getTests(){
+        fetchFromRemoteDatabase()
+    }
+    
+    private func fetchFromLocalDatabase(){}
+    
+    private func fetchFromRemoteDatabase(){
+        firebaseManager.getDocuments(course.documentPath.appending("/tests")) { result in
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let response):
-                self.tests = response.map({ return $0.reference })
+                self.tests = response.map({ return Test(dictionary: $0.data(), path: $0.reference.path)! })
                 self.delegate?.reloadData()
             }
-            
         }
     }
     

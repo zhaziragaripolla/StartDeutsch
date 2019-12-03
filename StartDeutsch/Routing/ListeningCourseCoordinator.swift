@@ -12,16 +12,16 @@ class ListeningCourseCoordinator: Coordinator {
     
     private let container: AppDependencyContainer
     private let presenter: UINavigationController
-    private let testId: String
+    private let test: Test
     
-    init(presenter: UINavigationController, container: AppDependencyContainer, testId: String){
+    init(presenter: UINavigationController, container: AppDependencyContainer, test: Test){
         self.container = container
         self.presenter = presenter
-        self.testId = testId
+        self.test = test
     }
     
     func start() {
-        let vc = container.makeListeningCourseViewController(testId: testId)
+        let vc = container.makeListeningCourseViewController(test: test)
         presenter.pushViewController(vc, animated: true)
     }
     

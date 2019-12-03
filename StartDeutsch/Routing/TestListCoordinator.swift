@@ -13,16 +13,16 @@ class TestListCoordinator: Coordinator {
     private let container: AppDependencyContainer
     private let presenter: UINavigationController
     private var listeningCourseCoordinator: ListeningCourseCoordinator?
-    private let courseId: Int
+    private let course: Course
     
-    init(presenter: UINavigationController, container: AppDependencyContainer, courseId: Int){
+    init(presenter: UINavigationController, container: AppDependencyContainer, course: Course){
         self.container = container
         self.presenter = presenter
-        self.courseId = courseId
+        self.course = course
     }
     
     func start() {
-        let vc = container.makeTestsViewController(courseId: courseId)
+        let vc = container.makeTestsViewController(course: course)
         vc.delegate = self
         presenter.pushViewController(vc, animated: true)
     }
@@ -31,8 +31,8 @@ class TestListCoordinator: Coordinator {
 
 extension TestListCoordinator: TestListViewControllerDelegate {
     // TODO: according test.courseId choose Listening/Reading/Writing/Speaking
-    func didSelectTest(testId: String) {
-        let coordinator = ListeningCourseCoordinator(presenter: presenter, container: container, testId: testId)
+    func didSelectTest(test: Test) {
+        let coordinator = ListeningCourseCoordinator(presenter: presenter, container: container, test: test)
         self.listeningCourseCoordinator = coordinator
         coordinator.start()
     }

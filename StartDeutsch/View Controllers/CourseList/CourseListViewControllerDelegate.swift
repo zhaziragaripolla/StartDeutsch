@@ -9,5 +9,5 @@
 import UIKit
 
 protocol CourseListViewControllerDelegate: class {
-    func didSelectCourse(courseId: Int)
+    func didSelectCourse(course: Course)
 }

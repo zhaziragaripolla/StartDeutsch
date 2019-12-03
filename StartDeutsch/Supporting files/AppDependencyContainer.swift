@@ -41,29 +41,29 @@ class AppDependencyContainer {
     }
     
     func makeCoursesViewModel()-> CoursesViewModel {
-        return CoursesViewModel(localDatabase: sharedLocalDatabaseManager)
+        return CoursesViewModel(localDatabase: sharedLocalDatabaseManager, firebaseManager: sharedFirebaseManager)
     }
     
     
     // MARK: Tests
-    func makeTestsViewController(courseId: Int)-> TestListViewController {
-        let viewModel = makeTestsViewModel(courseId: courseId)
+    func makeTestsViewController(course: Course)-> TestListViewController {
+        let viewModel = makeTestsViewModel(course: course)
         return TestListViewController(viewModel: viewModel)
     }
     
-    func makeTestsViewModel(courseId: Int)-> TestsViewModel {
-        return TestsViewModel(firebaseManager: sharedFirebaseManager, localDatabase: sharedLocalDatabaseManager, courseId: courseId)
+    func makeTestsViewModel(course: Course)-> TestsViewModel {
+        return TestsViewModel(firebaseManager: sharedFirebaseManager, localDatabase: sharedLocalDatabaseManager, course: course)
     }
     
     
     // MARK: Questions
-    func makeListeningCourseViewController(testId: String)-> ListeningCourseViewController {
-        let viewModel = makeQuestionsViewModel(testId: testId)
+    func makeListeningCourseViewController(test: Test)-> ListeningCourseViewController {
+        let viewModel = makeQuestionsViewModel(test: test)
         return ListeningCourseViewController(viewModel: viewModel)
     }
     
-    func makeQuestionsViewModel(testId: String)-> ListeningViewModel {
-        return ListeningViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, localDatabase: sharedLocalDatabaseManager, testReference: testId)
+    func makeQuestionsViewModel(test: Test)-> ListeningViewModel {
+        return ListeningViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, localDatabase: sharedLocalDatabaseManager, test: test)
     }
   
 }
