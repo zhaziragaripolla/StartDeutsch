@@ -17,7 +17,9 @@ class AppDependencyContainer {
     init(){
         
         func makeLocalDatabaseManager()-> LocalDatabaseManager {
-            return LocalDatabaseManager()
+            let database = LocalDatabaseManager()
+            database.initalizeStack()
+            return database
         }
         
         func makeFirebaseManager()-> FirebaseManager {

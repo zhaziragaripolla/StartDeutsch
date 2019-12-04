@@ -35,14 +35,14 @@ class ListeningViewModel {
     
     private let fileManager = FileManager.default
     private let downloadTasksGroup = DispatchGroup()
- 
+    
     init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, test: Test) {
         self.firebaseManager = firebaseManager
         self.localDatabase = localDatabase
         self.test = test
         self.storage = firebaseStorageManager
     }
-
+    
     public func viewModel(for index: Int)-> ListeningQuestionViewModel {
         let question = questions[index]
         let audioPath = storedAudioPaths[index]!
@@ -50,7 +50,7 @@ class ListeningViewModel {
     }
     
     public func getQuestions() {
-        fetchFromRemoteDatabase()
+        fetchFromLocalDatabase()
     }
     
     private func fetchFromRemoteDatabase() {
@@ -65,12 +65,40 @@ class ListeningViewModel {
                 self.questions.sort(by: { $0.orderNumber < $1.orderNumber })
                 //                self.delegate?.reloadData()
                 //                self.getAudios()
+                self.saveToLocalDatabase()
                 self.delegate?.questionsDownloaded()
             }
         }
     }
     
-    private func fetchFromLocalDatabase(){}
+    private func fetchFromLocalDatabase(){
+        do {
+            let unwrappedData = try localDatabase.fetchQuestions(testId: test.id)
+            if unwrappedData.isEmpty {
+                fetchFromRemoteDatabase()
+            }
+            else {
+                self.questions = try unwrappedData.map({
+                    return try JSONDecoder().decode(ListeningQuestion.self, from: $0)
+                })
+                print("fetched from core data")
+                delegate?.questionsDownloaded()
+            }
+        }
+        catch let error {
+            print(error)
+            fetchFromRemoteDatabase()
+        }
+        
+        
+    }
+    
+    private func saveToLocalDatabase(){
+        questions.forEach({
+            localDatabase.saveListeningQuestion(question: $0)
+            print("saved")
+        })
+    }
     
     public func getAudios(){
         
@@ -78,9 +106,8 @@ class ListeningViewModel {
             let documentDirectory = try! self.fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             
             //check if exists
-            
             let existingFileURL = documentDirectory.appendingPathComponent("\(question.orderNumber).mp3")
-                
+            
             if self.fileManager.fileExists(atPath: existingFileURL.path) {
                 self.storedAudioPaths[question.orderNumber-1] = existingFileURL
             }
@@ -97,16 +124,16 @@ class ListeningViewModel {
     }
     
     private func downloadAudio(at path: String, name: String, index: Int) {
-     
+        
         storage.downloadFile(path) { audio in
             let documentDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create:false)
             let fileURL = documentDirectory.appendingPathComponent(name)
             do {
                 try audio.write(to: fileURL)
                 self.storedAudioPaths[index] = fileURL
-//                if self.storedAudioPaths.count == 15 {
-//                    self.delegate?.reloadData()
-//                }
+                //                if self.storedAudioPaths.count == 15 {
+                //                    self.delegate?.reloadData()
+                //                }
                 self.downloadTasksGroup.leave()
             }
             catch {

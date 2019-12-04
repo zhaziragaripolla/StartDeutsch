@@ -10,6 +10,7 @@ import FirebaseFirestore
 
 // A type that can be initialized from a Firestore document.
 protocol DocumentSerializable {
+//    associatedtype Rictionary: Dictionary<String, Any>
     init?(dictionary: [String: Any], path: String)
 }
 

@@ -8,16 +8,23 @@
 
 import Foundation
 
-struct Course {
+protocol ObjectConvertable {
+    var dictionary: [String : Any] { get }
+}
+
+struct Course: Decodable {
     let title: String
     let id: String
     let documentPath: String
     let aliasName: String
-    
+}
+
+extension Course: ObjectConvertable {
     var dictionary: [String: Any] {
         return ["id" : id,
                 "title" : title,
-                "documentPath" : documentPath ]
+                "documentPath" : documentPath,
+                "aliasName" : aliasName ]
     }
 }
 
@@ -27,7 +34,6 @@ extension Course: DocumentSerializable {
         guard let title = dictionary["title"] as? String,
             let id = dictionary["id"] as? String,
             let aliasName = dictionary["aliasName"] as? String else { return nil}
-        
         self.init(title: title, id: id, documentPath: path, aliasName: aliasName)
     }
 }

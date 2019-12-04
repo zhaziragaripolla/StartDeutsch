@@ -29,10 +29,29 @@ class TestsViewModel {
     }
     
     public func getTests(){
-        fetchFromRemoteDatabase()
+        fetchFromLocalDatabase()
     }
     
-    private func fetchFromLocalDatabase(){}
+    private func fetchFromLocalDatabase(){
+        do {
+            let unwrappedData = try localDatabase.fetchTests(courseId: course.id)
+            if !unwrappedData.isEmpty {
+                self.tests = try unwrappedData.map({
+                    return try JSONDecoder().decode(Test.self, from: $0)
+                })
+                print("fetched from core data")
+                delegate?.reloadData()
+            }
+            else {
+                fetchFromRemoteDatabase()
+            }
+        }
+        catch let error {
+            print(error)
+            
+        }
+        
+    }
     
     private func fetchFromRemoteDatabase(){
         firebaseManager.getDocuments(course.documentPath.appending("/tests")) { result in
@@ -41,9 +60,17 @@ class TestsViewModel {
                 print(error)
             case .success(let response):
                 self.tests = response.map({ return Test(dictionary: $0.data(), path: $0.reference.path)! })
+                self.saveToLocalDatabase()
                 self.delegate?.reloadData()
             }
         }
+    }
+    
+    private func saveToLocalDatabase(){
+        tests.forEach({
+            localDatabase.saveTest(test: $0)
+            print("saved")
+        })
     }
     
     

@@ -24,10 +24,31 @@ class CoursesViewModel {
         self.firebaseManager = firebaseManager
     }
     
-    func getCourses(){
-        fetchFromRemoteDatabase()
+    public func getCourses(){
+        fetchFromLocalDatabase()
     }
-    private func fetchFromLocalDatabase(){}
+    
+    private func fetchFromLocalDatabase(){
+        do {
+            let unwrappedCourses = try localDatabase.fetchCourses()
+            if !unwrappedCourses.isEmpty {
+                self.courses = try unwrappedCourses.map({
+                    return try JSONDecoder().decode(Course.self, from: $0)
+                })
+                print("fetched from core data")
+                delegate?.reloadData()
+            }
+            else {
+                fetchFromRemoteDatabase()
+            }
+           
+        }
+        catch let error {
+            print(error)
+            fetchFromRemoteDatabase()
+        }
+    
+    }
     
     private func fetchFromRemoteDatabase(){
         firebaseManager.getDocuments("/courses") { result in
@@ -35,10 +56,18 @@ class CoursesViewModel {
             case .success(let response):
                 self.courses = response.map({ return Course(dictionary: $0.data(), path: $0.reference.path)!})
                 self.delegate?.reloadData()
+                self.saveToLocalDatabase()
             case .failure(let error):
                 print(error)
             }
         }
+    }
+    
+    private func saveToLocalDatabase(){
+        courses.forEach({
+            localDatabase.saveCourse(course: $0)
+            print("saved")
+        })
     }
     
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Test {
+struct Test: Decodable {
     let id: String
     let courseId: String
     let documentPath: String
