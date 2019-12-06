@@ -12,7 +12,8 @@ protocol ObjectConvertable {
     var dictionary: [String : Any] { get }
 }
 
-struct Course: Decodable {
+
+public struct Course: Decodable {
     let title: String
     let id: String
     let documentPath: String

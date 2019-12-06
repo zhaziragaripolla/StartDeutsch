@@ -13,6 +13,7 @@ protocol TestsViewModelDelegate: class {
     func reloadData()
 }
 
+
 class TestsViewModel {
     
     weak var delegate: TestsViewModelDelegate?

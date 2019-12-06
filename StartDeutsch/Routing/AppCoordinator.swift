@@ -13,7 +13,7 @@ class AppCoordinator: Coordinator {
     private let window: UIWindow
     private let rootViewController: UINavigationController
     private var courseListCoordinator: CourseListCoordinator
-    var container: AppDependencyContainer
+    private var container: AppDependencyContainer
     
     init(window: UIWindow, container: AppDependencyContainer) {
         self.window = window

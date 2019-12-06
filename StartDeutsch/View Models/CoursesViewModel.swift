@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+
 
 protocol CoursesViewModelDelegate: class {
     func reloadData()

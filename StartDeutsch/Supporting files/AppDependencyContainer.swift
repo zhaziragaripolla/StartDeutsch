@@ -36,6 +36,7 @@ class AppDependencyContainer {
     }
     
     // MARK: Courses
+    // TODO: rename to CourseList
     func makeCoursesViewController()-> CourseListViewController {
         let viewModel = makeCoursesViewModel()
         return CourseListViewController(viewModel: viewModel)

@@ -74,10 +74,7 @@ extension ListeningQuestion {
          case testId
          case documentPath
      }
-    
-    
-    // Note: property "answerChoices" is saved to Core Data as binary data. First solution that come was fast and working is to setup a custom decoder, change struct to class. Other solution(and most desirable): change type from binary to Tranformable caused issued with Custom Encoder(file ManagedListeningQuestion+CoreDataClass). Another solution: change type from binary to String is not efficient. It is saving a whole array of strings as a one string separated by ",". And decoding such string is not good.
-    
+
     convenience init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let id = try values.decode(String.self, forKey: .id)
@@ -85,7 +82,7 @@ extension ListeningQuestion {
         let questionText = try values.decode(String.self, forKey: .questionText)
         let orderNumber = try values.decode(Int.self, forKey: .orderNumber)
         let data = try values.decode(String?.self, forKey: .answerChoices)
-        let answerChoices = data?.components(separatedBy: ",")
+        let answerChoices = data?.array()
         let correctChoiceIndex = try values.decode(Int.self, forKey: .correctChoiceIndex)
         let audioPath = try values.decode(String.self, forKey: .audioPath)
         let documentPath = try values.decode(String.self, forKey: .documentPath)
@@ -112,5 +109,11 @@ extension ListeningQuestion: DocumentSerializable {
 extension Array where Element == String {
     func singleString()-> String {
         return self.joined(separator: ",")
+    }
+}
+
+extension String {
+    func array()-> [String] {
+        return self.components(separatedBy: ",")
     }
 }
