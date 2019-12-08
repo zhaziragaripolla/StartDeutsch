@@ -9,6 +9,8 @@
 import UIKit
 
 class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
+    
+    weak var delegate: ListeningCellDelegate?
      
     let questionLabel: UILabel = {
         let label = UILabel()
@@ -21,11 +23,16 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
 
     
     let audioButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "play"), for: .normal)
         return button
     }()
+    
+    @objc func didTapAudioButton(){
+        LoadingOverlay.shared.showOverlay(view: audioButton)
+        delegate?.didTapAudioButton(self)
+    }
 
     var firstChoiceButton = UIButton()
     var secondChoiceButton = UIButton()
@@ -55,6 +62,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         })
         
         contentView.addSubview(audioButton)
+        audioButton.addTarget(self, action: #selector(didTapAudioButton), for: .touchUpInside)
         audioButton.snp.makeConstraints({ make in
             make.leading.equalTo(questionLabel.snp.trailing).offset(10)
             make.top.trailing.equalTo(contentView)
@@ -96,7 +104,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
     
     func configure(with viewModel: ListeningQuestionViewModel) {
         questionLabel.text = viewModel.question
-        
+        LoadingOverlay.shared.hideOverlayView()
         firstChoiceButton.setTitle(viewModel.answerChoices.first, for: .normal)
         secondChoiceButton.setTitle(viewModel.answerChoices[1], for: .normal)
         thirdChoiceButton.setTitle(viewModel.answerChoices[2], for: .normal)

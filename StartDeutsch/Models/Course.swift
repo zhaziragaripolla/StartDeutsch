@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 protocol ObjectConvertable {
     var dictionary: [String : Any] { get }
@@ -15,13 +16,13 @@ protocol ObjectConvertable {
 
 public struct Course: Decodable {
     let title: String
-    let id: String
+    public let id: String
     let documentPath: String
     let aliasName: String
 }
 
 extension Course: ObjectConvertable {
-    var dictionary: [String: Any] {
+    public var dictionary: [String: Any] {
         return ["id" : id,
                 "title" : title,
                 "documentPath" : documentPath,
@@ -30,7 +31,7 @@ extension Course: ObjectConvertable {
 }
 
 extension Course: DocumentSerializable {
- 
+
     init?(dictionary: [String : Any], path: String) {
         guard let title = dictionary["title"] as? String,
             let id = dictionary["id"] as? String,

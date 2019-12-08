@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct Test: Decodable {
-    let id: String
+public struct Test: Decodable {
+    public let id: String
     let courseId: String
     let documentPath: String
     
-    var dictionary: [String: Any] {
+    public var dictionary: [String: Any] {
         return ["id": id,
                 "courseId": courseId,
                 "documentPath": documentPath ]

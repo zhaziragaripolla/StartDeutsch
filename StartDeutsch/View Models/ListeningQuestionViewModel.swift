@@ -11,7 +11,7 @@ import Foundation
 struct ListeningQuestionViewModel {
     
     let listeningQuestion: ListeningQuestion
-    let audioPath: URL
+    let audioPath: URL?
     
     var question: String {
         return "\(listeningQuestion.orderNumber.description). \(listeningQuestion.questionText)"

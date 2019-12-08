@@ -9,7 +9,13 @@
 import UIKit
 import SnapKit
 
+protocol ListeningCellDelegate: class {
+    func didTapAudioButton(_ cell: UITableViewCell)
+}
+
 class BinaryListeningQuestionTableViewCell: UITableViewCell {
+    
+    weak var delegate: ListeningCellDelegate?
     
     let questionLabel: UILabel = {
         let label = UILabel()
@@ -21,9 +27,10 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
     }()
 
     let audioButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "play"), for: .normal)
+        
         return button
     }()
     
@@ -49,6 +56,15 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         return button
     }()
     
+    @objc func didTapAudioButton(_ sender: UIButton){
+        LoadingOverlay.shared.showOverlay(view: audioButton)
+        delegate?.didTapAudioButton(self)
+    }
+    
+    func startPlay(){
+        
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layoutUI()
@@ -68,6 +84,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         })
    
         contentView.addSubview(audioButton)
+        audioButton.addTarget(self, action: #selector(didTapAudioButton(_:)), for: .touchUpInside)
         audioButton.snp.makeConstraints({ make in
             make.leading.equalTo(questionLabel.snp.trailing).offset(10)
             make.top.trailing.equalTo(contentView)
@@ -100,6 +117,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
     
     func configure(with viewModel: ListeningQuestionViewModel) {
         questionLabel.text = viewModel.question
+        LoadingOverlay.shared.hideOverlayView()
     }
 }
 

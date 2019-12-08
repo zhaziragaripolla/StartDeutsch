@@ -1,5 +1,5 @@
 //
-//  CoursesViewModel.swift
+//  CourseListViewModel.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 11/20/19.
@@ -7,23 +7,23 @@
 //
 
 import Foundation
-import CoreData
-
 
 protocol CoursesViewModelDelegate: class {
     func reloadData()
 }
 
-class CoursesViewModel {
+class CourseListViewModel {
 
     public var courses: [Course] = []
     private let localDatabase: LocalDatabaseManagerProtocol
     private let firebaseManager: FirebaseManagerProtocol
     weak var delegate: CoursesViewModelDelegate?
+    private let repository: CoreDataRepository<Course>
     
-    init(localDatabase: LocalDatabaseManagerProtocol, firebaseManager: FirebaseManagerProtocol){
+    init(localDatabase: LocalDatabaseManagerProtocol, firebaseManager: FirebaseManagerProtocol, repository: CoreDataRepository<Course>){
         self.localDatabase = localDatabase
         self.firebaseManager = firebaseManager
+        self.repository = repository
     }
     
     public func getCourses(){
@@ -32,18 +32,10 @@ class CoursesViewModel {
     
     private func fetchFromLocalDatabase(){
         do {
-            let unwrappedCourses = try localDatabase.fetchCourses()
-            if !unwrappedCourses.isEmpty {
-                self.courses = try unwrappedCourses.map({
-                    return try JSONDecoder().decode(Course.self, from: $0)
-                })
-                print("fetched from core data")
-                delegate?.reloadData()
+            self.courses = try repository.getAll(where: nil)
+            if courses.isEmpty{
+                self.fetchFromRemoteDatabase()
             }
-            else {
-                fetchFromRemoteDatabase()
-            }
-           
         }
         catch let error {
             print(error)
@@ -57,6 +49,7 @@ class CoursesViewModel {
             switch result {
             case .success(let response):
                 self.courses = response.map({ return Course(dictionary: $0.data(), path: $0.reference.path)!})
+                print(self.courses)
                 self.delegate?.reloadData()
                 self.saveToLocalDatabase()
             case .failure(let error):
@@ -66,8 +59,10 @@ class CoursesViewModel {
     }
     
     private func saveToLocalDatabase(){
+        
         courses.forEach({
-            localDatabase.saveCourse(course: $0)
+//            localDatabase.saveCourse(course: $0)
+            repository.insert(item: $0)
             print("saved")
         })
     }

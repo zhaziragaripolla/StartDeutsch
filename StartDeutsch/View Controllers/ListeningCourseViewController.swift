@@ -41,26 +41,23 @@ class ListeningCourseViewController: UIViewController {
         viewModel.delegate = self
         viewModel.errorDelegate = self
         viewModel.getQuestions()
-        
     }
 }
 
 extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelegate {
+    func audioFetched() {
+        // TODO: update cell
+//        tableView.reloadData()
+    }
+    
     func questionsDownloaded() {
-        viewModel.getAudios()
-        LoadingOverlay.shared.showOverlay(view: view)
-        tableView.isHidden = true
+        tableView.reloadData()
     }
     
     func showError(message: String) {
         print(message)
     }
     
-    func reloadData() {
-        LoadingOverlay.shared.hideOverlayView()
-        tableView.isHidden = false
-        tableView.reloadData()
-    }
 }
 
 extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSource {
@@ -74,11 +71,13 @@ extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSou
         if questionViewModel.isMultipleChoice {
             let cell = tableView.dequeueReusableCell(withIdentifier: "multipleQuestion", for: indexPath) as! MultipleChoiceListeningQuestionTableViewCell
             cell.configure(with: questionViewModel)
+            cell.delegate = self
             return cell
         }
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "binaryQuestion", for: indexPath) as! BinaryListeningQuestionTableViewCell
             cell.configure(with: questionViewModel)
+            cell.delegate = self
             return cell
         }
         
@@ -108,3 +107,10 @@ extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSou
 //    }
 //
 //}
+
+extension ListeningCourseViewController: ListeningCellDelegate{
+    func didTapAudioButton(_ cell: UITableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        viewModel.getAudio(for: indexPath.row)
+    }
+}

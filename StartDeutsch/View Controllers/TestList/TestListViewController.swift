@@ -12,10 +12,10 @@ import SnapKit
 class TestListViewController: UIViewController {
     
     private let tableView = UITableView()
-    private var viewModel: TestsViewModel!
+    private var viewModel: TestListViewModel!
     weak var delegate: TestListViewControllerDelegate?
     
-    init(viewModel: TestsViewModel) {
+    init(viewModel: TestListViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
     }

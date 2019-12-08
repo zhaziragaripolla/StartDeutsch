@@ -20,7 +20,8 @@ protocol Repository {
 
 public protocol Entity {
     associatedtype StoreType: Storable
-    
+    var dictionary: Dictionary<String, Any>  { get }
+    var id: String { get }
     func toStorable(in context: NSManagedObjectContext) -> StoreType
 }
 
@@ -28,14 +29,12 @@ public protocol Storable {
     associatedtype EntityObject: Entity
     
     var model: EntityObject { get }
-    var id: String { get }
 }
 
 extension Storable where Self: NSManagedObject {
     
-    static func getOrCreateSingle(with id: String, from context: NSManagedObjectContext) -> Self {
-        let result = single(with: id, from: context) ?? insertNew(in: context)
-        result.setValue(id, forKey: "id")
+    static func getOrCreateSingle(with model: EntityObject, from context: NSManagedObjectContext) -> Self {
+        let result = single(with: model.id, from: context) ?? insertNew(with: model.dictionary, in: context)
         return result
     }
     
@@ -43,8 +42,10 @@ extension Storable where Self: NSManagedObject {
         return fetch(with: id, from: context)?.first
     }
     
-    static func insertNew(in context: NSManagedObjectContext) -> Self {
-        return Self(context:context)
+    static func insertNew(with attributes: Dictionary<String, Any>, in context: NSManagedObjectContext) -> Self {
+        let newObject = Self(context:context)
+        newObject.setValuesForKeys(attributes)
+        return newObject
     }
     
     static func fetch(with id: String, from context: NSManagedObjectContext) -> [Self]? {

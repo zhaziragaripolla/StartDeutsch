@@ -1,5 +1,5 @@
 //
-//  TestsViewModel.swift
+//  TestListViewModel.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 11/20/19.
@@ -14,19 +14,21 @@ protocol TestsViewModelDelegate: class {
 }
 
 
-class TestsViewModel {
+class TestListViewModel {
     
     weak var delegate: TestsViewModelDelegate?
     private let firebaseManager: FirebaseManagerProtocol
     private let localDatabase: LocalDatabaseManagerProtocol
+    private let repository: CoreDataRepository<Test>
     
     public var tests: [Test] = []
     private let course: Course
 
-    init(firebaseManager: FirebaseManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, course: Course) {
+    init(firebaseManager: FirebaseManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, course: Course, repository: CoreDataRepository<Test>) {
         self.firebaseManager = firebaseManager
         self.localDatabase = localDatabase
         self.course = course
+        self.repository = repository
     }
     
     public func getTests(){
@@ -35,21 +37,15 @@ class TestsViewModel {
     
     private func fetchFromLocalDatabase(){
         do {
-            let unwrappedData = try localDatabase.fetchTests(courseId: course.id)
-            if !unwrappedData.isEmpty {
-                self.tests = try unwrappedData.map({
-                    return try JSONDecoder().decode(Test.self, from: $0)
-                })
-                print("fetched from core data")
-                delegate?.reloadData()
-            }
-            else {
-                fetchFromRemoteDatabase()
+            let predicate = NSPredicate(format: "courseId == %@", course.id)
+            self.tests = try repository.getAll(where: predicate)
+            if tests.isEmpty{
+                self.fetchFromRemoteDatabase()
             }
         }
         catch let error {
             print(error)
-            
+            fetchFromRemoteDatabase()
         }
         
     }
@@ -69,7 +65,8 @@ class TestsViewModel {
     
     private func saveToLocalDatabase(){
         tests.forEach({
-            localDatabase.saveTest(test: $0)
+//            localDatabase.saveTest(test: $0)
+            repository.insert(item: $0)
             print("saved")
         })
     }

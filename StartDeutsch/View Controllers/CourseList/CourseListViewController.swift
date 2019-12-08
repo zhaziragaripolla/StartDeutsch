@@ -14,9 +14,9 @@ class CourseListViewController: UIViewController {
 
     private let tableView = UITableView()
     weak var delegate: CourseListViewControllerDelegate?
-    private var viewModel: CoursesViewModel!
+    private var viewModel: CourseListViewModel!
     
-    init(viewModel: CoursesViewModel) {
+    init(viewModel: CourseListViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
     }
