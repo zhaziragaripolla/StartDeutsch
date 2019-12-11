@@ -16,9 +16,11 @@ protocol ListeningCellDelegate: class {
 
 class BinaryListeningQuestionTableViewCell: UITableViewCell {
     
-    weak var delegate: ListeningCellDelegate?
+    public weak var delegate: ListeningCellDelegate?
+    var isPlaying: Bool = false
+    private var buttons: [UIButton] = []
     
-    let questionLabel: UILabel = {
+    private let questionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -27,7 +29,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         return label
     }()
 
-    let audioButton: UIButton = {
+    private let audioButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "play"), for: .normal)
@@ -35,45 +37,61 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         return button
     }()
     
-    let trueButton: UIButton = {
+    private let trueButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.setTitle("Richtig", for: .normal)
         button.tag = 1
-//        button.tintColor = .white
-//        button.backgroundColor = .green
-//        button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
-       
         return button
     }()
     
-    let falseButton: UIButton = {
+    private let falseButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.setTitle("Falsch", for: .normal)
         button.tag = 0
-//        button.tintColor = .white
-//        button.backgroundColor = .red
         return button
     }()
     
-    @objc func didTapAudioButton(_ sender: UIButton){
+    @objc private func didTapAudioButton(_ sender: UIButton){
         LoadingOverlay.shared.showOverlay(view: audioButton)
         delegate?.didTapAudioButton(self)
     }
     
-    @objc func didTapAnswerButton(_ sender: UIButton){
+    @objc private func didTapAnswerButton(_ sender: UIButton){
+        changeButtonState(sender.tag)
         delegate?.didSelectAnswer(sender.tag, self)
     }
     
+    private func resetView(){
+        buttons.forEach({$0.backgroundColor = .none})
+    }
+
     func startPlay(){
         
     }
     
+    public func changeButtonState(_ index: Int){
+        resetView()
+        buttons[index].backgroundColor = .green
+    }
+    
+    public func configure(with viewModel: ListeningQuestionViewModel) {
+        questionLabel.text = viewModel.question
+        LoadingOverlay.shared.hideOverlayView()
+        print("calling")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetView()
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        buttons = [falseButton, trueButton]
         layoutUI()
     }
 
@@ -81,7 +99,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func layoutUI(){
+    private func layoutUI(){
         contentView.addSubview(questionLabel)
         questionLabel.snp.makeConstraints({ make in
             make.leading.equalTo(contentView).offset(10)
@@ -119,14 +137,6 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
             make.trailing.equalTo(contentView).offset(-5)
             make.bottom.lessThanOrEqualToSuperview()
         })
-        
-    }
-    
-  
-    
-    func configure(with viewModel: ListeningQuestionViewModel) {
-        questionLabel.text = viewModel.question
-        LoadingOverlay.shared.hideOverlayView()
     }
 }
 

@@ -10,9 +10,13 @@ import UIKit
 
 class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
     
-    weak var delegate: ListeningCellDelegate?
-     
-    let questionLabel: UILabel = {
+    public weak var delegate: ListeningCellDelegate?
+    private var firstChoiceButton = UIButton()
+    private var secondChoiceButton = UIButton()
+    private var thirdChoiceButton = UIButton()
+    private var buttons: [UIButton] = []
+    
+    private let questionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -21,35 +25,43 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         return label
     }()
 
-    
-    let audioButton: UIButton = {
+    private let audioButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "play"), for: .normal)
         return button
     }()
     
-    var firstChoiceButton = UIButton()
-    var secondChoiceButton = UIButton()
-    var thirdChoiceButton = UIButton()
-    
-    @objc func didTapAudioButton(){
+    @objc private func didTapAudioButton(){
         LoadingOverlay.shared.showOverlay(view: audioButton)
         delegate?.didTapAudioButton(self)
     }
     
-    @objc func didTapAnswerButton(_ sender: UIButton){
+    @objc private func didTapAnswerButton(_ sender: UIButton){
         changeButtonState(sender.tag)
         delegate?.didSelectAnswer(sender.tag, self)
     }
     
-    private func changeButtonState(_ index: Int){
-        let buttons = [firstChoiceButton, secondChoiceButton, thirdChoiceButton]
-        
-        if buttons[index].backgroundColor == .none {
-            buttons.forEach({ $0.backgroundColor = .none})
-            buttons[index].backgroundColor = .green
-        }
+    private func resetView(){
+        buttons.forEach({$0.backgroundColor = .none})
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetView()
+    }
+    
+    public func changeButtonState(_ index: Int){
+        resetView()
+        buttons[index].backgroundColor = .green
+    }
+    
+    public func configure(with viewModel: ListeningQuestionViewModel) {
+        questionLabel.text = viewModel.question
+        LoadingOverlay.shared.hideOverlayView()
+        firstChoiceButton.setTitle(viewModel.answerChoices.first, for: .normal)
+        secondChoiceButton.setTitle(viewModel.answerChoices[1], for: .normal)
+        thirdChoiceButton.setTitle(viewModel.answerChoices[2], for: .normal)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -58,7 +70,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         firstChoiceButton = UIButton.makeForAnswerChoice(tag: 0)
         secondChoiceButton = UIButton.makeForAnswerChoice(tag: 1)
         thirdChoiceButton = UIButton.makeForAnswerChoice(tag: 2)
-        
+        buttons = [firstChoiceButton, secondChoiceButton, thirdChoiceButton]
         layoutUI()
     }
     
@@ -66,7 +78,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func layoutUI(){
+    private func layoutUI(){
         contentView.addSubview(questionLabel)
         questionLabel.snp.makeConstraints({ make in
             make.leading.equalTo(contentView).offset(10)
@@ -115,16 +127,6 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
             make.bottom.lessThanOrEqualToSuperview()
         })
         
-    }
-    
-    
-    
-    func configure(with viewModel: ListeningQuestionViewModel) {
-        questionLabel.text = viewModel.question
-        LoadingOverlay.shared.hideOverlayView()
-        firstChoiceButton.setTitle(viewModel.answerChoices.first, for: .normal)
-        secondChoiceButton.setTitle(viewModel.answerChoices[1], for: .normal)
-        thirdChoiceButton.setTitle(viewModel.answerChoices[2], for: .normal)
     }
 
 }

@@ -77,22 +77,26 @@ extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let questionViewModel = viewModel.viewModel(for: indexPath.row)
-        
+        let userAnswer = userAnswers[indexPath.row]
         if questionViewModel.isMultipleChoice {
             let cell = tableView.dequeueReusableCell(withIdentifier: "multipleQuestion", for: indexPath) as! MultipleChoiceListeningQuestionTableViewCell
             cell.configure(with: questionViewModel)
+            if userAnswer.isAnswered {
+                cell.changeButtonState(userAnswer.value)
+            }
             cell.delegate = self
             return cell
         }
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "binaryQuestion", for: indexPath) as! BinaryListeningQuestionTableViewCell
             cell.configure(with: questionViewModel)
+            if userAnswer.isAnswered {
+                cell.changeButtonState(userAnswer.value)
+            }
             cell.delegate = self
             return cell
         }
         
-        // cell.delegate = self
-//        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
