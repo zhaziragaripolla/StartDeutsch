@@ -11,6 +11,7 @@ import Foundation
 protocol ListeningViewModelDelegate: class {
     func audioFetched()
     func questionsDownloaded()
+    func answersChecked(result: Int)
 }
 
 protocol ErrorDelegate: class {
@@ -134,14 +135,14 @@ class ListeningViewModel {
         }
     }
 
-    public func checkUserAnswers(userAnswers: [UserAnswer])-> Int {
+    public func checkUserAnswers(userAnswers: [UserAnswer]){
         var count = 0
         for index in 0..<questions.count{
             if (questions[index].correctChoiceIndex == userAnswers[index].value) {
                 count += 1
             }
         }
-        return count
+        delegate?.answersChecked(result: count)
     }
 }
 

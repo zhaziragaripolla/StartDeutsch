@@ -11,6 +11,7 @@ import SnapKit
 
 protocol ListeningCellDelegate: class {
     func didTapAudioButton(_ cell: UITableViewCell)
+    func didSelectAnswer(_ index: Int, _ cell: UITableViewCell)
 }
 
 class BinaryListeningQuestionTableViewCell: UITableViewCell {
@@ -39,6 +40,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.setTitle("Richtig", for: .normal)
+        button.tag = 1
 //        button.tintColor = .white
 //        button.backgroundColor = .green
 //        button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
@@ -51,6 +53,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.setTitle("Falsch", for: .normal)
+        button.tag = 0
 //        button.tintColor = .white
 //        button.backgroundColor = .red
         return button
@@ -59,6 +62,10 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
     @objc func didTapAudioButton(_ sender: UIButton){
         LoadingOverlay.shared.showOverlay(view: audioButton)
         delegate?.didTapAudioButton(self)
+    }
+    
+    @objc func didTapAnswerButton(_ sender: UIButton){
+        delegate?.didSelectAnswer(sender.tag, self)
     }
     
     func startPlay(){
@@ -92,8 +99,9 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
 //            make.centerX.equalTo(questionLabel.snp.centerX)
         })
         
-        contentView.addSubview(trueButton)
-        trueButton.snp.makeConstraints({ make in
+        contentView.addSubview(falseButton)
+        falseButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        falseButton.snp.makeConstraints({ make in
             make.top.equalTo(questionLabel.snp.bottom).offset(20)
             make.height.equalTo(contentView).multipliedBy(0.2)
             make.width.equalTo(contentView).multipliedBy(0.4)
@@ -101,8 +109,9 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
             make.bottom.lessThanOrEqualToSuperview()
         })
         
-        contentView.addSubview(falseButton)
-        falseButton.snp.makeConstraints({ make in
+        contentView.addSubview(trueButton)
+        trueButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        trueButton.snp.makeConstraints({ make in
             make.top.equalTo(questionLabel.snp.bottom).offset(20)
             make.height.equalTo(contentView).multipliedBy(0.2)
             make.width.equalTo(contentView).multipliedBy(0.4)

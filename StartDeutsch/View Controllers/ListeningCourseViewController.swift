@@ -45,6 +45,13 @@ class ListeningCourseViewController: UIViewController {
 }
 
 extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelegate {
+    func answersChecked(result: Int) {
+        let alertController = UIAlertController(title: "Result", message: "Here is your score: \(result)", preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     func audioFetched() {
         // TODO: update cell
 //        tableView.reloadData()
@@ -55,7 +62,10 @@ extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelega
     }
     
     func showError(message: String) {
-        print(message)
+        let alertController = UIAlertController(title: "Result", message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
     }
     
 }
@@ -90,25 +100,18 @@ extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSou
         return questionViewModel.isMultipleChoice ? 200 : 120
     }
 }
-//
-//extension ListeningViewController: ListeningTableViewCellDelegate {
-//    func indexOfSelectedButton(index: Int, cell: UITableViewCell) {
-//        guard let indexPath = tableView.indexPath(for: cell) else { return }
-//
-//        let userAnswer = UserAnswer(value: index, isAnswered: true)
-//        userAnswers[indexPath.row] = userAnswer
-//
-//        // check only if all 15 questions are answered
-//        print(userAnswers)
-//        if !userAnswers.contains(where: { $0.isAnswered == false }) {
-//            let result = viewModel.checkUserAnswers(userAnswers: userAnswers)
-//            print(result)
-//        }
-//    }
-//
-//}
+
 
 extension ListeningCourseViewController: ListeningCellDelegate{
+    func didSelectAnswer(_ index: Int, _ cell: UITableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let userAnswer = UserAnswer(value: index, isAnswered: true)
+        userAnswers[indexPath.row] = userAnswer
+        if !userAnswers.contains(where: { $0.isAnswered == false }) {
+            viewModel.checkUserAnswers(userAnswers: userAnswers)
+        }
+    }
+    
     func didTapAudioButton(_ cell: UITableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         viewModel.getAudio(for: indexPath.row)

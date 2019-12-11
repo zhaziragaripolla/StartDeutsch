@@ -29,21 +29,35 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         return button
     }()
     
-    @objc func didTapAudioButton(){
-        LoadingOverlay.shared.showOverlay(view: audioButton)
-        delegate?.didTapAudioButton(self)
-    }
-
     var firstChoiceButton = UIButton()
     var secondChoiceButton = UIButton()
     var thirdChoiceButton = UIButton()
     
+    @objc func didTapAudioButton(){
+        LoadingOverlay.shared.showOverlay(view: audioButton)
+        delegate?.didTapAudioButton(self)
+    }
+    
+    @objc func didTapAnswerButton(_ sender: UIButton){
+        changeButtonState(sender.tag)
+        delegate?.didSelectAnswer(sender.tag, self)
+    }
+    
+    private func changeButtonState(_ index: Int){
+        let buttons = [firstChoiceButton, secondChoiceButton, thirdChoiceButton]
+        
+        if buttons[index].backgroundColor == .none {
+            buttons.forEach({ $0.backgroundColor = .none})
+            buttons[index].backgroundColor = .green
+        }
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        firstChoiceButton = UIButton.makeForAnswerChoice()
-        secondChoiceButton = UIButton.makeForAnswerChoice()
-        thirdChoiceButton = UIButton.makeForAnswerChoice()
+        firstChoiceButton = UIButton.makeForAnswerChoice(tag: 0)
+        secondChoiceButton = UIButton.makeForAnswerChoice(tag: 1)
+        thirdChoiceButton = UIButton.makeForAnswerChoice(tag: 2)
         
         layoutUI()
     }
@@ -72,6 +86,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         
         
         contentView.addSubview(firstChoiceButton)
+        firstChoiceButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
         firstChoiceButton.snp.makeConstraints({ make in
             make.top.equalTo(questionLabel.snp.bottom).offset(20)
             make.height.equalTo(contentView).multipliedBy(0.2)
@@ -81,6 +96,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         })
         
         contentView.addSubview(secondChoiceButton)
+        secondChoiceButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
         secondChoiceButton.snp.makeConstraints({ make in
             make.top.equalTo(firstChoiceButton.snp.bottom).offset(5)
             make.height.equalTo(contentView).multipliedBy(0.2)
@@ -90,6 +106,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
         })
         
         contentView.addSubview(thirdChoiceButton)
+        thirdChoiceButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
         thirdChoiceButton.snp.makeConstraints({ make in
             make.top.equalTo(secondChoiceButton.snp.bottom).offset(5)
             make.height.equalTo(contentView).multipliedBy(0.2)
@@ -114,11 +131,14 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
 
 
 fileprivate extension UIButton {
-    static func makeForAnswerChoice() -> UIButton {
+    static func makeForAnswerChoice(tag: Int?) -> UIButton {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.titleLabel?.textAlignment = .left
+        if let tag = tag {
+            button.tag = tag
+        }
         return button
     }
 }
