@@ -15,7 +15,7 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
     private var secondChoiceButton = UIButton()
     private var thirdChoiceButton = UIButton()
     private var buttons: [UIButton] = []
-    
+    private var isPlaying: Bool = false
     private let questionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -28,12 +28,15 @@ class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
     private let audioButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "play"), for: .normal)
+        button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
         return button
     }()
     
     @objc private func didTapAudioButton(){
-        LoadingOverlay.shared.showOverlay(view: audioButton)
+//        LoadingOverlay.shared.showOverlay(view: audioButton)
+        isPlaying = !isPlaying
+        let imageName = isPlaying ? "stop.circle.fill" : "play.circle.fill"
+        audioButton.setImage(UIImage(systemName: imageName), for: .normal)
         delegate?.didTapAudioButton(self)
     }
     

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ListeningViewModelDelegate: class {
-    func audioFetched()
+    func didDownloadAudio(path: URL)
     func questionsDownloaded()
     func answersChecked(result: Int)
 }
@@ -36,7 +36,6 @@ class ListeningViewModel {
     weak var errorDelegate: ErrorDelegate?
     
     private let fileManager = FileManager.default
-    private let downloadTasksGroup = DispatchGroup()
   
     init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, test: Test, repository: CoreDataRepository<ListeningQuestion>) {
         self.firebaseManager = firebaseManager
@@ -88,6 +87,7 @@ class ListeningViewModel {
         let path = getAudioStoredPath(id: question.id)
         if fileManager.fileExists(atPath: path.path) {
             storedAudioPaths[index] = path
+            delegate?.didDownloadAudio(path: path)
         }
         else {
             self.downloadAudio(for: question)
@@ -117,17 +117,14 @@ class ListeningViewModel {
     }
 
     private func downloadAudio(for question: ListeningQuestion) {
-        downloadTasksGroup.enter()
         storage.downloadFile(question.audioPath) { audio in
             do {
                 let fileURL = self.getAudioStoredPath(id: question.id)
                 try audio.write(to: fileURL)
                 self.storedAudioPaths[question.orderNumber-1] = fileURL
-                self.downloadTasksGroup.leave()
                 print(self.fileManager.fileExists(atPath: fileURL.path))
                 print("Audio downloaded and saved at \(fileURL.description)")
-//                self.delegate?.audioFetched()
-                self.delegate?.questionsDownloaded()
+                self.delegate?.didDownloadAudio(path: fileURL)
             }
             catch {
                 self.errorDelegate?.showError(message: error.localizedDescription)

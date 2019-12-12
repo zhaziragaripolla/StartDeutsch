@@ -8,12 +8,14 @@
 
 import UIKit
 import SnapKit
+import AVFoundation
 
 class ListeningCourseViewController: UIViewController {
     
     private var viewModel: ListeningViewModel!
     private var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
     private let tableView = UITableView()
+    private var audioPlayer: AVAudioPlayer?
     
     init(viewModel: ListeningViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -52,9 +54,19 @@ extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelega
         present(alertController, animated: true, completion: nil)
     }
     
-    func audioFetched() {
-        // TODO: update cell
-//        tableView.reloadData()
+    func didDownloadAudio(path: URL) {
+        if audioPlayer?.isPlaying ?? false{
+            audioPlayer?.stop()
+        }
+        else {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: path)
+                audioPlayer?.play()
+            }
+            catch{
+                print(error)
+            }
+        }
     }
     
     func questionsDownloaded() {
