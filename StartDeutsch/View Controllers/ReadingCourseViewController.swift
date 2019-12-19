@@ -39,8 +39,8 @@ class ReadingCourseViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
 //        viewModel.delegate = self
-//        viewModel.errorDelegate = self
-//        viewModel.getQuestions()
+        viewModel.errorDelegate = self
+        viewModel.getQuestions()
     }
 }
 
@@ -53,6 +53,15 @@ extension ReadingCourseViewController: UITableViewDelegate, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         return cell
     }
+}
+
+extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDelegate{
+    func showError(message: String) {
+        print(message)
+    }
     
+    func didDownloadQuestions() {
+        print("Downloaded questions!!")
+    }
     
 }

@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol ReadingCourseViewModelDelegate: class {
+    func didDownloadQuestions()
+}
+
 class ReadingCourseViewModel {
     // Dependencies
     private let storage: FirebaseStorageManagerProtocol
@@ -22,10 +26,11 @@ class ReadingCourseViewModel {
     public var questionsPartThree: [ReadingPartThreeQuestion] = []
     
     // Delegates
-    weak var delegate: ListeningViewModelDelegate?
+    weak var delegate: ReadingCourseViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
     private let fileManager = FileManager.default
+    private let dispatchGroup = DispatchGroup()
     
     init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, test: Test) {
         self.firebaseManager = firebaseManager
@@ -40,6 +45,7 @@ class ReadingCourseViewModel {
     }
     
     private func fetchFromRemoteDatabase(){
+        dispatchGroup.enter()
         firebaseManager.getDocuments(test.documentPath.appending("/part1")) { result in
             switch result {
             case .failure(let error):
@@ -49,10 +55,11 @@ class ReadingCourseViewModel {
                 self.questionsPartOne = response.map({
                     return ReadingPartOneQuestion(dictionary: $0.data())!
                 })
+                self.dispatchGroup.leave()
                 //                        self.saveToLocalDatabase()
             }
         }
-        
+        dispatchGroup.enter()
         firebaseManager.getDocuments(test.documentPath.appending("/part2")) { result in
             switch result {
             case .failure(let error):
@@ -62,10 +69,11 @@ class ReadingCourseViewModel {
                 self.questionsPartTwo = response.map({
                     return ReadingPartTwoQuestion(dictionary: $0.data())!
                 })
+                self.dispatchGroup.leave()
                 //                        self.saveToLocalDatabase()
             }
         }
-        
+        dispatchGroup.enter()
         firebaseManager.getDocuments(test.documentPath.appending("/part3")) { result in
             switch result {
             case .failure(let error):
@@ -75,10 +83,14 @@ class ReadingCourseViewModel {
                 self.questionsPartThree = response.map({
                     return ReadingPartThreeQuestion(dictionary: $0.data())!
                 })
+                self.dispatchGroup.leave()
                 //                        self.saveToLocalDatabase()
             }
         }
         
+        dispatchGroup.notify(queue: .main, execute: {
+            self.delegate?.didDownloadQuestions()
+        })
     }
     
 //    private func saveToLocalDatabase(){
