@@ -46,6 +46,7 @@
 		569F4F3C23AB905F0054BC65 /* ReadingCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F3B23AB905E0054BC65 /* ReadingCourseViewController.swift */; };
 		569F4F3E23AB90810054BC65 /* ReadingCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F3D23AB90810054BC65 /* ReadingCourseViewModel.swift */; };
 		569F4F4023AB910D0054BC65 /* ReadingQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F3F23AB910D0054BC65 /* ReadingQuestion.swift */; };
+		569F4F4423ABC70C0054BC65 /* ReadingCourseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F4323ABC70C0054BC65 /* ReadingCourseCoordinator.swift */; };
 		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
 		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
 		56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */; };
@@ -111,6 +112,7 @@
 		569F4F3B23AB905E0054BC65 /* ReadingCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseViewController.swift; sourceTree = "<group>"; };
 		569F4F3D23AB90810054BC65 /* ReadingCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseViewModel.swift; sourceTree = "<group>"; };
 		569F4F3F23AB910D0054BC65 /* ReadingQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingQuestion.swift; sourceTree = "<group>"; };
+		569F4F4323ABC70C0054BC65 /* ReadingCourseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseCoordinator.swift; sourceTree = "<group>"; };
 		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDatabaseManager.swift; path = "../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/LocalDatabaseManager.swift"; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				56968374239273BE008AF9A4 /* AppCoordinator.swift */,
 				5696837823927A99008AF9A4 /* CourseListCoordinator.swift */,
 				569683762392741E008AF9A4 /* TestListCoordinator.swift */,
+				569F4F4323ABC70C0054BC65 /* ReadingCourseCoordinator.swift */,
 				5696837A23927D6D008AF9A4 /* ListeningCourseCoordinator.swift */,
 			);
 			path = Routing;
@@ -532,6 +535,7 @@
 				5696837223927397008AF9A4 /* Coordinator.swift in Sources */,
 				569F4EE9239D2D770054BC65 /* ManagedTest+CoreDataClass.swift in Sources */,
 				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,
+				569F4F4423ABC70C0054BC65 /* ReadingCourseCoordinator.swift in Sources */,
 				56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */,
 				569F4F3C23AB905F0054BC65 /* ReadingCourseViewController.swift in Sources */,
 				569F4E5E239921A00054BC65 /* Repository.swift in Sources */,

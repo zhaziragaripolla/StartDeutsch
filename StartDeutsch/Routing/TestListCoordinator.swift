@@ -13,6 +13,7 @@ class TestListCoordinator: Coordinator {
     private let container: AppDependencyContainer
     private let presenter: UINavigationController
     private var listeningCourseCoordinator: ListeningCourseCoordinator?
+    private var readingCourseCoordinator: ReadingCourseCoordinator?
     private let course: Course
     
     init(presenter: UINavigationController, container: AppDependencyContainer, course: Course){
@@ -30,12 +31,18 @@ class TestListCoordinator: Coordinator {
 }
 
 extension TestListCoordinator: TestListViewControllerDelegate {
-    // TODO: according test.courseId choose Listening/Reading/Writing/Speaking
+    
     func didSelectTest(test: Test) {
-        let coordinator = ListeningCourseCoordinator(presenter: presenter, container: container, test: test)
-        self.listeningCourseCoordinator = coordinator
-        coordinator.start()
+        var coordinator: Coordinator?
+        switch test.courseId {
+        case "E0DB28E3-E5DD-4300-BE1F-7FA060D03629": // listening
+            coordinator = ListeningCourseCoordinator(presenter: presenter, container: container, test: test)
+            self.listeningCourseCoordinator = coordinator as? ListeningCourseCoordinator
+        case "7122B041-2CAA-440B-9D51-A124F6059B3F":  // reading
+            coordinator = ReadingCourseCoordinator(presenter: presenter, container: container, test: test)
+            self.readingCourseCoordinator = coordinator as? ReadingCourseCoordinator
+        default: break
+        }
+        coordinator?.start()
     }
 }
-
-
