@@ -17,7 +17,9 @@ class ReadingCourseViewModel {
 //    private let repository: CoreDataRepository<ListeningQuestion>
     
     // Models
-    public var questions: [ListeningQuestion] = []
+    public var questionsPartOne: [ReadingPartOneQuestion] = []
+    public var questionsPartTwo: [ReadingPartTwoQuestion] = []
+    public var questionsPartThree: [ReadingPartThreeQuestion] = []
     
     // Delegates
     weak var delegate: ListeningViewModelDelegate?
@@ -32,4 +34,66 @@ class ReadingCourseViewModel {
         self.storage = firebaseStorageManager
 //        self.repository = repository
     }
+    
+    public func getQuestions() {
+        fetchFromRemoteDatabase()
+    }
+    
+    private func fetchFromRemoteDatabase(){
+        firebaseManager.getDocuments(test.documentPath.appending("/part1")) { result in
+            switch result {
+            case .failure(let error):
+                self.errorDelegate?.showError(message: error.localizedDescription)
+            case .success(let response):
+                
+                self.questionsPartOne = response.map({
+                    return ReadingPartOneQuestion(dictionary: $0.data())!
+                })
+                //                        self.saveToLocalDatabase()
+            }
+        }
+        
+        firebaseManager.getDocuments(test.documentPath.appending("/part2")) { result in
+            switch result {
+            case .failure(let error):
+                self.errorDelegate?.showError(message: error.localizedDescription)
+            case .success(let response):
+                
+                self.questionsPartTwo = response.map({
+                    return ReadingPartTwoQuestion(dictionary: $0.data())!
+                })
+                //                        self.saveToLocalDatabase()
+            }
+        }
+        
+        firebaseManager.getDocuments(test.documentPath.appending("/part3")) { result in
+            switch result {
+            case .failure(let error):
+                self.errorDelegate?.showError(message: error.localizedDescription)
+            case .success(let response):
+                
+                self.questionsPartThree = response.map({
+                    return ReadingPartThreeQuestion(dictionary: $0.data())!
+                })
+                //                        self.saveToLocalDatabase()
+            }
+        }
+        
+    }
+    
+//    private func saveToLocalDatabase(){
+//        questions.forEach({
+//            repository.insert(item: $0)
+//        })
+//    }
+    
+//    public func checkUserAnswers(userAnswers: [UserAnswer]){
+//        var count = 0
+//        for index in 0..<questions.count{
+//            if (questions[index].correctChoiceIndex == userAnswers[index].value) {
+//                count += 1
+//            }
+//        }
+//        delegate?.answersChecked(result: count)
+//    }
 }

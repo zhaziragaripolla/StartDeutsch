@@ -26,8 +26,8 @@ struct ReadingPartOneQuestion{
     }
 }
 
-extension ReadingPartOneQuestion: DocumentSerializable {
-    init?(dictionary: [String : Any], path: String) {
+extension ReadingPartOneQuestion{
+    init?(dictionary: [String : Any]) {
         guard let id = dictionary["id"] as? String,
             let testId = dictionary["testId"] as? String,
             let imagePath = dictionary["imagePath"] as? String,
@@ -55,8 +55,8 @@ struct ReadingPartTwoQuestion{
         ]
     }
 }
-extension ReadingPartTwoQuestion: DocumentSerializable {
-    init?(dictionary: [String : Any], path: String) {
+extension ReadingPartTwoQuestion{
+    init?(dictionary: [String : Any]) {
         guard let id = dictionary["id"] as? String,
             let testId = dictionary["testId"] as? String,
             let answerImagePaths = dictionary["answerImagePaths"] as? [String],
@@ -87,8 +87,8 @@ struct ReadingPartThreeQuestion{
     }
 }
 
-extension ReadingPartThreeQuestion: DocumentSerializable {
-    init?(dictionary: [String : Any], path: String) {
+extension ReadingPartThreeQuestion {
+    init?(dictionary: [String : Any]) {
         guard let id = dictionary["id"] as? String,
             let testId = dictionary["testId"] as? String,
             let questionText = dictionary["questionText"] as? String,
