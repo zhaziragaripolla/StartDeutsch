@@ -139,8 +139,7 @@ class BinaryListeningQuestionTableViewCell: UITableViewCell {
         })
     }
 }
-
-fileprivate extension UIButton {
+extension UIButton {
     static func makeForAnswerChoice(title: String) -> UIButton {
         let button = UIButton()
 //        print(title)
@@ -152,8 +151,8 @@ fileprivate extension UIButton {
     }
     
     static func makeForBinaryQuestion(_ state: Bool) -> UIButton {
-        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .systemFont(ofSize: 15)
         button.titleLabel?.textColor = .blue
         if state {

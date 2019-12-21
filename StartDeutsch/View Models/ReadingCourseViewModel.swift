@@ -24,6 +24,7 @@ class ReadingCourseViewModel {
     public var questionsPartOne: [ReadingPartOneQuestion] = []
     public var questionsPartTwo: [ReadingPartTwoQuestion] = []
     public var questionsPartThree: [ReadingPartThreeQuestion] = []
+    public var imageUrls: Dictionary<String, URL> = [:]
     
     // Delegates
     weak var delegate: ReadingCourseViewModelDelegate?
@@ -42,6 +43,31 @@ class ReadingCourseViewModel {
     
     public func getQuestions() {
         fetchFromRemoteDatabase()
+        fetchImages()
+        
+        dispatchGroup.notify(queue: .main, execute: {
+            self.delegate?.didDownloadQuestions()
+        })
+    }
+    
+    private func fetchImages(){
+        
+        for question in questionsPartOne{
+            dispatchGroup.enter()
+            storage.createDownloadUrl(question.imagePath){ url in
+                self.imageUrls[question.imagePath] = url
+                print("saved \(url) to \(question.imagePath)")
+                self.dispatchGroup.leave()
+            }
+        }
+        
+        
+//        for question in questionsPartOne{
+//            storage.createDownloadUrl(question.imagePath){ url in
+//                self.imageUrls[question.imagePath] = url
+//            }
+//        }
+//
     }
     
     private func fetchFromRemoteDatabase(){
@@ -55,6 +81,7 @@ class ReadingCourseViewModel {
                 self.questionsPartOne = response.map({
                     return ReadingPartOneQuestion(dictionary: $0.data())!
                 })
+                print("Part one downloaded")
                 self.dispatchGroup.leave()
                 //                        self.saveToLocalDatabase()
             }
@@ -69,6 +96,7 @@ class ReadingCourseViewModel {
                 self.questionsPartTwo = response.map({
                     return ReadingPartTwoQuestion(dictionary: $0.data())!
                 })
+                print("Part two downloaded")
                 self.dispatchGroup.leave()
                 //                        self.saveToLocalDatabase()
             }
@@ -83,14 +111,13 @@ class ReadingCourseViewModel {
                 self.questionsPartThree = response.map({
                     return ReadingPartThreeQuestion(dictionary: $0.data())!
                 })
+                print("Part three downloaded")
                 self.dispatchGroup.leave()
                 //                        self.saveToLocalDatabase()
             }
         }
         
-        dispatchGroup.notify(queue: .main, execute: {
-            self.delegate?.didDownloadQuestions()
-        })
+
     }
     
 //    private func saveToLocalDatabase(){
