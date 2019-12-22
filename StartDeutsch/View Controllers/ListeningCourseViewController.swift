@@ -33,8 +33,8 @@ class ListeningCourseViewController: UIViewController {
         })
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(BinaryListeningQuestionTableViewCell.self, forCellReuseIdentifier: "binaryQuestion")
-        tableView.register(MultipleChoiceListeningQuestionTableViewCell.self, forCellReuseIdentifier: "multipleQuestion")
+        tableView.register(ListeningQuestionBinaryChoiceTableViewCell.self, forCellReuseIdentifier: "binaryQuestion")
+        tableView.register(ListeningQuestionMultipleChoiceTableViewCell.self, forCellReuseIdentifier: "multipleQuestion")
     }
     
     override func viewDidLoad() {
@@ -91,7 +91,7 @@ extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSou
         let questionViewModel = viewModel.viewModel(for: indexPath.row)
         let userAnswer = userAnswers[indexPath.row]
         if questionViewModel.isMultipleChoice {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "multipleQuestion", for: indexPath) as! MultipleChoiceListeningQuestionTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "multipleQuestion", for: indexPath) as! ListeningQuestionMultipleChoiceTableViewCell
             cell.configure(with: questionViewModel)
             if userAnswer.isAnswered {
                 cell.changeButtonState(userAnswer.value)
@@ -100,7 +100,7 @@ extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSou
             return cell
         }
         else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "binaryQuestion", for: indexPath) as! BinaryListeningQuestionTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "binaryQuestion", for: indexPath) as! ListeningQuestionBinaryChoiceTableViewCell
             cell.configure(with: questionViewModel)
             if userAnswer.isAnswered {
                 cell.changeButtonState(userAnswer.value)

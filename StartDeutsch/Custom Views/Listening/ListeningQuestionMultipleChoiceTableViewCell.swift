@@ -1,5 +1,5 @@
 //
-//  MultipleChoiceListeningQuestionTableViewCell.swift
+//  ListeningQuestionMultipleChoiceTableViewCell.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 11/27/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MultipleChoiceListeningQuestionTableViewCell: UITableViewCell {
+class ListeningQuestionMultipleChoiceTableViewCell: UITableViewCell {
     
     public weak var delegate: ListeningCellDelegate?
     private var firstChoiceButton = UIButton()

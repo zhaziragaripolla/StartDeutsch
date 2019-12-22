@@ -1,5 +1,5 @@
 //
-//  ListeningQuestionTableViewCell.swift
+//  ListeningQuestionBinaryChoiceTableViewCell.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 11/27/19.
@@ -14,7 +14,7 @@ protocol ListeningCellDelegate: class {
     func didSelectAnswer(_ index: Int, _ cell: UITableViewCell)
 }
 
-class BinaryListeningQuestionTableViewCell: UITableViewCell {
+class ListeningQuestionBinaryChoiceTableViewCell: UITableViewCell {
     
     public weak var delegate: ListeningCellDelegate?
     var isPlaying: Bool = false

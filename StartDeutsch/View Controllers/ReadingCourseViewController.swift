@@ -14,6 +14,21 @@ class ReadingCourseViewController: UIViewController {
     private var viewModel: ReadingCourseViewModel!
     private var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
     private let tableView = UITableView()
+
+    private var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(ReadingQuestionPartOneCollectionViewCell.self, forCellWithReuseIdentifier: "partOne")
+        collectionView.register(ReadingQuestionPartTwoCollectionViewCell.self, forCellWithReuseIdentifier: "partTwo")
+        collectionView.register(ReadingQuestionPartThreeCollectionViewCell.self, forCellWithReuseIdentifier: "partThree")
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
     
     init(viewModel: ReadingCourseViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -25,16 +40,13 @@ class ReadingCourseViewController: UIViewController {
     }
     
     fileprivate func setupTableView() {
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints({ make in
+        
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.snp.makeConstraints({ make in
             make.top.bottom.trailing.leading.equalToSuperview()
         })
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.register(ReadingPartOneTableViewCell.self, forCellReuseIdentifier: "partOne")
-        tableView.estimatedRowHeight = 300
-        tableView.rowHeight = UITableView.automaticDimension
     }
     
     override func viewDidLoad() {
@@ -46,26 +58,36 @@ class ReadingCourseViewController: UIViewController {
     }
 }
 
-extension ReadingCourseViewController: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return viewModel.questionsPartOne.count + viewModel.questionsPartTwo.count + viewModel.questionsPartThree.count
-        return viewModel.questionsPartOne.count 
+extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.cellViewModelList.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row{
-        case 0...1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "partOne", for: indexPath) as! ReadingPartOneTableViewCell
-            let questionPartOne = viewModel.questionsPartOne[indexPath.row]
-            let url = viewModel.imageUrls[questionPartOne.imagePath]
-            cell.configure(question: questionPartOne)
-            cell.questionImageView.load(url: URL(string: "https://firebasestorage.googleapis.com/v0/b/startdeutsch-34bdd.appspot.com/o/test1%2Freading%2F1.png?alt=media&token=e5abe96c-7587-4fa2-b5ca-157225d08399")!)
-            return cell
-        default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            return cell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cellViewModel = viewModel.cellViewModelList[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier(for: cellViewModel), for: indexPath)
+        if let cell = cell as? CellConfigurable {
+            cell.configure(with: cellViewModel)
         }
-        
+        return cell
+    }
+    
+    private func cellIdentifier(for viewModel: QuestionCellViewModel)-> String {
+        switch viewModel {
+        case is ReadingPartOneViewModel:
+            return "partOne"
+        case is ReadingPartTwoViewModel:
+            return "partTwo"
+        case is ReadingPartThreeViewModel:
+            return "partThree"
+        default:
+            fatalError("Unexpected view model type: \(viewModel)")
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height)
     }
 }
 
@@ -78,6 +100,7 @@ extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDele
     func didDownloadQuestions() {
         print("Downloaded questions!!")
         tableView.reloadData()
+        collectionView.reloadData()
     }
     
 }
