@@ -7,20 +7,22 @@
 //
 
 import CoreData
+import UIKit
 
 class CoreDataRepository<RepositoryObject>: Repository where RepositoryObject: Entity, RepositoryObject.StoreType: NSManagedObject, RepositoryObject.StoreType.EntityObject == RepositoryObject {
 
-    let persistentContainer = NSPersistentContainer(name: "German")
-
+    var persistentContainer: NSPersistentContainer{
+        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+    }
 
     init() {
-        self.persistentContainer.loadPersistentStores { description, error in
-            if let error = error {
-                print("could not load store \(error.localizedDescription)")
-                return
-            }
-            print("store loaded")
-        }
+//        self.persistentContainer.loadPersistentStores { description, error in
+//            if let error = error {
+//                print("could not load store \(error.localizedDescription)")
+//                return
+//            }
+//            print("store loaded")
+//        }
     }
     
     func getAll(where predicate: NSPredicate?) throws -> [RepositoryObject]{

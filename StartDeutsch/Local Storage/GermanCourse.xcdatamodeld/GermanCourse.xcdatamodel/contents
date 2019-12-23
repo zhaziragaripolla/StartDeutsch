@@ -5,7 +5,6 @@
         <attribute name="documentPath" attributeType="String"/>
         <attribute name="id" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
-        <relationship name="tests" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedTest" inverseName="course" inverseEntity="ManagedTest"/>
     </entity>
     <entity name="ManagedListeningQuestion" representedClassName="ManagedListeningQuestion" syncable="YES">
         <attribute name="answerChoices" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String]?"/>
@@ -14,21 +13,30 @@
         <attribute name="id" attributeType="String"/>
         <attribute name="orderNumber" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="questionText" attributeType="String"/>
-        <attribute name="storedAudioPath" optional="YES" attributeType="String"/>
         <attribute name="testId" attributeType="String"/>
-        <relationship name="test" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedTest" inverseName="questions" inverseEntity="ManagedTest"/>
+    </entity>
+    <entity name="ManagedReadingQuestion" representedClassName="ManagedReadingQuestion" syncable="YES">
+        <attribute name="answerImagePaths" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]?"/>
+        <attribute name="correctAnswers" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Bool]?"/>
+        <attribute name="correctChoiceIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="imagePath" optional="YES" attributeType="String"/>
+        <attribute name="orderNumber" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="questionDescription" optional="YES" attributeType="String"/>
+        <attribute name="questionText" optional="YES" attributeType="String"/>
+        <attribute name="questionTexts" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]?"/>
+        <attribute name="section" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="testId" attributeType="String"/>
     </entity>
     <entity name="ManagedTest" representedClassName="ManagedTest" syncable="YES">
         <attribute name="courseId" attributeType="String"/>
         <attribute name="documentPath" attributeType="String"/>
         <attribute name="id" attributeType="String"/>
-        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedCourse" inverseName="tests" inverseEntity="ManagedCourse"/>
-        <relationship name="questions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedListeningQuestion" inverseName="test" inverseEntity="ManagedListeningQuestion"/>
     </entity>
     <elements>
-        <element name="ManagedCourse" positionX="-10.2109375" positionY="-32.36328125" width="128" height="118"/>
-        <element name="ManagedListeningQuestion" positionX="370.03125" positionY="-97.796875" width="128" height="178"/>
-        <element name="ManagedTest" positionX="181.48828125" positionY="-48.1875" width="128" height="118"/>
+        <element name="ManagedCourse" positionX="-10.2109375" positionY="-32.36328125" width="128" height="103"/>
+        <element name="ManagedListeningQuestion" positionX="370.03125" positionY="-97.796875" width="128" height="148"/>
+        <element name="ManagedReadingQuestion" positionX="216" positionY="18" width="128" height="208"/>
+        <element name="ManagedTest" positionX="181.48828125" positionY="-48.1875" width="128" height="88"/>
     </elements>
 </model>
-

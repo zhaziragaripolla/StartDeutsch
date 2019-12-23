@@ -1,5 +1,5 @@
 //
-//  ManagedTest+CoreDataClass.swift
+//  ManagedReadingQuestion+CoreDataClass.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 12/23/19.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(ManagedTest)
-public class ManagedTest: NSManagedObject {
+@objc(ManagedReadingQuestion)
+public class ManagedReadingQuestion: NSManagedObject {
 
 }

@@ -36,13 +36,6 @@
 		56968CC823857512008F56D9 /* TestListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968CC723857512008F56D9 /* TestListViewModel.swift */; };
 		569F4E5E239921A00054BC65 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4E5D239921A00054BC65 /* Repository.swift */; };
 		569F4E60239C03D90054BC65 /* CoreDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4E5F239C03D90054BC65 /* CoreDataRepository.swift */; };
-		569F4ED1239D223B0054BC65 /* German.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 569F4ECF239D223B0054BC65 /* German.xcdatamodeld */; };
-		569F4EE7239D2D770054BC65 /* ManagedCourse+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4EE1239D2D770054BC65 /* ManagedCourse+CoreDataClass.swift */; };
-		569F4EE8239D2D770054BC65 /* ManagedCourse+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4EE2239D2D770054BC65 /* ManagedCourse+CoreDataProperties.swift */; };
-		569F4EE9239D2D770054BC65 /* ManagedTest+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4EE3239D2D770054BC65 /* ManagedTest+CoreDataClass.swift */; };
-		569F4EEA239D2D770054BC65 /* ManagedTest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4EE4239D2D770054BC65 /* ManagedTest+CoreDataProperties.swift */; };
-		569F4EEB239D2D770054BC65 /* ManagedListeningQuestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4EE5239D2D770054BC65 /* ManagedListeningQuestion+CoreDataClass.swift */; };
-		569F4EEC239D2D770054BC65 /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4EE6239D2D770054BC65 /* ManagedListeningQuestion+CoreDataProperties.swift */; };
 		569F4F3C23AB905F0054BC65 /* ReadingCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F3B23AB905E0054BC65 /* ReadingCourseViewController.swift */; };
 		569F4F3E23AB90810054BC65 /* ReadingCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F3D23AB90810054BC65 /* ReadingCourseViewModel.swift */; };
 		569F4F4023AB910D0054BC65 /* ReadingQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F3F23AB910D0054BC65 /* ReadingQuestion.swift */; };
@@ -53,6 +46,15 @@
 		569F4F4F23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F4E23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift */; };
 		569F4F5223AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F5123AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift */; };
 		56ADF83923AF8363008F62FC /* ReadingCourseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF83823AF8363008F62FC /* ReadingCourseViewModelTests.swift */; };
+		56ADF84823B0BAFB008F62FC /* GermanCourse.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF84623B0BAFB008F62FC /* GermanCourse.xcdatamodeld */; };
+		56ADF85323B0BBF5008F62FC /* ManagedCourse+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF84B23B0BBF5008F62FC /* ManagedCourse+CoreDataClass.swift */; };
+		56ADF85423B0BBF5008F62FC /* ManagedCourse+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF84C23B0BBF5008F62FC /* ManagedCourse+CoreDataProperties.swift */; };
+		56ADF85523B0BBF5008F62FC /* ManagedTest+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF84D23B0BBF5008F62FC /* ManagedTest+CoreDataClass.swift */; };
+		56ADF85623B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF84E23B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift */; };
+		56ADF85723B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF84F23B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataClass.swift */; };
+		56ADF85823B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85023B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift */; };
+		56ADF85B23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85923B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift */; };
+		56ADF85C23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85A23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift */; };
 		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
 		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
 		56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */; };
@@ -108,13 +110,6 @@
 		56968CC723857512008F56D9 /* TestListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestListViewModel.swift; sourceTree = "<group>"; };
 		569F4E5D239921A00054BC65 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		569F4E5F239C03D90054BC65 /* CoreDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepository.swift; sourceTree = "<group>"; };
-		569F4ED0239D223B0054BC65 /* German.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = German.xcdatamodel; sourceTree = "<group>"; };
-		569F4EE1239D2D770054BC65 /* ManagedCourse+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedCourse+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		569F4EE2239D2D770054BC65 /* ManagedCourse+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedCourse+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		569F4EE3239D2D770054BC65 /* ManagedTest+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedTest+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		569F4EE4239D2D770054BC65 /* ManagedTest+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedTest+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		569F4EE5239D2D770054BC65 /* ManagedListeningQuestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedListeningQuestion+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		569F4EE6239D2D770054BC65 /* ManagedListeningQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedListeningQuestion+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		569F4F3B23AB905E0054BC65 /* ReadingCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseViewController.swift; sourceTree = "<group>"; };
 		569F4F3D23AB90810054BC65 /* ReadingCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseViewModel.swift; sourceTree = "<group>"; };
 		569F4F3F23AB910D0054BC65 /* ReadingQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingQuestion.swift; sourceTree = "<group>"; };
@@ -125,6 +120,15 @@
 		569F4F4E23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingQuestionPartThreeCollectionViewCell.swift; sourceTree = "<group>"; };
 		569F4F5123AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingQuestionPartOneCollectionViewCell.swift; sourceTree = "<group>"; };
 		56ADF83823AF8363008F62FC /* ReadingCourseViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseViewModelTests.swift; sourceTree = "<group>"; };
+		56ADF84723B0BAFB008F62FC /* GermanCourse.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GermanCourse.xcdatamodel; sourceTree = "<group>"; };
+		56ADF84B23B0BBF5008F62FC /* ManagedCourse+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedCourse+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF84C23B0BBF5008F62FC /* ManagedCourse+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedCourse+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF84D23B0BBF5008F62FC /* ManagedTest+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedTest+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF84E23B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedTest+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF84F23B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedListeningQuestion+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF85023B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedListeningQuestion+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF85923B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedReadingQuestion+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF85A23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedReadingQuestion+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDatabaseManager.swift; path = "../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/LocalDatabaseManager.swift"; sourceTree = "<group>"; };
@@ -263,14 +267,16 @@
 		5696838423929A68008AF9A4 /* Local Storage */ = {
 			isa = PBXGroup;
 			children = (
-				569F4EE1239D2D770054BC65 /* ManagedCourse+CoreDataClass.swift */,
-				569F4EE2239D2D770054BC65 /* ManagedCourse+CoreDataProperties.swift */,
-				569F4EE3239D2D770054BC65 /* ManagedTest+CoreDataClass.swift */,
-				569F4EE4239D2D770054BC65 /* ManagedTest+CoreDataProperties.swift */,
-				569F4EE5239D2D770054BC65 /* ManagedListeningQuestion+CoreDataClass.swift */,
-				569F4EE6239D2D770054BC65 /* ManagedListeningQuestion+CoreDataProperties.swift */,
+				56ADF85923B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift */,
+				56ADF85A23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift */,
+				56ADF84B23B0BBF5008F62FC /* ManagedCourse+CoreDataClass.swift */,
+				56ADF84C23B0BBF5008F62FC /* ManagedCourse+CoreDataProperties.swift */,
+				56ADF84D23B0BBF5008F62FC /* ManagedTest+CoreDataClass.swift */,
+				56ADF84E23B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift */,
+				56ADF84F23B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataClass.swift */,
+				56ADF85023B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift */,
+				56ADF84623B0BAFB008F62FC /* GermanCourse.xcdatamodeld */,
 				56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */,
-				569F4ECF239D223B0054BC65 /* German.xcdatamodeld */,
 				569F4E5F239C03D90054BC65 /* CoreDataRepository.swift */,
 				569F4E5D239921A00054BC65 /* Repository.swift */,
 				56D7986F239913D800672302 /* Course+Storable.swift */,
@@ -552,18 +558,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56ADF85323B0BBF5008F62FC /* ManagedCourse+CoreDataClass.swift in Sources */,
 				56C776EE2396829400D5C9DE /* Course.swift in Sources */,
 				56D7BAD02382F79A00CECC71 /* CourseListViewController.swift in Sources */,
 				5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */,
 				56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */,
+				56ADF85723B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataClass.swift in Sources */,
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,
+				56ADF85B23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift in Sources */,
 				5696837223927397008AF9A4 /* Coordinator.swift in Sources */,
-				569F4EE9239D2D770054BC65 /* ManagedTest+CoreDataClass.swift in Sources */,
 				569F4F4823AE2D6D0054BC65 /* ReadingQuestionViewModel.swift in Sources */,
 				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,
 				569F4F4423ABC70C0054BC65 /* ReadingCourseCoordinator.swift in Sources */,
 				56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */,
+				56ADF85523B0BBF5008F62FC /* ManagedTest+CoreDataClass.swift in Sources */,
 				569F4F3C23AB905F0054BC65 /* ReadingCourseViewController.swift in Sources */,
 				569F4E5E239921A00054BC65 /* Repository.swift in Sources */,
 				56968CC423854D07008F56D9 /* CourseListViewModel.swift in Sources */,
@@ -573,30 +582,29 @@
 				56968375239273BE008AF9A4 /* AppCoordinator.swift in Sources */,
 				5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */,
 				5696837B23927D6D008AF9A4 /* ListeningCourseCoordinator.swift in Sources */,
+				56ADF85623B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift in Sources */,
 				56C776EC2396827E00D5C9DE /* Test.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
 				569683772392741E008AF9A4 /* TestListCoordinator.swift in Sources */,
 				56113D5B238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift in Sources */,
 				569F4F4023AB910D0054BC65 /* ReadingQuestion.swift in Sources */,
-				569F4EEA239D2D770054BC65 /* ManagedTest+CoreDataProperties.swift in Sources */,
-				569F4EEC239D2D770054BC65 /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */,
 				56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */,
 				569F4F3E23AB90810054BC65 /* ReadingCourseViewModel.swift in Sources */,
 				569F4E60239C03D90054BC65 /* CoreDataRepository.swift in Sources */,
 				56113D4E238A5C2300A7DA6B /* ListeningQuestion.swift in Sources */,
-				569F4EE8239D2D770054BC65 /* ManagedCourse+CoreDataProperties.swift in Sources */,
 				56D79870239913D800672302 /* Course+Storable.swift in Sources */,
+				56ADF85423B0BBF5008F62FC /* ManagedCourse+CoreDataProperties.swift in Sources */,
 				569F4F4F23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift in Sources */,
-				569F4EEB239D2D770054BC65 /* ManagedListeningQuestion+CoreDataClass.swift in Sources */,
-				569F4EE7239D2D770054BC65 /* ManagedCourse+CoreDataClass.swift in Sources */,
+				56ADF85823B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */,
 				5696837D23927FFF008AF9A4 /* CourseListViewControllerDelegate.swift in Sources */,
 				5696838123929A09008AF9A4 /* TestListViewControllerDelegate.swift in Sources */,
 				569F4F4D23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift in Sources */,
 				56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */,
+				56ADF85C23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift in Sources */,
 				5696837923927A99008AF9A4 /* CourseListCoordinator.swift in Sources */,
 				56113D332386C0BA00A7DA6B /* ListeningCourseViewController.swift in Sources */,
 				56113D2F23859BC700A7DA6B /* TestListViewController.swift in Sources */,
-				569F4ED1239D223B0054BC65 /* German.xcdatamodeld in Sources */,
+				56ADF84823B0BAFB008F62FC /* GermanCourse.xcdatamodeld in Sources */,
 				56113D5D238EC69700A7DA6B /* ListeningQuestionMultipleChoiceTableViewCell.swift in Sources */,
 				569F4F5223AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift in Sources */,
 				56113D312386C0AB00A7DA6B /* ListeningViewModel.swift in Sources */,
@@ -866,13 +874,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		569F4ECF239D223B0054BC65 /* German.xcdatamodeld */ = {
+		56ADF84623B0BAFB008F62FC /* GermanCourse.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				569F4ED0239D223B0054BC65 /* German.xcdatamodel */,
+				56ADF84723B0BAFB008F62FC /* GermanCourse.xcdatamodel */,
 			);
-			currentVersion = 569F4ED0239D223B0054BC65 /* German.xcdatamodel */;
-			path = German.xcdatamodeld;
+			currentVersion = 56ADF84723B0BAFB008F62FC /* GermanCourse.xcdatamodel */;
+			path = GermanCourse.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

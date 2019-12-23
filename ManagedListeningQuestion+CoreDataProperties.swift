@@ -2,7 +2,7 @@
 //  ManagedListeningQuestion+CoreDataProperties.swift
 //  StartDeutsch
 //
-//  Created by Zhazira Garipolla on 12/8/19.
+//  Created by Zhazira Garipolla on 12/23/19.
 //  Copyright © 2019 Zhazira Garipolla. All rights reserved.
 //
 //
@@ -23,8 +23,6 @@ extension ManagedListeningQuestion {
     @NSManaged public var id: String
     @NSManaged public var orderNumber: Int16
     @NSManaged public var questionText: String
-//    @NSManaged public var storedAudioPath: String
     @NSManaged public var testId: String
-    @NSManaged public var test: ManagedTest?
 
 }

@@ -35,6 +35,7 @@ extension Storable where Self: NSManagedObject {
     
     static func getOrCreateSingle(with model: EntityObject, from context: NSManagedObjectContext) -> Self {
         let result = single(with: model.id, from: context) ?? insertNew(with: model.dictionary, in: context)
+        print(result.entity)
         return result
     }
     

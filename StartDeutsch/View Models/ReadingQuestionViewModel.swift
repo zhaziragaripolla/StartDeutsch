@@ -8,8 +8,9 @@
 
 import UIKit
 
+
 struct ReadingPartOneViewModel: QuestionCellViewModel{
-    let question: ReadingPartOneQuestion
+    let question: ReadingQuestionEntity
     let url: URL
     
     var imageUrl: URL {
@@ -17,17 +18,17 @@ struct ReadingPartOneViewModel: QuestionCellViewModel{
     }
     
     var texts: [String]{
-        return question.questionTexts
+        return question.questionTexts!
     }
 }
 
 
 struct ReadingPartTwoViewModel: QuestionCellViewModel{
-    let question: ReadingPartTwoQuestion
+    let question: ReadingQuestionEntity
     let urls: [URL]
     
     var questionText: String {
-        return question.questionText
+        return question.questionText!
     }
     
     var imageUrls: [URL]{
@@ -36,15 +37,15 @@ struct ReadingPartTwoViewModel: QuestionCellViewModel{
 }
 
 struct ReadingPartThreeViewModel: QuestionCellViewModel{
-    let question: ReadingPartThreeQuestion
+    let question: ReadingQuestionEntity
     let url: URL
     
     var questionText: String {
-        return question.questionText
+        return question.questionText!
     }
     
     var description: String{
-        return question.description
+        return question.description!
     }
 
     var imageUrl: URL{

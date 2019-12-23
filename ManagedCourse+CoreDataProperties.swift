@@ -2,7 +2,7 @@
 //  ManagedCourse+CoreDataProperties.swift
 //  StartDeutsch
 //
-//  Created by Zhazira Garipolla on 12/8/19.
+//  Created by Zhazira Garipolla on 12/23/19.
 //  Copyright © 2019 Zhazira Garipolla. All rights reserved.
 //
 //
@@ -21,23 +21,5 @@ extension ManagedCourse {
     @NSManaged public var documentPath: String
     @NSManaged public var id: String
     @NSManaged public var title: String
-    @NSManaged public var tests: NSSet?
-
-}
-
-// MARK: Generated accessors for tests
-extension ManagedCourse {
-
-    @objc(addTestsObject:)
-    @NSManaged public func addToTests(_ value: ManagedTest)
-
-    @objc(removeTestsObject:)
-    @NSManaged public func removeFromTests(_ value: ManagedTest)
-
-    @objc(addTests:)
-    @NSManaged public func addToTests(_ values: NSSet)
-
-    @objc(removeTests:)
-    @NSManaged public func removeFromTests(_ values: NSSet)
 
 }

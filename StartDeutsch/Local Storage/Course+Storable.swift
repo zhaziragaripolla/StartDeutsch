@@ -61,3 +61,20 @@ extension ManagedListeningQuestion: Storable {
     }
 }
 
+extension ReadingQuestionEntity: Entity {
+ 
+    public typealias StoreType = ManagedReadingQuestion
+    
+    public func toStorable(in context: NSManagedObjectContext) -> ManagedReadingQuestion{
+        return ManagedReadingQuestion.getOrCreateSingle(with: self, from: context)
+    }
+}
+
+extension ManagedReadingQuestion: Storable {
+    public var model: ReadingQuestionEntity {
+        get {
+            return ReadingQuestionEntity(id: id, testId: testId, imagePath: imagePath ?? "", orderNumber:Int(orderNumber), questionText: questionText, questionTexts: questionTexts, correctAnswers: correctAnswers, answerImagePaths: answerImagePaths, correctChoiceIndex: Int(correctChoiceIndex), description: questionDescription, section: Int(section))
+        }
+    }
+}
+
