@@ -21,9 +21,7 @@ class ReadingCourseViewModel {
 //    private let repository: CoreDataRepository<ListeningQuestion>
     
     // Models
-    public var questionsPartOne: [ReadingPartOneQuestion] = []
-    public var questionsPartTwo: [ReadingPartTwoQuestion] = []
-    public var questionsPartThree: [ReadingPartThreeQuestion] = []
+    var questions: [ReadingQuestion] = []
 //    public var imageUrls = [URL](repeating: URL(string: "https://firebasestorage.googleapis.com/v0/b/startdeutsch-34bdd.appspot.com/o/test1%2Freading%2F1.png?alt=media&token=e5abe96c-7587-4fa2-b5ca-157225d08399")!, count: 15)
 
     public var imageUrls: Dictionary<String, URL> = [:]
@@ -52,22 +50,20 @@ class ReadingCourseViewModel {
     public func getQuestions() {
         fetchFromRemoteDatabase()
 //        fetchImage()
-        
-
-        dispatchGroup.notify(queue: .main, execute: {
-            let viewModelList1 = self.questionsPartOne.map({
-                self.viewModelPartOne(for: $0)
-            })
-            let viewModelList2 = self.questionsPartTwo.map({
-                self.viewModelPartTwo(for: $0)
-            })
-            let viewModelList3 = self.questionsPartThree.map({
-                self.viewModelPartThree(for: $0)
-            })
-            self.cellViewModelList = viewModelList1 + viewModelList2 + viewModelList3
-            
-            self.delegate?.didDownloadQuestions()
-        })
+      
+    }
+    
+    func viewModel(for index: Int)-> QuestionCellViewModel? {
+        if let question = questions[index] as? ReadingPartOneQuestion {
+            return viewModelPartOne(for: question)
+        }
+        else if let question = questions[index] as? ReadingPartTwoQuestion {
+            return viewModelPartTwo(for: question)
+        }
+        else if let question = questions[index] as? ReadingPartThreeQuestion {
+            return viewModelPartThree(for: question)
+        }
+        return nil
     }
     
     public func viewModels(for index: Int)-> QuestionCellViewModel{
@@ -105,57 +101,30 @@ class ReadingCourseViewModel {
 //                self.dispatchGroup.leave()
 //            }
 //        }
-//
     }
     
     private func fetchFromRemoteDatabase(){
-        dispatchGroup.enter()
-        firebaseManager.getDocuments(test.documentPath.appending("/part1")) { result in
+        firebaseManager.getDocuments(test.documentPath.appending("/questions")){ result in
             switch result {
             case .failure(let error):
                 self.errorDelegate?.showError(message: error.localizedDescription)
             case .success(let response):
-                
-                self.questionsPartOne = response.map({
-                    return ReadingPartOneQuestion(dictionary: $0.data())!
+                self.questions = response.map({
+                    let section = $0.data()["section"] as? Int
+                    switch section{
+                    case 1:
+                        return ReadingPartOneQuestion(dictionary: $0.data())!
+                    case 2:
+                        return ReadingPartTwoQuestion(dictionary: $0.data())!
+                    case 3:
+                        return ReadingPartThreeQuestion(dictionary: $0.data())!
+                    default: fatalError("Unexpected reading section: \(String(describing: section))")
+                    }
                 })
-                print("Part one downloaded")
-                self.dispatchGroup.leave()
-                //                        self.saveToLocalDatabase()
+                self.delegate?.didDownloadQuestions()
+                self.questions.sort(by: { $0.orderNumber < $1.orderNumber})
             }
         }
-        dispatchGroup.enter()
-        firebaseManager.getDocuments(test.documentPath.appending("/part2")) { result in
-            switch result {
-            case .failure(let error):
-                self.errorDelegate?.showError(message: error.localizedDescription)
-            case .success(let response):
-                
-                self.questionsPartTwo = response.map({
-                    return ReadingPartTwoQuestion(dictionary: $0.data())!
-                })
-                print("Part two downloaded")
-                self.dispatchGroup.leave()
-                //                        self.saveToLocalDatabase()
-            }
-        }
-        dispatchGroup.enter()
-        firebaseManager.getDocuments(test.documentPath.appending("/part3")) { result in
-            switch result {
-            case .failure(let error):
-                self.errorDelegate?.showError(message: error.localizedDescription)
-            case .success(let response):
-                
-                self.questionsPartThree = response.map({
-                    return ReadingPartThreeQuestion(dictionary: $0.data())!
-                })
-                print("Part three downloaded")
-                self.dispatchGroup.leave()
-                //                        self.saveToLocalDatabase()
-            }
-        }
-        
-
     }
     
 //    private func saveToLocalDatabase(){

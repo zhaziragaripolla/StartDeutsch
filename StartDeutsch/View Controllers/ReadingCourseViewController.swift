@@ -61,14 +61,14 @@ class ReadingCourseViewController: UIViewController {
 extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.cellViewModelList.count
+        return viewModel.questions.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellViewModel = viewModel.cellViewModelList[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier(for: cellViewModel), for: indexPath)
+        let cellViewModel = viewModel.viewModel(for: indexPath.row)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier(for: cellViewModel!), for: indexPath)
         if let cell = cell as? CellConfigurable {
-            cell.configure(with: cellViewModel)
+            cell.configure(with: cellViewModel!)
         }
         return cell
     }
