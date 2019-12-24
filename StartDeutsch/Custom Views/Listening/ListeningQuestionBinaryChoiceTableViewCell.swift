@@ -139,28 +139,4 @@ class ListeningQuestionBinaryChoiceTableViewCell: UITableViewCell {
         })
     }
 }
-extension UIButton {
-    static func makeForAnswerChoice(title: String) -> UIButton {
-        let button = UIButton()
-//        print(title)
-        button.setTitle(title, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = .systemFont(ofSize: 15)
-        button.titleLabel?.textColor = .blue
-        return button
-    }
-    
-    static func makeForBinaryQuestion(_ state: Bool) -> UIButton {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = .systemFont(ofSize: 15)
-        button.titleLabel?.textColor = .blue
-        if state {
-            button.setTitle("Richtig", for: .normal)
-        }
-        else {
-            button.setTitle("Falsch", for: .normal)
-        }
-        return button
-    }
-}
+

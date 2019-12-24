@@ -12,9 +12,26 @@ protocol QuestionCellViewModel {}
 
 protocol CellConfigurable: class {
     func configure(with viewModel: QuestionCellViewModel)
+    var delegate: ReadingQuestionDelegate? { get set }
+}
+
+protocol ReadingQuestionDelegate: class {
+    func didSelectMultipleAnswer(cell: UICollectionViewCell, answers: [Bool?])
+    func didSelectSignleAnswer(cell: UICollectionViewCell, answer: Bool)
 }
 
 class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
+    
+    var answers: [Bool?] = []
+    var buttons: [UIButton] = []
+    
+    // Used for assigning a tag for generated buttons.
+    var indexCounter = 0
+    
+    // There is only 2 type of buttons that user can tap to choose an answer: True or False. We have multiple questions with set of true/false buttons for each. This variable is required for calculating the index of question when user taps a button.
+    var n = 2
+    
+    weak var delegate: ReadingQuestionDelegate?
     
     private var questionLabel: UILabel {
         let label = UILabel()
@@ -24,7 +41,7 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
         label.sizeToFit()
         return label
     }
-    
+   
     private var answerButtonsStackView: UIStackView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,17 +49,34 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
         stackView.alignment = .center
         stackView.spacing = 20
         stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(UIButton.makeForBinaryQuestion(true))
-        stackView.addArrangedSubview(UIButton.makeForBinaryQuestion(false))
+        let b1 = UIButton.makeForBinaryQuestion(true)
+        b1.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        b1.tag = indexCounter
+        indexCounter += 1
+        stackView.addArrangedSubview(b1)
+        let b2 = UIButton.makeForBinaryQuestion(false)
+        b2.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        b2.tag = indexCounter
+        indexCounter += 1
+        stackView.addArrangedSubview(b2)
         return stackView
     }
     
+    @objc func didTapAnswerButton(_ sender: UIButton){
+        print(sender.tag)
+        let indexOfQuestion = sender.tag/n
+        let state = sender.defineAnswerState()
+        answers[indexOfQuestion] = state
+        delegate?.didSelectMultipleAnswer(cell: self, answers: answers)
+    }
+
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         stackView.axis = .vertical
         stackView.alignment = .leading
+        stackView.spacing = 0
         return stackView
     }()
     
@@ -55,6 +89,7 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        indexCounter = 0
         stackView.arrangedSubviews.forEach({
             $0.removeFromSuperview()
         })
@@ -68,14 +103,15 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
             make.top.equalToSuperview().offset(15)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
-            make.height.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.4)
         })
-        
+     
         addSubview(stackView)
         stackView.snp.makeConstraints({ make in
             make.top.equalTo(questionImageView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-20)
+            make.height.equalToSuperview().multipliedBy(0.5)
+            make.bottom.equalToSuperview().inset(50)
         })
     }
     
@@ -92,6 +128,7 @@ extension ReadingQuestionPartOneCollectionViewCell: CellConfigurable{
             label.text = text
             stackView.addArrangedSubview(label)
             stackView.addArrangedSubview(answerButtonsStackView)
+            answers.append(nil)
         }
         questionImageView.load(url: model.imageUrl)
     }

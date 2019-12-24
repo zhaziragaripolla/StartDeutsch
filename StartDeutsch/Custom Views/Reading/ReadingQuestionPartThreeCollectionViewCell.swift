@@ -10,6 +10,8 @@ import UIKit
 
 class ReadingQuestionPartThreeCollectionViewCell: UICollectionViewCell {
     
+    weak var delegate: ReadingQuestionDelegate?
+    
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

@@ -9,10 +9,19 @@
 import UIKit
 import SnapKit
 
+struct ReadingCourseUserAnswer {
+    // Not-nil only for Reading Part One questions
+    var questionIndex: Int?
+    var singleValue: Int?
+    var arrayValue: [Bool]?
+    var isAnswered: Bool = false
+}
+
+
 class ReadingCourseViewController: UIViewController {
 
     private var viewModel: ReadingCourseViewModel!
-    private var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
+    private var userAnswers: Dictionary<Int, Any?> = [:]
     private let tableView = UITableView()
 
     private var collectionView: UICollectionView = {
@@ -68,6 +77,7 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
         let cellViewModel = viewModel.viewModel(for: indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier(for: cellViewModel!), for: indexPath)
         if let cell = cell as? CellConfigurable {
+            cell.delegate = self
             cell.configure(with: cellViewModel!)
         }
         return cell
@@ -103,4 +113,31 @@ extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDele
         collectionView.reloadData()
     }
     
+}
+
+extension ReadingCourseViewController: ReadingQuestionDelegate{
+    func didSelectMultipleAnswer(cell: UICollectionViewCell, answers: [Bool?]) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        userAnswers[indexPath.row] = answers
+        print(userAnswers)
+    }
+    
+    func didSelectSignleAnswer(cell: UICollectionViewCell, answer: Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+    }
+    
+    func didSelectAnswer(cell: UICollectionViewCell, indexOfQuestion: Int?, answer: Bool) {
+        
+       
+        print(userAnswers)
+        if userAnswers.values.count == 2 {
+            viewModel.checkUserAnswers(userAnswers: userAnswers)
+        }
+    }
+}
+
+extension Bool {
+    var intValue: Int {
+        return self ? 1 : 0
+    }
 }

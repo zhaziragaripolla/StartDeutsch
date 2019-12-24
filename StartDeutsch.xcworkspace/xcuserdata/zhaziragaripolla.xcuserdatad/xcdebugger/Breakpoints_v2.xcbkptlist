@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FC2A4028-A9F0-491B-914D-3A8691D3BDC5"
+            uuid = "F042C2AA-9D9B-4323-A51F-3D2FA461407B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StartDeutsch/View Models/ReadingCourseViewModel.swift"
+            filePath = "StartDeutsch/View Controllers/ReadingCourseViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "fetchFromLocalDatabase()"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "didSelectMultipleAnswer(cell:answers:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

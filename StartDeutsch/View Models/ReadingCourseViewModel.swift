@@ -124,13 +124,24 @@ class ReadingCourseViewModel {
         })
     }
     
-//    public func checkUserAnswers(userAnswers: [UserAnswer]){
-//        var count = 0
+    public func checkUserAnswers(userAnswers: Dictionary<Int, Any?>){
+        var count = 0
+        print("checking..")
+//        for index in 0..<questions.count{
+//            let question = questions[index]
+//            let userAnswer = userAnswers[index]
+//            switch question.section {
+//            case 1:
+//                if question.correctAnswers = userAnswer.value
+//            default:
+//                <#code#>
+//            }
+//        }
 //        for index in 0..<questions.count{
 //            if (questions[index].correctChoiceIndex == userAnswers[index].value) {
 //                count += 1
 //            }
 //        }
 //        delegate?.answersChecked(result: count)
-//    }
+    }
 }
