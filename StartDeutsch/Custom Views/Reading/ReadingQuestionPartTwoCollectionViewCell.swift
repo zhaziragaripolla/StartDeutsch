@@ -10,6 +10,9 @@ import UIKit
 
 class ReadingQuestionPartTwoCollectionViewCell: UICollectionViewCell {
     
+    // Used for assigning a tag for generated buttons.
+    var indexCounter = 0
+    
     weak var delegate: ReadingQuestionDelegate?
     
     private let questionLabel: UILabel = {
@@ -28,15 +31,45 @@ class ReadingQuestionPartTwoCollectionViewCell: UICollectionViewCell {
         return imageView
     }
     
-    private var imageListStackView: UIStackView = {
+    var firstImageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tag = 0
+        button.setTitle("First", for: .normal)
+        return button
+    }()
+    
+    var secondImageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tag = 1
+        button.setTitle("Second", for: .normal)
+        return button
+    }()
+    
+    private var answerButtonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
+        stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 20
         stackView.distribution = .fillEqually
         return stackView
     }()
+    
+    private var imageListStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 20
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
+    @objc func didTapAnswerButton(_ sender: UIButton){
+        delegate?.didSelectSignleAnswer(cell: self, answer: sender.tag)
+    }
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -47,20 +80,31 @@ class ReadingQuestionPartTwoCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        firstImageButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        secondImageButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        answerButtonsStackView.addArrangedSubview(firstImageButton)
+        answerButtonsStackView.addArrangedSubview(secondImageButton)
 
-        addSubview(questionLabel)
-        questionLabel.snp.makeConstraints({ make in
-            make.top.equalToSuperview().offset(15)
-            make.trailing.leading.equalToSuperview()
+        contentView.addSubview(imageListStackView)
+        imageListStackView.snp.makeConstraints({ make in
+            make.center.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.3)
+            make.width.equalToSuperview().multipliedBy(0.9)
         })
         
-        addSubview(imageListStackView)
-        imageListStackView.snp.makeConstraints({ make in
-            make.top.equalTo(questionLabel.snp.bottom).offset(10)
-            make.height.equalToSuperview().multipliedBy(0.6)
-            make.width.equalToSuperview().multipliedBy(0.8)
+        contentView.addSubview(questionLabel)
+        questionLabel.snp.makeConstraints({ make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.bottom.equalTo(imageListStackView.snp.top).offset(-10)
+        })
+        
+        contentView.addSubview(answerButtonsStackView)
+        answerButtonsStackView.snp.makeConstraints({ make in
+            make.top.equalTo(imageListStackView.snp.bottom).offset(10)
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.bottom.equalToSuperview().offset(-10)
-            
         })
     }
     

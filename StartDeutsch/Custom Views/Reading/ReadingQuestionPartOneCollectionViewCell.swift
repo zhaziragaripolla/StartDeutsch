@@ -17,7 +17,7 @@ protocol CellConfigurable: class {
 
 protocol ReadingQuestionDelegate: class {
     func didSelectMultipleAnswer(cell: UICollectionViewCell, answers: [Bool?])
-    func didSelectSignleAnswer(cell: UICollectionViewCell, answer: Bool)
+    func didSelectSignleAnswer(cell: UICollectionViewCell, answer: Int)
 }
 
 class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
@@ -49,16 +49,16 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
         stackView.alignment = .center
         stackView.spacing = 20
         stackView.distribution = .fillEqually
-        let b1 = UIButton.makeForBinaryQuestion(true)
-        b1.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
-        b1.tag = indexCounter
+        let trueButton = UIButton.makeForBinaryQuestion(true)
+        trueButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        trueButton.tag = indexCounter
         indexCounter += 1
-        stackView.addArrangedSubview(b1)
-        let b2 = UIButton.makeForBinaryQuestion(false)
-        b2.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
-        b2.tag = indexCounter
+        stackView.addArrangedSubview(trueButton)
+        let falseButton = UIButton.makeForBinaryQuestion(false)
+        falseButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        falseButton.tag = indexCounter
         indexCounter += 1
-        stackView.addArrangedSubview(b2)
+        stackView.addArrangedSubview(falseButton)
         return stackView
     }
     
@@ -90,6 +90,7 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         indexCounter = 0
+        answers.removeAll()
         stackView.arrangedSubviews.forEach({
             $0.removeFromSuperview()
         })

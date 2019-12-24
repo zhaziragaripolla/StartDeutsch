@@ -61,6 +61,7 @@ class ReadingCourseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        view.backgroundColor = .white
         viewModel.delegate = self
         viewModel.errorDelegate = self
         viewModel.getQuestions()
@@ -74,6 +75,7 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print(viewModel.questions[indexPath.row].section)
         let cellViewModel = viewModel.viewModel(for: indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier(for: cellViewModel!), for: indexPath)
         if let cell = cell as? CellConfigurable {
@@ -116,24 +118,25 @@ extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDele
 }
 
 extension ReadingCourseViewController: ReadingQuestionDelegate{
+    // TODO: Refactor
     func didSelectMultipleAnswer(cell: UICollectionViewCell, answers: [Bool?]) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         userAnswers[indexPath.row] = answers
-        print(userAnswers)
-    }
-    
-    func didSelectSignleAnswer(cell: UICollectionViewCell, answer: Bool) {
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
-    }
-    
-    func didSelectAnswer(cell: UICollectionViewCell, indexOfQuestion: Int?, answer: Bool) {
-        
-       
-        print(userAnswers)
-        if userAnswers.values.count == 2 {
+        if userAnswers.values.count == 12 {
             viewModel.checkUserAnswers(userAnswers: userAnswers)
         }
     }
+    
+    func didSelectSignleAnswer(cell: UICollectionViewCell, answer:
+    Int) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        userAnswers[indexPath.row] = answer
+        print(userAnswers)
+        if userAnswers.values.count == 12 {
+            viewModel.checkUserAnswers(userAnswers: userAnswers)
+        }
+    }
+    
 }
 
 extension Bool {

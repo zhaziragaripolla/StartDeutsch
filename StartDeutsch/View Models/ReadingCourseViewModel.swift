@@ -125,23 +125,28 @@ class ReadingCourseViewModel {
     }
     
     public func checkUserAnswers(userAnswers: Dictionary<Int, Any?>){
+        // TODO: Refactor
         var count = 0
         print("checking..")
-//        for index in 0..<questions.count{
-//            let question = questions[index]
-//            let userAnswer = userAnswers[index]
-//            switch question.section {
-//            case 1:
-//                if question.correctAnswers = userAnswer.value
-//            default:
-//                <#code#>
-//            }
-//        }
-//        for index in 0..<questions.count{
-//            if (questions[index].correctChoiceIndex == userAnswers[index].value) {
-//                count += 1
-//            }
-//        }
+        for index in 0..<questions.count{
+            let question = questions[index]
+            switch question.section {
+            case 1:
+                if let answers = userAnswers[index] as? Array<Bool?> {
+                    for i in 0..<answers.count{
+                        if answers[i] == question.correctAnswers?[i] {
+                            count += 1
+                        }
+                    }
+                }
+            default:
+                let answer = userAnswers[index] as? Int
+                if answer == question.correctChoiceIndex {
+                    count += 1
+                }
+            }
+        }
+        print("Result is: \(count)")
 //        delegate?.answersChecked(result: count)
     }
 }

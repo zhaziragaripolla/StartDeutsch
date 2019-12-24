@@ -36,17 +36,39 @@ class ReadingQuestionPartThreeCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let answerButtonsStackView: UIStackView = {
+    private let trueButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = .systemFont(ofSize: 18)
+        button.setTitle("Richtig", for: .normal)
+        button.tag = 1
+        return button
+    }()
+    
+    private let falseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = .systemFont(ofSize: 18)
+        button.setTitle("Falsch", for: .normal)
+        button.tag = 0
+        return button
+    }()
+    
+    private var answerButtonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 20
         stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(UIButton.makeForBinaryQuestion(true))
-        stackView.addArrangedSubview(UIButton.makeForBinaryQuestion(false))
+//        stackView.addArrangedSubview(trueButton)
+//        stackView.addArrangedSubview(falseButton)
         return stackView
     }()
+    
+    @objc func didTapAnswerButton(_ sender: UIButton){
+        delegate?.didSelectSignleAnswer(cell: self, answer: sender.tag)
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -54,30 +76,37 @@ class ReadingQuestionPartThreeCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        trueButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        falseButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
 
-        addSubview(descriptionLabel)
+        answerButtonsStackView.addArrangedSubview(trueButton)
+        answerButtonsStackView.addArrangedSubview(falseButton)
+        contentView.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints({ make in
             make.top.equalToSuperview().offset(15)
-            make.trailing.leading.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
         })
         
-        addSubview(questionImageView)
+        contentView.addSubview(questionImageView)
         questionImageView.snp.makeConstraints({ make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
             make.height.equalToSuperview().multipliedBy(0.4)
             make.width.equalToSuperview().multipliedBy(0.8)
         })
         
-        addSubview(questionLabel)
+        contentView.addSubview(questionLabel)
         questionLabel.snp.makeConstraints({ make in
             make.top.equalTo(questionImageView.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
+            make.height.equalToSuperview().multipliedBy(0.2)
         })
         
-        addSubview(answerButtonsStackView)
+        contentView.addSubview(answerButtonsStackView)
         answerButtonsStackView.snp.makeConstraints({ make in
             make.top.equalTo(questionLabel.snp.bottom).offset(10)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
+            make.bottom.equalToSuperview()
         })
     }
     
