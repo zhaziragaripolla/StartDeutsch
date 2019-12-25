@@ -55,6 +55,11 @@
 		56ADF85823B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85023B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift */; };
 		56ADF85B23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85923B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift */; };
 		56ADF85C23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85A23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift */; };
+		56ADF86223B3DF7A008F62FC /* WritingCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86123B3DF7A008F62FC /* WritingCourseViewController.swift */; };
+		56ADF86423B3DFEA008F62FC /* BlankListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86323B3DFEA008F62FC /* BlankListViewController.swift */; };
+		56ADF86623B3E016008F62FC /* LetterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86523B3E016008F62FC /* LetterListViewController.swift */; };
+		56ADF86823B3E308008F62FC /* BlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86723B3E308008F62FC /* BlankViewController.swift */; };
+		56ADF86A23B3E316008F62FC /* LetterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86923B3E316008F62FC /* LetterViewController.swift */; };
 		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
 		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
 		56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */; };
@@ -129,6 +134,11 @@
 		56ADF85023B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedListeningQuestion+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		56ADF85923B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedReadingQuestion+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		56ADF85A23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedReadingQuestion+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF86123B3DF7A008F62FC /* WritingCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCourseViewController.swift; sourceTree = "<group>"; };
+		56ADF86323B3DFEA008F62FC /* BlankListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankListViewController.swift; sourceTree = "<group>"; };
+		56ADF86523B3E016008F62FC /* LetterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListViewController.swift; sourceTree = "<group>"; };
+		56ADF86723B3E308008F62FC /* BlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankViewController.swift; sourceTree = "<group>"; };
+		56ADF86923B3E316008F62FC /* LetterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewController.swift; sourceTree = "<group>"; };
 		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDatabaseManager.swift; path = "../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/LocalDatabaseManager.swift"; sourceTree = "<group>"; };
@@ -177,6 +187,11 @@
 				5696838223929A14008AF9A4 /* TestList */,
 				56113D322386C0BA00A7DA6B /* ListeningCourseViewController.swift */,
 				569F4F3B23AB905E0054BC65 /* ReadingCourseViewController.swift */,
+				56ADF86123B3DF7A008F62FC /* WritingCourseViewController.swift */,
+				56ADF86323B3DFEA008F62FC /* BlankListViewController.swift */,
+				56ADF86523B3E016008F62FC /* LetterListViewController.swift */,
+				56ADF86723B3E308008F62FC /* BlankViewController.swift */,
+				56ADF86923B3E316008F62FC /* LetterViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -581,12 +596,15 @@
 				56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */,
 				56968375239273BE008AF9A4 /* AppCoordinator.swift in Sources */,
 				5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */,
+				56ADF86423B3DFEA008F62FC /* BlankListViewController.swift in Sources */,
 				5696837B23927D6D008AF9A4 /* ListeningCourseCoordinator.swift in Sources */,
 				56ADF85623B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift in Sources */,
 				56C776EC2396827E00D5C9DE /* Test.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
+				56ADF86223B3DF7A008F62FC /* WritingCourseViewController.swift in Sources */,
 				569683772392741E008AF9A4 /* TestListCoordinator.swift in Sources */,
 				56113D5B238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift in Sources */,
+				56ADF86A23B3E316008F62FC /* LetterViewController.swift in Sources */,
 				569F4F4023AB910D0054BC65 /* ReadingQuestion.swift in Sources */,
 				56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */,
 				569F4F3E23AB90810054BC65 /* ReadingCourseViewModel.swift in Sources */,
@@ -594,12 +612,14 @@
 				56113D4E238A5C2300A7DA6B /* ListeningQuestion.swift in Sources */,
 				56D79870239913D800672302 /* Course+Storable.swift in Sources */,
 				56ADF85423B0BBF5008F62FC /* ManagedCourse+CoreDataProperties.swift in Sources */,
+				56ADF86623B3E016008F62FC /* LetterListViewController.swift in Sources */,
 				569F4F4F23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift in Sources */,
 				56ADF85823B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */,
 				5696837D23927FFF008AF9A4 /* CourseListViewControllerDelegate.swift in Sources */,
 				5696838123929A09008AF9A4 /* TestListViewControllerDelegate.swift in Sources */,
 				569F4F4D23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift in Sources */,
 				56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */,
+				56ADF86823B3E308008F62FC /* BlankViewController.swift in Sources */,
 				56ADF85C23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift in Sources */,
 				5696837923927A99008AF9A4 /* CourseListCoordinator.swift in Sources */,
 				56113D332386C0BA00A7DA6B /* ListeningCourseViewController.swift in Sources */,
