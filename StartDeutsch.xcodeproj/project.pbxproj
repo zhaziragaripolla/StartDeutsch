@@ -60,6 +60,11 @@
 		56ADF86623B3E016008F62FC /* LetterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86523B3E016008F62FC /* LetterListViewController.swift */; };
 		56ADF86823B3E308008F62FC /* BlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86723B3E308008F62FC /* BlankViewController.swift */; };
 		56ADF86A23B3E316008F62FC /* LetterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86923B3E316008F62FC /* LetterViewController.swift */; };
+		56ADF86C23B60E0C008F62FC /* WritingCourseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86B23B60E0B008F62FC /* WritingCourseCoordinator.swift */; };
+		56ADF86E23B61226008F62FC /* BlankListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86D23B61226008F62FC /* BlankListViewModel.swift */; };
+		56ADF87023B61237008F62FC /* LetterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86F23B61237008F62FC /* LetterListViewModel.swift */; };
+		56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */; };
+		56ADF87423B61414008F62FC /* LetterListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87323B61414008F62FC /* LetterListCoordinator.swift */; };
 		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
 		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
 		56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */; };
@@ -139,6 +144,11 @@
 		56ADF86523B3E016008F62FC /* LetterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListViewController.swift; sourceTree = "<group>"; };
 		56ADF86723B3E308008F62FC /* BlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankViewController.swift; sourceTree = "<group>"; };
 		56ADF86923B3E316008F62FC /* LetterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewController.swift; sourceTree = "<group>"; };
+		56ADF86B23B60E0B008F62FC /* WritingCourseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCourseCoordinator.swift; sourceTree = "<group>"; };
+		56ADF86D23B61226008F62FC /* BlankListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankListViewModel.swift; sourceTree = "<group>"; };
+		56ADF86F23B61237008F62FC /* LetterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListViewModel.swift; sourceTree = "<group>"; };
+		56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankListCoordinator.swift; sourceTree = "<group>"; };
+		56ADF87323B61414008F62FC /* LetterListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListCoordinator.swift; sourceTree = "<group>"; };
 		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDatabaseManager.swift; path = "../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/LocalDatabaseManager.swift"; sourceTree = "<group>"; };
@@ -257,6 +267,9 @@
 				569683762392741E008AF9A4 /* TestListCoordinator.swift */,
 				569F4F4323ABC70C0054BC65 /* ReadingCourseCoordinator.swift */,
 				5696837A23927D6D008AF9A4 /* ListeningCourseCoordinator.swift */,
+				56ADF86B23B60E0B008F62FC /* WritingCourseCoordinator.swift */,
+				56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */,
+				56ADF87323B61414008F62FC /* LetterListCoordinator.swift */,
 			);
 			path = Routing;
 			sourceTree = "<group>";
@@ -308,6 +321,8 @@
 				56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */,
 				569F4F3D23AB90810054BC65 /* ReadingCourseViewModel.swift */,
 				569F4F4723AE2D6C0054BC65 /* ReadingQuestionViewModel.swift */,
+				56ADF86D23B61226008F62FC /* BlankListViewModel.swift */,
+				56ADF86F23B61237008F62FC /* LetterListViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -575,6 +590,8 @@
 			files = (
 				56ADF85323B0BBF5008F62FC /* ManagedCourse+CoreDataClass.swift in Sources */,
 				56C776EE2396829400D5C9DE /* Course.swift in Sources */,
+				56ADF87423B61414008F62FC /* LetterListCoordinator.swift in Sources */,
+				56ADF86C23B60E0C008F62FC /* WritingCourseCoordinator.swift in Sources */,
 				56D7BAD02382F79A00CECC71 /* CourseListViewController.swift in Sources */,
 				5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */,
 				56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */,
@@ -582,6 +599,7 @@
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,
 				56ADF85B23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift in Sources */,
+				56ADF86E23B61226008F62FC /* BlankListViewModel.swift in Sources */,
 				5696837223927397008AF9A4 /* Coordinator.swift in Sources */,
 				569F4F4823AE2D6D0054BC65 /* ReadingQuestionViewModel.swift in Sources */,
 				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,
@@ -597,11 +615,13 @@
 				56968375239273BE008AF9A4 /* AppCoordinator.swift in Sources */,
 				5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */,
 				56ADF86423B3DFEA008F62FC /* BlankListViewController.swift in Sources */,
+				56ADF87023B61237008F62FC /* LetterListViewModel.swift in Sources */,
 				5696837B23927D6D008AF9A4 /* ListeningCourseCoordinator.swift in Sources */,
 				56ADF85623B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift in Sources */,
 				56C776EC2396827E00D5C9DE /* Test.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
 				56ADF86223B3DF7A008F62FC /* WritingCourseViewController.swift in Sources */,
+				56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */,
 				569683772392741E008AF9A4 /* TestListCoordinator.swift in Sources */,
 				56113D5B238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift in Sources */,
 				56ADF86A23B3E316008F62FC /* LetterViewController.swift in Sources */,

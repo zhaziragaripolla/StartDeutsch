@@ -9,10 +9,16 @@
 import UIKit
 import SnapKit
 
+protocol WritingCourseViewControllerDelegate: class {
+    func didSelectWritingPartOne()
+    func didSelectWritingPartTwo()
+}
+
 class WritingCourseViewController: UIViewController {
 
     let tableView = UITableView()
     let writingCourseTitles = ["Teil 1", "Teil 2"]
+    weak var delegate: WritingCourseViewControllerDelegate?
     
     fileprivate func setupTableView() {
         view.addSubview(tableView)
@@ -21,12 +27,15 @@ class WritingCourseViewController: UIViewController {
         })
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        title = "Schreiben"
+        navigationController?.navigationBar.prefersLargeTitles = true
         setupTableView()
         tableView.reloadData()
     }
@@ -43,5 +52,18 @@ extension WritingCourseViewController: UITableViewDelegate, UITableViewDataSourc
         cell.textLabel?.text = writingCourseTitles[indexPath.row]
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            delegate?.didSelectWritingPartOne()
+        case 1:
+            delegate?.didSelectWritingPartTwo()
+        default:
+            fatalError("Unsupported part of writing is selected")
+        }
+    }
 
 }
+
+

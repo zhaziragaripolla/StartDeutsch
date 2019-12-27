@@ -78,4 +78,21 @@ class AppDependencyContainer {
     func makeReadingQuestionsViewModel(test: Test)-> ReadingCourseViewModel {
         return ReadingCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<ReadingQuestionEntity>(), test: test)
     }
+    
+    // MARK: - Writing
+    func makeWritingCourseViewController()-> WritingCourseViewController {
+        return WritingCourseViewController()
+    }
+    
+    func makeBlankListViewController()-> BlankListViewController{
+        let viewModel = BlankListViewModel()
+        return BlankListViewController(viewModel: viewModel)
+    }
+    
+    func makeLetterListViewController()-> LetterListViewController {
+        let viewModel = LetterListViewModel()
+        return LetterListViewController(viewModel: viewModel)
+    }
+    
+    
 }
