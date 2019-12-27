@@ -85,7 +85,7 @@ class AppDependencyContainer {
     }
     
     func makeBlankListViewController()-> BlankListViewController{
-        let viewModel = BlankListViewModel()
+        let viewModel = BlankListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager)
         return BlankListViewController(viewModel: viewModel)
     }
     

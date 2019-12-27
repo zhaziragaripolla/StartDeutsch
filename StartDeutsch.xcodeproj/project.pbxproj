@@ -65,6 +65,7 @@
 		56ADF87023B61237008F62FC /* LetterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86F23B61237008F62FC /* LetterListViewModel.swift */; };
 		56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */; };
 		56ADF87423B61414008F62FC /* LetterListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87323B61414008F62FC /* LetterListCoordinator.swift */; };
+		56ADF87623B624D9008F62FC /* Blank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87523B624D8008F62FC /* Blank.swift */; };
 		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
 		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
 		56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */; };
@@ -149,6 +150,7 @@
 		56ADF86F23B61237008F62FC /* LetterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListViewModel.swift; sourceTree = "<group>"; };
 		56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankListCoordinator.swift; sourceTree = "<group>"; };
 		56ADF87323B61414008F62FC /* LetterListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListCoordinator.swift; sourceTree = "<group>"; };
+		56ADF87523B624D8008F62FC /* Blank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blank.swift; sourceTree = "<group>"; };
 		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDatabaseManager.swift; path = "../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/LocalDatabaseManager.swift"; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				56113D52238A848300A7DA6B /* UserAnswer.swift */,
 				56968CC523854D1D008F56D9 /* LocalCollection.swift */,
 				569F4F3F23AB910D0054BC65 /* ReadingQuestion.swift */,
+				56ADF87523B624D8008F62FC /* Blank.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -624,6 +627,7 @@
 				56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */,
 				569683772392741E008AF9A4 /* TestListCoordinator.swift in Sources */,
 				56113D5B238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift in Sources */,
+				56ADF87623B624D9008F62FC /* Blank.swift in Sources */,
 				56ADF86A23B3E316008F62FC /* LetterViewController.swift in Sources */,
 				569F4F4023AB910D0054BC65 /* ReadingQuestion.swift in Sources */,
 				56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */,
