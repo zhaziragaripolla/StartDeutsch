@@ -66,6 +66,8 @@
 		56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */; };
 		56ADF87423B61414008F62FC /* LetterListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87323B61414008F62FC /* LetterListCoordinator.swift */; };
 		56ADF87623B624D9008F62FC /* Blank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87523B624D8008F62FC /* Blank.swift */; };
+		56ADF87823B64992008F62FC /* BlankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87723B64991008F62FC /* BlankViewModel.swift */; };
+		56ADF87A23B67BC3008F62FC /* BlankDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87923B67BC3008F62FC /* BlankDetailCoordinator.swift */; };
 		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
 		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
 		56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */; };
@@ -151,6 +153,8 @@
 		56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankListCoordinator.swift; sourceTree = "<group>"; };
 		56ADF87323B61414008F62FC /* LetterListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListCoordinator.swift; sourceTree = "<group>"; };
 		56ADF87523B624D8008F62FC /* Blank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blank.swift; sourceTree = "<group>"; };
+		56ADF87723B64991008F62FC /* BlankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankViewModel.swift; sourceTree = "<group>"; };
+		56ADF87923B67BC3008F62FC /* BlankDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankDetailCoordinator.swift; sourceTree = "<group>"; };
 		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDatabaseManager.swift; path = "../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/LocalDatabaseManager.swift"; sourceTree = "<group>"; };
@@ -272,6 +276,7 @@
 				5696837A23927D6D008AF9A4 /* ListeningCourseCoordinator.swift */,
 				56ADF86B23B60E0B008F62FC /* WritingCourseCoordinator.swift */,
 				56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */,
+				56ADF87923B67BC3008F62FC /* BlankDetailCoordinator.swift */,
 				56ADF87323B61414008F62FC /* LetterListCoordinator.swift */,
 			);
 			path = Routing;
@@ -325,6 +330,7 @@
 				569F4F3D23AB90810054BC65 /* ReadingCourseViewModel.swift */,
 				569F4F4723AE2D6C0054BC65 /* ReadingQuestionViewModel.swift */,
 				56ADF86D23B61226008F62FC /* BlankListViewModel.swift */,
+				56ADF87723B64991008F62FC /* BlankViewModel.swift */,
 				56ADF86F23B61237008F62FC /* LetterListViewModel.swift */,
 			);
 			path = "View Models";
@@ -618,10 +624,12 @@
 				56968375239273BE008AF9A4 /* AppCoordinator.swift in Sources */,
 				5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */,
 				56ADF86423B3DFEA008F62FC /* BlankListViewController.swift in Sources */,
+				56ADF87A23B67BC3008F62FC /* BlankDetailCoordinator.swift in Sources */,
 				56ADF87023B61237008F62FC /* LetterListViewModel.swift in Sources */,
 				5696837B23927D6D008AF9A4 /* ListeningCourseCoordinator.swift in Sources */,
 				56ADF85623B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift in Sources */,
 				56C776EC2396827E00D5C9DE /* Test.swift in Sources */,
+				56ADF87823B64992008F62FC /* BlankViewModel.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
 				56ADF86223B3DF7A008F62FC /* WritingCourseViewController.swift in Sources */,
 				56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */,

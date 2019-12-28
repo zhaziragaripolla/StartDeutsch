@@ -7,24 +7,75 @@
 //
 
 import UIKit
+import SnapKit
 
 class BlankViewController: UIViewController {
+    
+    private var viewModel: BlankViewModel!
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 34)
+        return label
+    }()
+    
+    private let textLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
+    
+    private let blankImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+
+    init(viewModel: BlankViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupView()
+        
+        titleLabel.text = viewModel.title
+        textLabel.text = viewModel.text
+        blankImageView.load(url: viewModel.url)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupView(){
+        view.backgroundColor = .white
+        
+        view.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints({ make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.1)
+        })
+       
+        view.addSubview(textLabel)
+        textLabel.snp.makeConstraints({ make in
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        })
+        
+        view.addSubview(blankImageView)
+        blankImageView.snp.makeConstraints({ make in
+            make.top.equalTo(textLabel.snp.bottom).offset(15)
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.height.equalToSuperview().multipliedBy(0.5)
+            make.bottom.equalToSuperview()
+        })
     }
-    */
-
+    
 }

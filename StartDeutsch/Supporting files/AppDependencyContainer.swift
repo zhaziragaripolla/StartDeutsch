@@ -94,5 +94,9 @@ class AppDependencyContainer {
         return LetterListViewController(viewModel: viewModel)
     }
     
+    func makeBlankDetailViewController(viewModel: BlankViewModel)-> BlankViewController{
+        return BlankViewController(viewModel: viewModel)
+    }
+    
     
 }

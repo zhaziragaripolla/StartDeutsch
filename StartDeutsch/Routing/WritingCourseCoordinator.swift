@@ -12,6 +12,8 @@ class WritingCourseCoordinator: Coordinator {
     
     private let container: AppDependencyContainer
     private let presenter: UINavigationController
+    private var blankListCoordinator: BlankListCoordinator?
+    private var letterListCoordinator: LetterListCoordinator?
     
     init(presenter: UINavigationController, container: AppDependencyContainer){
         self.container = container
@@ -29,11 +31,13 @@ class WritingCourseCoordinator: Coordinator {
 extension WritingCourseCoordinator: WritingCourseViewControllerDelegate{
     func didSelectWritingPartOne() {
         let coordinator = BlankListCoordinator(presenter: presenter, container: container)
+        self.blankListCoordinator = coordinator
         coordinator.start()
     }
     
     func didSelectWritingPartTwo() {
         let coordinator = LetterListCoordinator(presenter: presenter, container: container)
+        self.letterListCoordinator = coordinator
         coordinator.start()
     }
     

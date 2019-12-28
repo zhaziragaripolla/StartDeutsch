@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol BlankListViewControllerDelegate: class {
+    func didSelectBlank(detailViewModel: BlankViewModel)
+}
+
 class BlankListViewController: UIViewController {
     
     private var viewModel: BlankListViewModel!
     let tableView = UITableView()
+    weak var delegate: BlankListViewControllerDelegate?
     
     fileprivate func setupTableView() {
         view.addSubview(tableView)
@@ -56,6 +61,12 @@ extension BlankListViewController: UITableViewDelegate, UITableViewDataSource{
         let blank = viewModel.blanks[indexPath.row]
         cell.textLabel?.text = blank.title
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let blankViewModel = viewModel.getDetailViewModel(for: indexPath.row)
+        print(delegate)
+        delegate?.didSelectBlank(detailViewModel: blankViewModel)
     }
     
 }
