@@ -8,10 +8,16 @@
 
 import UIKit
 
+protocol LetterListViewControllerDelegate: class {
+    func didSelectLetter(detailViewModel: LetterViewModel)
+}
+
 class LetterListViewController: UIViewController {
     
-    var viewModel: LetterListViewModel!
-
+    private var viewModel: LetterListViewModel!
+    private let tableView = UITableView()
+    weak var delegate: LetterListViewControllerDelegate?
+    
     init(viewModel: LetterListViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
@@ -21,11 +27,53 @@ class LetterListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    fileprivate func setupTableView() {
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints({ make in
+            make.edges.equalToSuperview()
+        })
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableFooterView = UIView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "Teil 2"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        setupTableView()
+        viewModel.delegate = self
+        viewModel.getLetters()
     }
 
 }
+
+
+extension LetterListViewController: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.letters.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let letter = viewModel.letters[indexPath.row]
+        cell.textLabel?.text = letter.title
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let letterViewModel = viewModel.getDetailViewModel(for: indexPath.row)
+        delegate?.didSelectLetter(detailViewModel: letterViewModel)
+    }
+    
+}
+
+extension LetterListViewController: LetterListViewModelDelegate{
+    func didDownloadLetters() {
+        tableView.reloadData()
+    }
+}
+

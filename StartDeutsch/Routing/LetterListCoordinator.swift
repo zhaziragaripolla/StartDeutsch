@@ -12,7 +12,7 @@ class LetterListCoordinator: Coordinator {
     
     private let container: AppDependencyContainer
     private let presenter: UINavigationController
-//    private let blankCoordinator:
+    private var letterDetailCoordinator: LetterDetailCoordinator?
     
     init(presenter: UINavigationController, container: AppDependencyContainer){
         self.container = container
@@ -21,7 +21,17 @@ class LetterListCoordinator: Coordinator {
     
     func start() {
         let vc = container.makeLetterListViewController()
+        vc.delegate = self
         presenter.pushViewController(vc, animated: true)
+    }
+    
+}
+
+extension LetterListCoordinator: LetterListViewControllerDelegate{
+    func didSelectLetter(detailViewModel: LetterViewModel) {
+        let coordinator = LetterDetailCoordinator(presenter: presenter, container: container, viewModel: detailViewModel)
+        self.letterDetailCoordinator = coordinator
+        coordinator.start()
     }
     
 }

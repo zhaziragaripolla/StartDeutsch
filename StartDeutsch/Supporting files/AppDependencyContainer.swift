@@ -90,12 +90,16 @@ class AppDependencyContainer {
     }
     
     func makeLetterListViewController()-> LetterListViewController {
-        let viewModel = LetterListViewModel()
+        let viewModel = LetterListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager)
         return LetterListViewController(viewModel: viewModel)
     }
     
     func makeBlankDetailViewController(viewModel: BlankViewModel)-> BlankViewController{
         return BlankViewController(viewModel: viewModel)
+    }
+    
+    func makeLetterDetailViewController(viewModel: LetterViewModel)-> LetterViewController{
+        return LetterViewController(viewModel: viewModel)
     }
     
     
