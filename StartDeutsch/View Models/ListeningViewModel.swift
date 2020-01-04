@@ -22,7 +22,6 @@ class ListeningViewModel {
     
     // Dependencies
     private let storage: FirebaseStorageManagerProtocol
-    private let localDatabase: LocalDatabaseManagerProtocol
     private let firebaseManager: FirebaseManagerProtocol
     private let test: Test
     private let repository: CoreDataRepository<ListeningQuestion>
@@ -37,9 +36,8 @@ class ListeningViewModel {
     
     private let fileManager = FileManager.default
   
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, test: Test, repository: CoreDataRepository<ListeningQuestion>) {
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, test: Test, repository: CoreDataRepository<ListeningQuestion>) {
         self.firebaseManager = firebaseManager
-        self.localDatabase = localDatabase
         self.test = test
         self.storage = firebaseStorageManager
         self.repository = repository
