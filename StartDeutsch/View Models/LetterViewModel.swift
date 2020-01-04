@@ -9,6 +9,7 @@
 import Foundation
 
 struct LetterViewModel {
+    var title: String
     var task: String
     var points: [String]
     var answerImagePath: URL

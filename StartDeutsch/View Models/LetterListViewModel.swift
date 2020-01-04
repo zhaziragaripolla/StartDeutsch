@@ -47,6 +47,6 @@ class LetterListViewModel{
     
     func getDetailViewModel(for index: Int)-> LetterViewModel{
         let letter = letters[index]
-        return LetterViewModel(task: letter.task, points: letter.points, answerImagePath: URL(string: "https://firebasestorage.googleapis.com/v0/b/startdeutsch-34bdd.appspot.com/o/test1%2Freading%2F1.png?alt=media&token=e5abe96c-7587-4fa2-b5ca-157225d08399")!)
+        return LetterViewModel(title: letter.title, task: letter.task, points: letter.points, answerImagePath: URL(string: "https://firebasestorage.googleapis.com/v0/b/startdeutsch-34bdd.appspot.com/o/test1%2Freading%2F1.png?alt=media&token=e5abe96c-7587-4fa2-b5ca-157225d08399")!)
     }
 }
