@@ -10,17 +10,10 @@ import Foundation
 
 class AppDependencyContainer {
     
-    let sharedLocalDatabaseManager: LocalDatabaseManager
     let sharedFirebaseManager: FirebaseManager
     let sharedFirebaseStorageManager: FirebaseStorageManager
     
     init(){
-        
-        func makeLocalDatabaseManager()-> LocalDatabaseManager {
-            let database = LocalDatabaseManager()
-            database.initalizeStack()
-            return database
-        }
         
         func makeFirebaseManager()-> FirebaseManager {
             return FirebaseManager()
@@ -30,7 +23,6 @@ class AppDependencyContainer {
             return FirebaseStorageManager()
         }
         
-        self.sharedLocalDatabaseManager = makeLocalDatabaseManager()
         self.sharedFirebaseManager = makeFirebaseManager()
         self.sharedFirebaseStorageManager = makeFirebaseStorageManager()
     }
@@ -45,7 +37,7 @@ class AppDependencyContainer {
     
     func makeCoursesViewModel()-> CourseListViewModel {
         let repo = CoreDataRepository<Course>()
-        return CourseListViewModel(localDatabase: sharedLocalDatabaseManager, firebaseManager: sharedFirebaseManager, repository: repo)
+        return CourseListViewModel(firebaseManager: sharedFirebaseManager, repository: repo)
     }
     
     
@@ -56,7 +48,7 @@ class AppDependencyContainer {
     }
     
     func makeTestsViewModel(course: Course)-> TestListViewModel {
-        return TestListViewModel(firebaseManager: sharedFirebaseManager, localDatabase: sharedLocalDatabaseManager, course: course, repository: CoreDataRepository<Test>())
+        return TestListViewModel(firebaseManager: sharedFirebaseManager, course: course, repository: CoreDataRepository<Test>())
     }
     
     // MARK: - Listening
@@ -66,7 +58,7 @@ class AppDependencyContainer {
     }
     
     func makeListeningQuestionsViewModel(test: Test)-> ListeningViewModel {
-        return ListeningViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, localDatabase: sharedLocalDatabaseManager, test: test, repository: CoreDataRepository<ListeningQuestion>())
+        return ListeningViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>())
     }
     
     // MARK: - Reading
@@ -78,4 +70,29 @@ class AppDependencyContainer {
     func makeReadingQuestionsViewModel(test: Test)-> ReadingCourseViewModel {
         return ReadingCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<ReadingQuestionEntity>(), test: test)
     }
+    
+    // MARK: - Writing
+    func makeWritingCourseViewController()-> WritingCourseViewController {
+        return WritingCourseViewController()
+    }
+    
+    func makeBlankListViewController()-> BlankListViewController{
+        let viewModel = BlankListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Blank>())
+        return BlankListViewController(viewModel: viewModel)
+    }
+    
+    func makeLetterListViewController()-> LetterListViewController {
+        let viewModel = LetterListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Letter>())
+        return LetterListViewController(viewModel: viewModel)
+    }
+    
+    func makeBlankDetailViewController(viewModel: BlankViewModel)-> BlankViewController{
+        return BlankViewController(viewModel: viewModel)
+    }
+    
+    func makeLetterDetailViewController(viewModel: LetterViewModel)-> LetterViewController{
+        return LetterViewController(viewModel: viewModel)
+    }
+    
+    
 }

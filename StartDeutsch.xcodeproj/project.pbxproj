@@ -55,10 +55,29 @@
 		56ADF85823B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85023B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift */; };
 		56ADF85B23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85923B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift */; };
 		56ADF85C23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF85A23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift */; };
+		56ADF86223B3DF7A008F62FC /* WritingCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86123B3DF7A008F62FC /* WritingCourseViewController.swift */; };
+		56ADF86423B3DFEA008F62FC /* BlankListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86323B3DFEA008F62FC /* BlankListViewController.swift */; };
+		56ADF86623B3E016008F62FC /* LetterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86523B3E016008F62FC /* LetterListViewController.swift */; };
+		56ADF86823B3E308008F62FC /* BlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86723B3E308008F62FC /* BlankViewController.swift */; };
+		56ADF86A23B3E316008F62FC /* LetterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86923B3E316008F62FC /* LetterViewController.swift */; };
+		56ADF86C23B60E0C008F62FC /* WritingCourseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86B23B60E0B008F62FC /* WritingCourseCoordinator.swift */; };
+		56ADF86E23B61226008F62FC /* BlankListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86D23B61226008F62FC /* BlankListViewModel.swift */; };
+		56ADF87023B61237008F62FC /* LetterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86F23B61237008F62FC /* LetterListViewModel.swift */; };
+		56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */; };
+		56ADF87423B61414008F62FC /* LetterListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87323B61414008F62FC /* LetterListCoordinator.swift */; };
+		56ADF87623B624D9008F62FC /* Blank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87523B624D8008F62FC /* Blank.swift */; };
+		56ADF87823B64992008F62FC /* BlankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87723B64991008F62FC /* BlankViewModel.swift */; };
+		56ADF87A23B67BC3008F62FC /* BlankDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87923B67BC3008F62FC /* BlankDetailCoordinator.swift */; };
+		56ADF87C23B8AEC3008F62FC /* LetterDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87B23B8AEC3008F62FC /* LetterDetailCoordinator.swift */; };
+		56ADF87E23B8B08F008F62FC /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87D23B8B08F008F62FC /* Letter.swift */; };
+		56ADF88023B8B0B5008F62FC /* LetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF87F23B8B0B5008F62FC /* LetterViewModel.swift */; };
+		56ADF88523C0E572008F62FC /* ManagedBlank+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF88123C0E572008F62FC /* ManagedBlank+CoreDataClass.swift */; };
+		56ADF88623C0E572008F62FC /* ManagedBlank+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF88223C0E572008F62FC /* ManagedBlank+CoreDataProperties.swift */; };
+		56ADF88723C0E572008F62FC /* ManagedLetter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF88323C0E572008F62FC /* ManagedLetter+CoreDataClass.swift */; };
+		56ADF88823C0E572008F62FC /* ManagedLetter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF88423C0E572008F62FC /* ManagedLetter+CoreDataProperties.swift */; };
 		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
 		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
-		56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */; };
-		56D79870239913D800672302 /* Course+Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7986F239913D800672302 /* Course+Storable.swift */; };
+		56D79870239913D800672302 /* Models+Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7986F239913D800672302 /* Models+Storable.swift */; };
 		56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACB2382F79A00CECC71 /* AppDelegate.swift */; };
 		56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */; };
 		56D7BAD02382F79A00CECC71 /* CourseListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACF2382F79A00CECC71 /* CourseListViewController.swift */; };
@@ -129,10 +148,30 @@
 		56ADF85023B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedListeningQuestion+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		56ADF85923B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedReadingQuestion+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		56ADF85A23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedReadingQuestion+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF86123B3DF7A008F62FC /* WritingCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCourseViewController.swift; sourceTree = "<group>"; };
+		56ADF86323B3DFEA008F62FC /* BlankListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankListViewController.swift; sourceTree = "<group>"; };
+		56ADF86523B3E016008F62FC /* LetterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListViewController.swift; sourceTree = "<group>"; };
+		56ADF86723B3E308008F62FC /* BlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankViewController.swift; sourceTree = "<group>"; };
+		56ADF86923B3E316008F62FC /* LetterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewController.swift; sourceTree = "<group>"; };
+		56ADF86B23B60E0B008F62FC /* WritingCourseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCourseCoordinator.swift; sourceTree = "<group>"; };
+		56ADF86D23B61226008F62FC /* BlankListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankListViewModel.swift; sourceTree = "<group>"; };
+		56ADF86F23B61237008F62FC /* LetterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListViewModel.swift; sourceTree = "<group>"; };
+		56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankListCoordinator.swift; sourceTree = "<group>"; };
+		56ADF87323B61414008F62FC /* LetterListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListCoordinator.swift; sourceTree = "<group>"; };
+		56ADF87523B624D8008F62FC /* Blank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blank.swift; sourceTree = "<group>"; };
+		56ADF87723B64991008F62FC /* BlankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankViewModel.swift; sourceTree = "<group>"; };
+		56ADF87923B67BC3008F62FC /* BlankDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankDetailCoordinator.swift; sourceTree = "<group>"; };
+		56ADF87B23B8AEC3008F62FC /* LetterDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDetailCoordinator.swift; sourceTree = "<group>"; };
+		56ADF87D23B8B08F008F62FC /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
+		56ADF87F23B8B0B5008F62FC /* LetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewModel.swift; sourceTree = "<group>"; };
+		56ADF88123C0E572008F62FC /* ManagedBlank+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedBlank+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF88223C0E572008F62FC /* ManagedBlank+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedBlank+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF88323C0E572008F62FC /* ManagedLetter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedLetter+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		56ADF88423C0E572008F62FC /* ManagedLetter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedLetter+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDatabaseManager.swift; path = "../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/LocalDatabaseManager.swift"; sourceTree = "<group>"; };
-		56D7986F239913D800672302 /* Course+Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Course+Storable.swift"; sourceTree = "<group>"; };
+		56D7986F239913D800672302 /* Models+Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+Storable.swift"; sourceTree = "<group>"; };
 		56D7BAC82382F79A00CECC71 /* StartDeutsch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StartDeutsch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D7BACB2382F79A00CECC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -177,6 +216,11 @@
 				5696838223929A14008AF9A4 /* TestList */,
 				56113D322386C0BA00A7DA6B /* ListeningCourseViewController.swift */,
 				569F4F3B23AB905E0054BC65 /* ReadingCourseViewController.swift */,
+				56ADF86123B3DF7A008F62FC /* WritingCourseViewController.swift */,
+				56ADF86323B3DFEA008F62FC /* BlankListViewController.swift */,
+				56ADF86523B3E016008F62FC /* LetterListViewController.swift */,
+				56ADF86723B3E308008F62FC /* BlankViewController.swift */,
+				56ADF86923B3E316008F62FC /* LetterViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -209,6 +253,8 @@
 				56113D52238A848300A7DA6B /* UserAnswer.swift */,
 				56968CC523854D1D008F56D9 /* LocalCollection.swift */,
 				569F4F3F23AB910D0054BC65 /* ReadingQuestion.swift */,
+				56ADF87523B624D8008F62FC /* Blank.swift */,
+				56ADF87D23B8B08F008F62FC /* Letter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -242,6 +288,11 @@
 				569683762392741E008AF9A4 /* TestListCoordinator.swift */,
 				569F4F4323ABC70C0054BC65 /* ReadingCourseCoordinator.swift */,
 				5696837A23927D6D008AF9A4 /* ListeningCourseCoordinator.swift */,
+				56ADF86B23B60E0B008F62FC /* WritingCourseCoordinator.swift */,
+				56ADF87123B613FE008F62FC /* BlankListCoordinator.swift */,
+				56ADF87923B67BC3008F62FC /* BlankDetailCoordinator.swift */,
+				56ADF87323B61414008F62FC /* LetterListCoordinator.swift */,
+				56ADF87B23B8AEC3008F62FC /* LetterDetailCoordinator.swift */,
 			);
 			path = Routing;
 			sourceTree = "<group>";
@@ -267,6 +318,10 @@
 		5696838423929A68008AF9A4 /* Local Storage */ = {
 			isa = PBXGroup;
 			children = (
+				56ADF88123C0E572008F62FC /* ManagedBlank+CoreDataClass.swift */,
+				56ADF88223C0E572008F62FC /* ManagedBlank+CoreDataProperties.swift */,
+				56ADF88323C0E572008F62FC /* ManagedLetter+CoreDataClass.swift */,
+				56ADF88423C0E572008F62FC /* ManagedLetter+CoreDataProperties.swift */,
 				56ADF85923B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift */,
 				56ADF85A23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift */,
 				56ADF84B23B0BBF5008F62FC /* ManagedCourse+CoreDataClass.swift */,
@@ -279,7 +334,7 @@
 				56C776F82396C13D00D5C9DE /* LocalDatabaseManager.swift */,
 				569F4E5F239C03D90054BC65 /* CoreDataRepository.swift */,
 				569F4E5D239921A00054BC65 /* Repository.swift */,
-				56D7986F239913D800672302 /* Course+Storable.swift */,
+				56D7986F239913D800672302 /* Models+Storable.swift */,
 			);
 			path = "Local Storage";
 			sourceTree = "<group>";
@@ -293,6 +348,10 @@
 				56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */,
 				569F4F3D23AB90810054BC65 /* ReadingCourseViewModel.swift */,
 				569F4F4723AE2D6C0054BC65 /* ReadingQuestionViewModel.swift */,
+				56ADF86D23B61226008F62FC /* BlankListViewModel.swift */,
+				56ADF87723B64991008F62FC /* BlankViewModel.swift */,
+				56ADF86F23B61237008F62FC /* LetterListViewModel.swift */,
+				56ADF87F23B8B0B5008F62FC /* LetterViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -560,6 +619,8 @@
 			files = (
 				56ADF85323B0BBF5008F62FC /* ManagedCourse+CoreDataClass.swift in Sources */,
 				56C776EE2396829400D5C9DE /* Course.swift in Sources */,
+				56ADF87423B61414008F62FC /* LetterListCoordinator.swift in Sources */,
+				56ADF86C23B60E0C008F62FC /* WritingCourseCoordinator.swift in Sources */,
 				56D7BAD02382F79A00CECC71 /* CourseListViewController.swift in Sources */,
 				5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */,
 				56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */,
@@ -567,39 +628,54 @@
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,
 				56ADF85B23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataClass.swift in Sources */,
+				56ADF86E23B61226008F62FC /* BlankListViewModel.swift in Sources */,
 				5696837223927397008AF9A4 /* Coordinator.swift in Sources */,
 				569F4F4823AE2D6D0054BC65 /* ReadingQuestionViewModel.swift in Sources */,
 				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,
 				569F4F4423ABC70C0054BC65 /* ReadingCourseCoordinator.swift in Sources */,
+				56ADF88023B8B0B5008F62FC /* LetterViewModel.swift in Sources */,
 				56968CC623854D1D008F56D9 /* LocalCollection.swift in Sources */,
 				56ADF85523B0BBF5008F62FC /* ManagedTest+CoreDataClass.swift in Sources */,
 				569F4F3C23AB905F0054BC65 /* ReadingCourseViewController.swift in Sources */,
 				569F4E5E239921A00054BC65 /* Repository.swift in Sources */,
 				56968CC423854D07008F56D9 /* CourseListViewModel.swift in Sources */,
 				569F4F4623AD3FF50054BC65 /* Extensions.swift in Sources */,
+				56ADF88623C0E572008F62FC /* ManagedBlank+CoreDataProperties.swift in Sources */,
 				56968CC823857512008F56D9 /* TestListViewModel.swift in Sources */,
 				56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */,
 				56968375239273BE008AF9A4 /* AppCoordinator.swift in Sources */,
 				5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */,
+				56ADF86423B3DFEA008F62FC /* BlankListViewController.swift in Sources */,
+				56ADF87A23B67BC3008F62FC /* BlankDetailCoordinator.swift in Sources */,
+				56ADF87023B61237008F62FC /* LetterListViewModel.swift in Sources */,
 				5696837B23927D6D008AF9A4 /* ListeningCourseCoordinator.swift in Sources */,
 				56ADF85623B0BBF5008F62FC /* ManagedTest+CoreDataProperties.swift in Sources */,
 				56C776EC2396827E00D5C9DE /* Test.swift in Sources */,
+				56ADF87E23B8B08F008F62FC /* Letter.swift in Sources */,
+				56ADF87823B64992008F62FC /* BlankViewModel.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
+				56ADF86223B3DF7A008F62FC /* WritingCourseViewController.swift in Sources */,
+				56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */,
+				56ADF88823C0E572008F62FC /* ManagedLetter+CoreDataProperties.swift in Sources */,
 				569683772392741E008AF9A4 /* TestListCoordinator.swift in Sources */,
 				56113D5B238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift in Sources */,
+				56ADF87623B624D9008F62FC /* Blank.swift in Sources */,
+				56ADF86A23B3E316008F62FC /* LetterViewController.swift in Sources */,
 				569F4F4023AB910D0054BC65 /* ReadingQuestion.swift in Sources */,
 				56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */,
+				56ADF88523C0E572008F62FC /* ManagedBlank+CoreDataClass.swift in Sources */,
 				569F4F3E23AB90810054BC65 /* ReadingCourseViewModel.swift in Sources */,
 				569F4E60239C03D90054BC65 /* CoreDataRepository.swift in Sources */,
 				56113D4E238A5C2300A7DA6B /* ListeningQuestion.swift in Sources */,
-				56D79870239913D800672302 /* Course+Storable.swift in Sources */,
+				56D79870239913D800672302 /* Models+Storable.swift in Sources */,
 				56ADF85423B0BBF5008F62FC /* ManagedCourse+CoreDataProperties.swift in Sources */,
+				56ADF86623B3E016008F62FC /* LetterListViewController.swift in Sources */,
 				569F4F4F23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift in Sources */,
 				56ADF85823B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */,
 				5696837D23927FFF008AF9A4 /* CourseListViewControllerDelegate.swift in Sources */,
 				5696838123929A09008AF9A4 /* TestListViewControllerDelegate.swift in Sources */,
 				569F4F4D23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift in Sources */,
-				56C776F92396C13D00D5C9DE /* LocalDatabaseManager.swift in Sources */,
+				56ADF86823B3E308008F62FC /* BlankViewController.swift in Sources */,
 				56ADF85C23B0C6D5008F62FC /* ManagedReadingQuestion+CoreDataProperties.swift in Sources */,
 				5696837923927A99008AF9A4 /* CourseListCoordinator.swift in Sources */,
 				56113D332386C0BA00A7DA6B /* ListeningCourseViewController.swift in Sources */,
@@ -608,6 +684,8 @@
 				56113D5D238EC69700A7DA6B /* ListeningQuestionMultipleChoiceTableViewCell.swift in Sources */,
 				569F4F5223AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift in Sources */,
 				56113D312386C0AB00A7DA6B /* ListeningViewModel.swift in Sources */,
+				56ADF87C23B8AEC3008F62FC /* LetterDetailCoordinator.swift in Sources */,
+				56ADF88723C0E572008F62FC /* ManagedLetter+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

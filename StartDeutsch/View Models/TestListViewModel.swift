@@ -18,15 +18,13 @@ class TestListViewModel {
     
     weak var delegate: TestsViewModelDelegate?
     private let firebaseManager: FirebaseManagerProtocol
-    private let localDatabase: LocalDatabaseManagerProtocol
     private let repository: CoreDataRepository<Test>
     
     public var tests: [Test] = []
     private let course: Course
 
-    init(firebaseManager: FirebaseManagerProtocol, localDatabase: LocalDatabaseManagerProtocol, course: Course, repository: CoreDataRepository<Test>) {
+    init(firebaseManager: FirebaseManagerProtocol, course: Course, repository: CoreDataRepository<Test>) {
         self.firebaseManager = firebaseManager
-        self.localDatabase = localDatabase
         self.course = course
         self.repository = repository
     }

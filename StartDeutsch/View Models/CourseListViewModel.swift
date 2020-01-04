@@ -15,13 +15,11 @@ protocol CoursesViewModelDelegate: class {
 class CourseListViewModel {
 
     public var courses: [Course] = []
-    private let localDatabase: LocalDatabaseManagerProtocol
     private let firebaseManager: FirebaseManagerProtocol
     weak var delegate: CoursesViewModelDelegate?
     private let repository: CoreDataRepository<Course>
     
-    init(localDatabase: LocalDatabaseManagerProtocol, firebaseManager: FirebaseManagerProtocol, repository: CoreDataRepository<Course>){
-        self.localDatabase = localDatabase
+    init(firebaseManager: FirebaseManagerProtocol, repository: CoreDataRepository<Course>){
         self.firebaseManager = firebaseManager
         self.repository = repository
     }
