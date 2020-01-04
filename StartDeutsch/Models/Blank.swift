@@ -8,12 +8,22 @@
 
 import Foundation
 
-struct Blank{
-    let id: String
+public struct Blank{
+    public let id: String
     let title: String
     let text: String
     let imagePath: String
     let answerTexts: [String]
+    
+    public var dictionary: [String: Any]{
+        return [
+            "id":id,
+            "title":title,
+            "text":text,
+            "imagePath":imagePath,
+            "answerTexts":answerTexts
+        ]
+    }
 }
 
 extension Blank{

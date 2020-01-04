@@ -8,12 +8,22 @@
 
 import Foundation
 
-struct Letter {
-    let id: String
+public struct Letter {
+    public let id: String
     let title: String
     let task: String
     let points: [String]
     let answerImagePath: String
+    
+    public var dictionary: [String: Any]{
+        return [
+            "id":id,
+            "title":title,
+            "task":task,
+            "points":points,
+            "answerImagePath":answerImagePath
+        ]
+    }
 }
 
 extension Letter{
