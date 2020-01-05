@@ -10,12 +10,14 @@ import Foundation
 
 public struct Card {
     public let id: String
-    let imagePath: String
+    let imageUrl: String
+    let courseId: String
     
     public var dictionary: [String: Any]{
         return [
             "id":id,
-            "imagePath":imagePath
+            "imageUrl":imageUrl,
+            "courseId":courseId
         ]
     }
 }
@@ -23,7 +25,8 @@ public struct Card {
 extension Card{
     init?(dictionary: [String : Any]) {
         guard let id = dictionary["id"] as? String,
-            let imagePath = dictionary["imagePath"] as? String else { return nil}
-        self.init(id: id, imagePath: imagePath)
+            let courseId = dictionary["courseId"] as? String,
+            let imageUrl = dictionary["imageUrl"] as? String else { return nil}
+        self.init(id: id, imageUrl: imageUrl, courseId: courseId)
     }
 }
