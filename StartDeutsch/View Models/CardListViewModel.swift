@@ -19,9 +19,9 @@ class CardListViewModel {
     private let storage: FirebaseStorageManagerProtocol
     weak var delegate: CardListViewModelDelegate?
     
-    init(firebaseManager: FirebaseManagerProtocol, storage: FirebaseStorageManagerProtocol){
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol){
         self.firebaseManager = firebaseManager
-        self.storage = storage
+        self.storage = firebaseStorageManager
         //        self.repository = repository
     }
     
@@ -30,7 +30,7 @@ class CardListViewModel {
     }
     
     private func fetchFromRemoteDatabase(){
-        firebaseManager.getDocuments("/courses/writing/letters"){ result in
+        firebaseManager.getDocuments("/courses/speaking/cards"){ result in
             switch result {
             case .success(let response):
                 self.cards = response.map({

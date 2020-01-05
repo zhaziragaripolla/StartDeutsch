@@ -30,7 +30,7 @@ class WordListViewModel {
     }
     
     private func fetchFromRemoteDatabase(){
-        firebaseManager.getDocuments("/courses/writing/letters"){ result in
+        firebaseManager.getDocuments("/courses/speaking/words"){ result in
             switch result {
             case .success(let response):
                 self.words = response.map({
