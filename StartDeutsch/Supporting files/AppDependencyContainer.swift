@@ -94,5 +94,20 @@ class AppDependencyContainer {
         return LetterViewController(viewModel: viewModel)
     }
     
+    // MARK: - Speaking
+    
+    func makeSpeakingCourseViewController()-> SpeakingCourseViewController {
+          return SpeakingCourseViewController()
+      }
+    
+    func makeWordListViewController()-> WordListViewController{
+        let viewModel = WordListViewModel(firebaseManager: sharedFirebaseManager)
+        return WordListViewController(viewModel: viewModel)
+    }
+    
+    func makeCardListViewController()-> CardListViewController {
+        let viewModel = CardListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager)
+        return CardListViewController(viewModel: viewModel)
+    }
     
 }

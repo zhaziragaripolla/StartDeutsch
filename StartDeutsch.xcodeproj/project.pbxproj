@@ -28,6 +28,9 @@
 		56963E9B23C1C275007ACE1D /* CardListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9A23C1C275007ACE1D /* CardListViewController.swift */; };
 		56963E9D23C1C435007ACE1D /* CardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9C23C1C435007ACE1D /* CardListViewModel.swift */; };
 		56963E9F23C1C44C007ACE1D /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9E23C1C44C007ACE1D /* Card.swift */; };
+		56963EA123C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA023C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift */; };
+		56963EA323C1C595007ACE1D /* WordListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA223C1C595007ACE1D /* WordListCoordinator.swift */; };
+		56963EA523C1F968007ACE1D /* CardListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA423C1F968007ACE1D /* CardListCoordinator.swift */; };
 		56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */; };
 		5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */; };
 		5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836F23912957008AF9A4 /* AppDependencyContainer.swift */; };
@@ -128,6 +131,9 @@
 		56963E9A23C1C275007ACE1D /* CardListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewController.swift; sourceTree = "<group>"; };
 		56963E9C23C1C435007ACE1D /* CardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewModel.swift; sourceTree = "<group>"; };
 		56963E9E23C1C44C007ACE1D /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		56963EA023C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingCourseCoordinator.swift; sourceTree = "<group>"; };
+		56963EA223C1C595007ACE1D /* WordListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListCoordinator.swift; sourceTree = "<group>"; };
+		56963EA423C1F968007ACE1D /* CardListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListCoordinator.swift; sourceTree = "<group>"; };
 		56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 		5696836F23912957008AF9A4 /* AppDependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencyContainer.swift; sourceTree = "<group>"; };
@@ -312,6 +318,9 @@
 				56ADF87923B67BC3008F62FC /* BlankDetailCoordinator.swift */,
 				56ADF87323B61414008F62FC /* LetterListCoordinator.swift */,
 				56ADF87B23B8AEC3008F62FC /* LetterDetailCoordinator.swift */,
+				56963EA023C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift */,
+				56963EA223C1C595007ACE1D /* WordListCoordinator.swift */,
+				56963EA423C1F968007ACE1D /* CardListCoordinator.swift */,
 			);
 			path = Routing;
 			sourceTree = "<group>";
@@ -679,6 +688,7 @@
 				56963E9923C1C219007ACE1D /* Word.swift in Sources */,
 				56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */,
 				56ADF86223B3DF7A008F62FC /* WritingCourseViewController.swift in Sources */,
+				56963EA523C1F968007ACE1D /* CardListCoordinator.swift in Sources */,
 				56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */,
 				56ADF88823C0E572008F62FC /* ManagedLetter+CoreDataProperties.swift in Sources */,
 				569683772392741E008AF9A4 /* TestListCoordinator.swift in Sources */,
@@ -694,11 +704,13 @@
 				56D79870239913D800672302 /* Models+Storable.swift in Sources */,
 				56ADF85423B0BBF5008F62FC /* ManagedCourse+CoreDataProperties.swift in Sources */,
 				56ADF86623B3E016008F62FC /* LetterListViewController.swift in Sources */,
+				56963EA123C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift in Sources */,
 				569F4F4F23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift in Sources */,
 				56ADF85823B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */,
 				5696837D23927FFF008AF9A4 /* CourseListViewControllerDelegate.swift in Sources */,
 				56963E9F23C1C44C007ACE1D /* Card.swift in Sources */,
 				56963E9523C1B982007ACE1D /* WordListViewController.swift in Sources */,
+				56963EA323C1C595007ACE1D /* WordListCoordinator.swift in Sources */,
 				5696838123929A09008AF9A4 /* TestListViewControllerDelegate.swift in Sources */,
 				569F4F4D23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift in Sources */,
 				56ADF86823B3E308008F62FC /* BlankViewController.swift in Sources */,
