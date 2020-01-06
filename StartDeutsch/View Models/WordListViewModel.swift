@@ -13,12 +13,16 @@ protocol WordListViewModelDelegate: class {
 }
 
 class WordListViewModel {
-    public var words: [Word] = []
-    
+    private var words: [Word] = []
+    public var randomWords: [Word] = [] {
+        didSet{
+            delegate?.didDownloadWords()
+        }
+    }
     private let firebaseManager: FirebaseManagerProtocol
 //    private let repository: CoreDataRepository<Word>
     weak var delegate: WordListViewModelDelegate?
-//    weak var errorDelegate: Error
+    weak var errorDelegate: ErrorDelegate?
     
     init(firebaseManager: FirebaseManagerProtocol){
         self.firebaseManager = firebaseManager
@@ -29,6 +33,22 @@ class WordListViewModel {
         fetchFromRemoteDatabase()
     }
     
+    public func reloadWords(){
+        randomWords.removeAll()
+        generateRandomWords()
+    }
+    
+    private func generateRandomWords(){
+        while (randomWords.count<6){
+            guard let word = words.randomElement() else { return }
+            
+            // adding only unique elements
+            if !randomWords.contains(where: { word.id == $0.id}){
+                randomWords.append(word)
+            }
+        }
+    }
+    
     private func fetchFromRemoteDatabase(){
         firebaseManager.getDocuments("/courses/speaking/words"){ result in
             switch result {
@@ -36,11 +56,12 @@ class WordListViewModel {
                 self.words = response.map({
                     return Word(dictionary: $0.data())!
                 })
+                self.generateRandomWords()
                 self.delegate?.didDownloadWords()
 //                self.saveToLocalDatabase()
                 print("fetched from Firebase")
             case .failure(let error):
-                print(error)
+                self.errorDelegate?.showError(message: error.localizedDescription)
             }
         }
     }
