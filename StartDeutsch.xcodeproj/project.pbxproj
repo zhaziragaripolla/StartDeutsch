@@ -31,6 +31,7 @@
 		56963EA123C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA023C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift */; };
 		56963EA323C1C595007ACE1D /* WordListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA223C1C595007ACE1D /* WordListCoordinator.swift */; };
 		56963EA523C1F968007ACE1D /* CardListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA423C1F968007ACE1D /* CardListCoordinator.swift */; };
+		56963EA723C34601007ACE1D /* CardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA623C34601007ACE1D /* CardCollectionViewCell.swift */; };
 		56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */; };
 		5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */; };
 		5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836F23912957008AF9A4 /* AppDependencyContainer.swift */; };
@@ -134,6 +135,7 @@
 		56963EA023C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingCourseCoordinator.swift; sourceTree = "<group>"; };
 		56963EA223C1C595007ACE1D /* WordListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListCoordinator.swift; sourceTree = "<group>"; };
 		56963EA423C1F968007ACE1D /* CardListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListCoordinator.swift; sourceTree = "<group>"; };
+		56963EA623C34601007ACE1D /* CardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardCollectionViewCell.swift; path = "StartDeutsch/View Controllers/CardCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 		5696836F23912957008AF9A4 /* AppDependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencyContainer.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 		56113D372386F60900A7DA6B /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				56963EA623C34601007ACE1D /* CardCollectionViewCell.swift */,
 				569F4F5023AF790C0054BC65 /* Reading */,
 				569F4F4B23AF72320054BC65 /* Listening */,
 				5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */,
@@ -655,6 +658,7 @@
 				5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */,
 				56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */,
 				56ADF85723B0BBF5008F62FC /* ManagedListeningQuestion+CoreDataClass.swift in Sources */,
+				56963EA723C34601007ACE1D /* CardCollectionViewCell.swift in Sources */,
 				56963E9B23C1C275007ACE1D /* CardListViewController.swift in Sources */,
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,

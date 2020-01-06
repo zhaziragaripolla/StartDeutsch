@@ -9,10 +9,28 @@
 import UIKit
 
 class CardListViewController: UIViewController {
+  
+    private var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
     
-    // TODO: change table view to a custom stack view of buttons
-
-    private let tableView = UITableView()
+    fileprivate func setupCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.snp.makeConstraints({ make in
+            make.top.bottom.trailing.leading.equalToSuperview()
+        })
+    }
+    
     private var viewModel: CardListViewModel!
     
     init(viewModel: CardListViewModel) {
@@ -24,44 +42,54 @@ class CardListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setupTableView() {
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints({ make in
-            make.edges.equalToSuperview()
-        })
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tableFooterView = UIView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
-        setupTableView()
+        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
+        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
+        setupCollectionView()
         viewModel.delegate = self
+        viewModel.errorDelegate = self
         viewModel.getCards()
     }
+    
+    @objc private func didTapReloadButton(){
+        viewModel.reloadImages()
+    }
 
 }
-  
-extension CardListViewController: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.cards.count
+
+extension CardListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.storedImageUrls.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let card = viewModel.cards[indexPath.row]
-        cell.textLabel?.text = card.id
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
+        let url = viewModel.storedImageUrls[indexPath.row]
+        cell.cardImageView.image = UIImage(contentsOfFile: url.path)
         return cell
+    }
+ 
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width/2-20, height: view.frame.height/4)
     }
 }
 
-extension CardListViewController: CardListViewModelDelegate {
+
+extension CardListViewController: CardListViewModelDelegate, ErrorDelegate {
     func didDownloadCards() {
-        tableView.reloadData()
+        collectionView.reloadData()
+    }
+    
+    func showError(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
