@@ -50,22 +50,7 @@ class WordCollectionViewCell: UICollectionViewCell {
         label.textColor = .white
         return label
     }()
-    
-    var colorSets = [UIColor]()
-    var currentColorSet: Int = 0
-    
-    func createColorSets() {
-        colorSets.append(UIColor(hexString: "#f8b646"))
-        colorSets.append(UIColor(hexString: "#dd653c"))
-        colorSets.append(UIColor(hexString: "#28ada5"))
-        colorSets.append(UIColor(hexString: "#f7514c"))
-        colorSets.append(UIColor(hexString: "#2bc988"))
-        colorSets.append(UIColor(hexString: "#f0ce41"))
-        colorSets.append(UIColor(hexString: "#476096"))
-        colorSets.append(UIColor(hexString: "#FE6A88"))
-        colorSets.append(UIColor(hexString: "#7C30FE"))
-    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.layer.borderWidth = 1.0
@@ -73,14 +58,8 @@ class WordCollectionViewCell: UICollectionViewCell {
         self.layer.masksToBounds = false
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
-        createColorSets()
-        currentColorSet = Int(arc4random_uniform(UInt32(colorSets.count)))
-        
-        let gradientLayer = CAGradientLayer()
-        let color = colorSets[currentColorSet].withAlphaComponent(0.5)
-        gradientLayer.colors = [UIColor.purple.cgColor, color.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1 )
+    
+        let gradientLayer = GradientLayer()
         self.contentView.layer.addSublayer(gradientLayer)
         gradientLayer.frame = contentView.bounds
 

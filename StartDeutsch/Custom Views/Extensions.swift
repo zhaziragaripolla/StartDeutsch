@@ -33,8 +33,12 @@ extension UIButton {
     static func makeForBinaryQuestion(_ state: Bool) -> UIButton {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = .systemFont(ofSize: 15)
-        button.titleLabel?.textColor = .blue
+//        button.titleLabel?.font = .systemFont(ofSize: 20)
+//        button.titleLabel?.textColor = .blue
+        button.layer.cornerRadius = 10
+        button.layer.backgroundColor = UIColor.white.cgColor
+        button.titleLabel?.textColor = .black
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         if state {
             button.setTitle("Richtig", for: .normal)
         }

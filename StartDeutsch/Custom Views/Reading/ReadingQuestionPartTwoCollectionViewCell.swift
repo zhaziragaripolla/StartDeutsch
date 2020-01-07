@@ -81,6 +81,14 @@ class ReadingQuestionPartTwoCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.layer.borderColor = UIColor.white.cgColor
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+        let gradientLayer = GradientLayer()
+        self.contentView.layer.addSublayer(gradientLayer)
+        gradientLayer.frame = contentView.bounds
+        
         firstImageButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
         secondImageButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
         answerButtonsStackView.addArrangedSubview(firstImageButton)

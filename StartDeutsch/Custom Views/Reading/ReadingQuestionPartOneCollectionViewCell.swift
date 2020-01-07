@@ -37,8 +37,9 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16)
-        label.sizeToFit()
+        label.font = .systemFont(ofSize: 18)
+        label.textColor = .white
+        label.lineBreakMode = .byWordWrapping
         return label
     }
    
@@ -54,11 +55,19 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
         trueButton.tag = indexCounter
         indexCounter += 1
         stackView.addArrangedSubview(trueButton)
+        trueButton.snp.makeConstraints({ make in
+            make.width.equalTo(100)
+            make.height.equalTo(40)
+        })
         let falseButton = UIButton.makeForBinaryQuestion(false)
         falseButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
         falseButton.tag = indexCounter
         indexCounter += 1
         stackView.addArrangedSubview(falseButton)
+        falseButton.snp.makeConstraints({ make in
+            make.width.equalTo(100)
+            make.height.equalTo(40)
+        })
         return stackView
     }
     
@@ -75,7 +84,7 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fillProportionally
         stackView.axis = .vertical
-        stackView.alignment = .leading
+        stackView.alignment = .center
         stackView.spacing = 0
         return stackView
     }()
@@ -95,9 +104,18 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
             $0.removeFromSuperview()
         })
     }
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+//        self.layer.borderWidth = 1.0
+        self.layer.borderColor = UIColor.white.cgColor
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+        let gradientLayer = GradientLayer()
+        self.contentView.layer.addSublayer(gradientLayer)
+        gradientLayer.frame = contentView.bounds
         
         addSubview(questionImageView)
         questionImageView.snp.makeConstraints({ make in
@@ -110,9 +128,10 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
         addSubview(stackView)
         stackView.snp.makeConstraints({ make in
             make.top.equalTo(questionImageView.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.centerX.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.5)
-            make.bottom.equalToSuperview().inset(50)
+            make.bottom.equalToSuperview().inset(20)
         })
     }
     

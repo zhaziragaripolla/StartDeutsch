@@ -33,6 +33,7 @@
 		56963EA523C1F968007ACE1D /* CardListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA423C1F968007ACE1D /* CardListCoordinator.swift */; };
 		56963EA723C34601007ACE1D /* CardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA623C34601007ACE1D /* CardCollectionViewCell.swift */; };
 		56963EA923C382A8007ACE1D /* WordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EA823C382A8007ACE1D /* WordCollectionViewCell.swift */; };
+		56963EAD23C49AEF007ACE1D /* GradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EAC23C49AEF007ACE1D /* GradientLayer.swift */; };
 		56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */; };
 		5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */; };
 		5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696836F23912957008AF9A4 /* AppDependencyContainer.swift */; };
@@ -138,6 +139,7 @@
 		56963EA423C1F968007ACE1D /* CardListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListCoordinator.swift; sourceTree = "<group>"; };
 		56963EA623C34601007ACE1D /* CardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardCollectionViewCell.swift; path = "StartDeutsch/View Controllers/CardCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		56963EA823C382A8007ACE1D /* WordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCollectionViewCell.swift; sourceTree = "<group>"; };
+		56963EAC23C49AEF007ACE1D /* GradientLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLayer.swift; sourceTree = "<group>"; };
 		56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 		5696836F23912957008AF9A4 /* AppDependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencyContainer.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				569F4F4B23AF72320054BC65 /* Listening */,
 				5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */,
 				569F4F4523AD3FF50054BC65 /* Extensions.swift */,
+				56963EAC23C49AEF007ACE1D /* GradientLayer.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				569F4E5E239921A00054BC65 /* Repository.swift in Sources */,
 				56968CC423854D07008F56D9 /* CourseListViewModel.swift in Sources */,
 				569F4F4623AD3FF50054BC65 /* Extensions.swift in Sources */,
+				56963EAD23C49AEF007ACE1D /* GradientLayer.swift in Sources */,
 				56ADF88623C0E572008F62FC /* ManagedBlank+CoreDataProperties.swift in Sources */,
 				56963E9D23C1C435007ACE1D /* CardListViewModel.swift in Sources */,
 				56968CC823857512008F56D9 /* TestListViewModel.swift in Sources */,
