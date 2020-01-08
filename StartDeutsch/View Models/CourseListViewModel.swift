@@ -26,20 +26,20 @@ class CourseListViewModel {
     
     public func getCourses(){
         fetchFromLocalDatabase()
+        if courses.isEmpty{
+            fetchFromRemoteDatabase()
+        }
     }
     
     private func fetchFromLocalDatabase(){
         do {
-            self.courses = try repository.getAll(where: nil)
-            if courses.isEmpty{
-                self.fetchFromRemoteDatabase()
-            }
+            courses = try repository.getAll(where: nil)
+            delegate?.reloadData()
         }
         catch let error {
             print(error)
             fetchFromRemoteDatabase()
         }
-    
     }
     
     private func fetchFromRemoteDatabase(){
@@ -47,9 +47,8 @@ class CourseListViewModel {
             switch result {
             case .success(let response):
                 self.courses = response.map({ return Course(dictionary: $0.data(), path: $0.reference.path)!})
-                print(self.courses)
-                self.delegate?.reloadData()
                 self.saveToLocalDatabase()
+                self.delegate?.reloadData()
             case .failure(let error):
                 print(error)
             }
@@ -57,18 +56,9 @@ class CourseListViewModel {
     }
     
     private func saveToLocalDatabase(){
-        
         courses.forEach({
-//            localDatabase.saveCourse(course: $0)
             repository.insert(item: $0)
-            print("saved")
         })
     }
-    
-    
-//    func save(question: ListeningQuestion){
-//        let collection = Firestore.firestore().collection("/courses/listening/tests/vUscu1si4CBOX63vopgY/questions")
-//        collection.addDocument(data: question.dictionary)
-//    }
-    
+
 }
