@@ -13,9 +13,9 @@ target 'StartDeutsch' do
     pod 'Firebase/Core'
     pod 'Firebase/Firestore'
     pod 'Firebase/Storage'
-    pod "SwiftCSV"
     pod 'FirebaseUI/Storage'
     pod 'SnapKit', '~> 5.0.0'
+    pod 'Firebase/Functions'
     # Optionally, include the Swift extensions if you're using Swift.
     pod 'FirebaseFirestoreSwift'
 
