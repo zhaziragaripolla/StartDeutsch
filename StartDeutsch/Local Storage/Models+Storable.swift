@@ -110,3 +110,36 @@ extension ManagedLetter: Storable {
           }
       }
 }
+
+extension Word: Entity {
+    public typealias StoreType = ManagedWord
+       
+       public func toStorable(in context: NSManagedObjectContext) -> ManagedWord{
+           return ManagedWord.getOrCreateSingle(with: self, from: context)
+       }
+}
+
+extension ManagedWord: Storable {
+    public var model: Word {
+          get {
+            return Word(id:id, courseId: courseId, theme: theme, value: value)
+          }
+      }
+}
+
+
+extension Card: Entity {
+    public typealias StoreType = ManagedCard
+       
+       public func toStorable(in context: NSManagedObjectContext) -> ManagedCard{
+           return ManagedCard.getOrCreateSingle(with: self, from: context)
+       }
+}
+
+extension ManagedCard: Storable {
+    public var model: Card {
+          get {
+            return Card(id:id, imageUrl: imageUrl, courseId: courseId)
+          }
+      }
+}

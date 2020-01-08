@@ -101,12 +101,12 @@ class AppDependencyContainer {
       }
     
     func makeWordListViewController()-> WordListViewController{
-        let viewModel = WordListViewModel(firebaseManager: sharedFirebaseManager)
+        let viewModel = WordListViewModel(firebaseManager: sharedFirebaseManager, repository: CoreDataRepository<Word>())
         return WordListViewController(viewModel: viewModel)
     }
     
     func makeCardListViewController()-> CardListViewController {
-        let viewModel = CardListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager)
+        let viewModel = CardListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Card>())
         return CardListViewController(viewModel: viewModel)
     }
     

@@ -20,17 +20,20 @@ class WordListViewModel {
         }
     }
     private let firebaseManager: FirebaseManagerProtocol
-//    private let repository: CoreDataRepository<Word>
+    private let repository: CoreDataRepository<Word>
     weak var delegate: WordListViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
-    init(firebaseManager: FirebaseManagerProtocol){
+    init(firebaseManager: FirebaseManagerProtocol, repository: CoreDataRepository<Word>){
         self.firebaseManager = firebaseManager
-//        self.repository = repository
+        self.repository = repository
     }
     
     public func getWords(){
-        fetchFromRemoteDatabase()
+        fetchFromLocalDatabase()
+        if words.isEmpty {
+            fetchFromRemoteDatabase()
+        }
     }
     
     public func reloadWords(){
@@ -56,9 +59,8 @@ class WordListViewModel {
                 self.words = response.map({
                     return Word(dictionary: $0.data())!
                 })
-                self.generateRandomWords()
-                self.delegate?.didDownloadWords()
-//                self.saveToLocalDatabase()
+                self.reloadWords()
+                self.saveToLocalDatabase()
                 print("fetched from Firebase")
             case .failure(let error):
                 self.errorDelegate?.showError(message: error.localizedDescription)
@@ -66,28 +68,22 @@ class WordListViewModel {
         }
     }
     
-//    private func saveToLocalDatabase(){
-//        words.forEach({
-//            repository.insert(item: $0)
-//        })
-//    }
+    private func saveToLocalDatabase(){
+        words.forEach({
+            repository.insert(item: $0)
+        })
+    }
     
     
-//    private func fetchFromLocalDatabase(){
-//        do {
-//            letters = try repository.getAll(where: nil)
-//            if letters.isEmpty {
-//                fetchFromRemoteDatabase()
-//            }
-//            else {
-//                print("fetched from Core Data")
-//                delegate?.didDownloadLetters()
-//            }
-//        }
-//        catch let error {
-//            //            errorDelegate?.showError(message: error.localizedDescription)
-//            fetchFromRemoteDatabase()
-//        }
-//    }
+    private func fetchFromLocalDatabase(){
+        do {
+            words = try repository.getAll(where: nil)
+            reloadWords()
+        }
+        catch {
+            //            errorDelegate?.showError(message: error.localizedDescription)
+            fetchFromRemoteDatabase()
+        }
+    }
     
 }

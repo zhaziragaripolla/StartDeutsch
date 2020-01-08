@@ -7,6 +7,11 @@
         <attribute name="text" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
+    <entity name="ManagedCard" representedClassName="ManagedCard" syncable="YES">
+        <attribute name="courseId" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="imageUrl" attributeType="String"/>
+    </entity>
     <entity name="ManagedCourse" representedClassName="ManagedCourse" syncable="YES">
         <attribute name="aliasName" attributeType="String"/>
         <attribute name="documentPath" attributeType="String"/>
@@ -47,6 +52,12 @@
         <attribute name="documentPath" attributeType="String"/>
         <attribute name="id" attributeType="String"/>
     </entity>
+    <entity name="ManagedWord" representedClassName="ManagedWord" syncable="YES">
+        <attribute name="courseId" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="theme" attributeType="String"/>
+        <attribute name="value" attributeType="String"/>
+    </entity>
     <elements>
         <element name="ManagedBlank" positionX="234" positionY="99" width="128" height="118"/>
         <element name="ManagedCourse" positionX="-10.2109375" positionY="-32.36328125" width="128" height="103"/>
@@ -54,5 +65,7 @@
         <element name="ManagedListeningQuestion" positionX="370.03125" positionY="-97.796875" width="128" height="148"/>
         <element name="ManagedReadingQuestion" positionX="216" positionY="18" width="128" height="208"/>
         <element name="ManagedTest" positionX="181.48828125" positionY="-48.1875" width="128" height="88"/>
+        <element name="ManagedWord" positionX="180" positionY="45" width="128" height="103"/>
+        <element name="ManagedCard" positionX="189" positionY="54" width="128" height="88"/>
     </elements>
 </model>

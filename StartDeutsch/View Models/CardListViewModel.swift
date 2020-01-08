@@ -20,20 +20,23 @@ class CardListViewModel {
             delegate?.didDownloadCards()
         }
     }
-    
+    private let repository: CoreDataRepository<Card>
     private let firebaseManager: FirebaseManagerProtocol
     private let storage: FirebaseStorageManagerProtocol
     weak var delegate: CardListViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol){
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<Card>){
         self.firebaseManager = firebaseManager
         self.storage = firebaseStorageManager
-        //        self.repository = repository
+        self.repository = repository
     }
     
     public func getCards(){
-        fetchFromRemoteDatabase()
+        fetchFromLocalDatabase()
+        if cards.isEmpty {
+            fetchFromRemoteDatabase()
+        }
     }
     
     public func reloadImages(){
@@ -50,8 +53,8 @@ class CardListViewModel {
                 self.cards = response.map({
                     return Card(dictionary: $0.data())!
                 })
+                self.saveToLocalDatabase()
                 self.reloadImages()
-//                self.saveToLocalDatabase()
                 print("fetched from Firebase")
             case .failure(let error):
                 self.errorDelegate?.showError(message: error.localizedDescription)
@@ -101,30 +104,23 @@ class CardListViewModel {
         }
     }
     
+    private func saveToLocalDatabase(){
+        cards.forEach({
+            repository.insert(item: $0)
+        })
+    }
     
-    //    private func saveToLocalDatabase(){
-    //        cards.forEach({
-    //            repository.insert(item: $0)
-    //        })
-    //    }
     
-    
-    //    private func fetchFromLocalDatabase(){
-    //        do {
-    //            cards = try repository.getAll(where: nil)
-    //            if cards.isEmpty {
-    //                fetchFromRemoteDatabase()
-    //            }
-    //            else {
-    //                print("fetched from Core Data")
-    //                delegate?.didDownloadCards()
-    //            }
-    //        }
-    //        catch let error {
-    //            //            errorDelegate?.showError(message: error.localizedDescription)
-    //            fetchFromRemoteDatabase()
-    //        }
-    //    }
+    private func fetchFromLocalDatabase(){
+        do {
+            cards = try repository.getAll(where: nil)
+            reloadImages()
+        }
+        catch {
+            //            errorDelegate?.showError(message: error.localizedDescription)
+            fetchFromRemoteDatabase()
+        }
+    }
     
     
 }
