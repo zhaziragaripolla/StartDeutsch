@@ -1,5 +1,5 @@
 //
-//  QuestionsViewModel.swift
+//  ListeningCourseViewModel.swift
 //  StartDeutsch
 //
 //  Created by Zhazira Garipolla on 11/21/19.
@@ -18,7 +18,7 @@ protocol ErrorDelegate: class {
     func showError(message: String)
 }
 
-class ListeningViewModel {
+class ListeningCourseViewModel {
     
     // Dependencies
     private let storage: FirebaseStorageManagerProtocol

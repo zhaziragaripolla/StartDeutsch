@@ -57,8 +57,8 @@ class AppDependencyContainer {
         return ListeningCourseViewController(viewModel: viewModel)
     }
     
-    func makeListeningQuestionsViewModel(test: Test)-> ListeningViewModel {
-        return ListeningViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>())
+    func makeListeningQuestionsViewModel(test: Test)-> ListeningCourseViewModel {
+        return ListeningCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>())
     }
     
     // MARK: - Reading

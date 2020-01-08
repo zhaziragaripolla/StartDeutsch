@@ -12,12 +12,12 @@ import AVFoundation
 
 class ListeningCourseViewController: UIViewController {
     
-    private var viewModel: ListeningViewModel!
+    private var viewModel: ListeningCourseViewModel!
     private var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
     private let tableView = UITableView()
     private var audioPlayer: AVAudioPlayer?
     
-    init(viewModel: ListeningViewModel) {
+    init(viewModel: ListeningCourseViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
     }

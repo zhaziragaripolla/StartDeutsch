@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		56113D2F23859BC700A7DA6B /* TestListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D2E23859BC700A7DA6B /* TestListViewController.swift */; };
-		56113D312386C0AB00A7DA6B /* ListeningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D302386C0AB00A7DA6B /* ListeningViewModel.swift */; };
+		56113D312386C0AB00A7DA6B /* ListeningCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D302386C0AB00A7DA6B /* ListeningCourseViewModel.swift */; };
 		56113D332386C0BA00A7DA6B /* ListeningCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D322386C0BA00A7DA6B /* ListeningCourseViewController.swift */; };
 		56113D4A2388563500A7DA6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56113D482388554100A7DA6B /* GoogleService-Info.plist */; };
 		56113D4C2388717600A7DA6B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 56113D4B2388717500A7DA6B /* .gitignore */; };
 		56113D4E238A5C2300A7DA6B /* ListeningQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D4D238A5C2300A7DA6B /* ListeningQuestion.swift */; };
-		56113D51238A83D600A7DA6B /* ListeningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D50238A83D500A7DA6B /* ListeningViewModelTests.swift */; };
+		56113D51238A83D600A7DA6B /* ListeningCourseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D50238A83D500A7DA6B /* ListeningCourseViewModelTests.swift */; };
 		56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D52238A848300A7DA6B /* UserAnswer.swift */; };
 		56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */; };
 		56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */; };
@@ -117,12 +117,12 @@
 /* Begin PBXFileReference section */
 		1FC6E469F3A00B0CF46E77B0 /* Pods_StartDeutsch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StartDeutsch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56113D2E23859BC700A7DA6B /* TestListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestListViewController.swift; sourceTree = "<group>"; };
-		56113D302386C0AB00A7DA6B /* ListeningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningViewModel.swift; sourceTree = "<group>"; };
+		56113D302386C0AB00A7DA6B /* ListeningCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningCourseViewModel.swift; sourceTree = "<group>"; };
 		56113D322386C0BA00A7DA6B /* ListeningCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningCourseViewController.swift; sourceTree = "<group>"; };
 		56113D482388554100A7DA6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		56113D4B2388717500A7DA6B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		56113D4D238A5C2300A7DA6B /* ListeningQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestion.swift; sourceTree = "<group>"; };
-		56113D50238A83D500A7DA6B /* ListeningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningViewModelTests.swift; sourceTree = "<group>"; };
+		56113D50238A83D500A7DA6B /* ListeningCourseViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningCourseViewModelTests.swift; sourceTree = "<group>"; };
 		56113D52238A848300A7DA6B /* UserAnswer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnswer.swift; sourceTree = "<group>"; };
 		56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRequest.swift; sourceTree = "<group>"; };
@@ -391,7 +391,7 @@
 			children = (
 				56968CC323854D07008F56D9 /* CourseListViewModel.swift */,
 				56968CC723857512008F56D9 /* TestListViewModel.swift */,
-				56113D302386C0AB00A7DA6B /* ListeningViewModel.swift */,
+				56113D302386C0AB00A7DA6B /* ListeningCourseViewModel.swift */,
 				56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */,
 				569F4F3D23AB90810054BC65 /* ReadingCourseViewModel.swift */,
 				569F4F4723AE2D6C0054BC65 /* ReadingQuestionViewModel.swift */,
@@ -467,7 +467,7 @@
 		56D7BAE42382F7A200CECC71 /* StartDeutschTests */ = {
 			isa = PBXGroup;
 			children = (
-				56113D50238A83D500A7DA6B /* ListeningViewModelTests.swift */,
+				56113D50238A83D500A7DA6B /* ListeningCourseViewModelTests.swift */,
 				56ADF83823AF8363008F62FC /* ReadingCourseViewModelTests.swift */,
 				56D7BAE52382F7A200CECC71 /* StartDeutschTests.swift */,
 				56D7BAE72382F7A200CECC71 /* Info.plist */,
@@ -746,7 +746,7 @@
 				56ADF84823B0BAFB008F62FC /* GermanCourse.xcdatamodeld in Sources */,
 				56113D5D238EC69700A7DA6B /* ListeningQuestionMultipleChoiceTableViewCell.swift in Sources */,
 				569F4F5223AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift in Sources */,
-				56113D312386C0AB00A7DA6B /* ListeningViewModel.swift in Sources */,
+				56113D312386C0AB00A7DA6B /* ListeningCourseViewModel.swift in Sources */,
 				56963E9323C1B29A007ACE1D /* SpeakingCourseViewController.swift in Sources */,
 				56ADF87C23B8AEC3008F62FC /* LetterDetailCoordinator.swift in Sources */,
 				56963E9723C1C201007ACE1D /* WordListViewModel.swift in Sources */,
@@ -757,7 +757,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56113D51238A83D600A7DA6B /* ListeningViewModelTests.swift in Sources */,
+				56113D51238A83D600A7DA6B /* ListeningCourseViewModelTests.swift in Sources */,
 				56D7BAE62382F7A200CECC71 /* StartDeutschTests.swift in Sources */,
 				56ADF83923AF8363008F62FC /* ReadingCourseViewModelTests.swift in Sources */,
 			);
