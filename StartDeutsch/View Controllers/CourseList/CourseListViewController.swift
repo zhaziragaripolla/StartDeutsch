@@ -31,7 +31,7 @@ class CourseListViewController: UIViewController {
         })
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(CourseTableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     override func viewDidLoad() {
@@ -53,9 +53,9 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CourseTableViewCell
         let course = viewModel.courses[indexPath.row]
-        cell.textLabel?.text = course.title
+        cell.titleLabel.text = course.title
         return cell
     }
     
@@ -63,6 +63,10 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
         let course = viewModel.courses[indexPath.row]
         delegate?.didSelectCourse(course: course)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return view.frame.height/5
     }
 }
 
