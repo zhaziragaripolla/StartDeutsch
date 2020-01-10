@@ -14,7 +14,11 @@ protocol CoursesViewModelDelegate: class {
 
 class CourseListViewModel {
 
-    public var courses: [Course] = []
+    public var courses: [Course] = [] {
+        didSet{
+            delegate?.reloadData()
+        }
+    }
     private let firebaseManager: FirebaseManagerProtocol
     weak var delegate: CoursesViewModelDelegate?
     private let repository: CoreDataRepository<Course>
@@ -34,7 +38,6 @@ class CourseListViewModel {
     private func fetchFromLocalDatabase(){
         do {
             courses = try repository.getAll(where: nil)
-            delegate?.reloadData()
         }
         catch let error {
             print(error)
@@ -48,7 +51,6 @@ class CourseListViewModel {
             case .success(let response):
                 self.courses = response.map({ return Course(dictionary: $0.data(), path: $0.reference.path)!})
                 self.saveToLocalDatabase()
-                self.delegate?.reloadData()
             case .failure(let error):
                 print(error)
             }
