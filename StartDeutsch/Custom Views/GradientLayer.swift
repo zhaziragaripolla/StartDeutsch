@@ -8,12 +8,11 @@
 
 import UIKit
 
-class GradientLayer: CAGradientLayer {
-    
-    var colorSet = [UIColor]()
-    var currentColorSet: Int = 0
-    
-    func createColorSet() {
+extension UIView {
+    func setRandomGradient(){
+        let gradientLayer = CAGradientLayer()
+        var currentColorSet: Int = 0
+        var colorSet: [UIColor] = []
         colorSet.append(UIColor(hexString: "#f8b646"))
         colorSet.append(UIColor(hexString: "#dd653c"))
         colorSet.append(UIColor(hexString: "#28ada5"))
@@ -23,18 +22,14 @@ class GradientLayer: CAGradientLayer {
         colorSet.append(UIColor(hexString: "#476096"))
         colorSet.append(UIColor(hexString: "#FE6A88"))
         colorSet.append(UIColor(hexString: "#7C30FE"))
-    }
-    
-    override init(){
-        super.init()
-        createColorSet()
         currentColorSet = Int(arc4random_uniform(UInt32(colorSet.count)))
-        self.colors = [UIColor.purple.cgColor, colorSet[currentColorSet].cgColor]
-        self.startPoint = CGPoint(x: 0, y: 0)
-        self.endPoint = CGPoint(x: 1, y: 1 )
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        gradientLayer.colors = [UIColor.purple.cgColor, colorSet[currentColorSet].cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1 )
+        layer.borderColor = UIColor.white.cgColor
+        layer.cornerRadius = 10
+        clipsToBounds = true
+        gradientLayer.frame = bounds
+        layer.insertSublayer(gradientLayer, at: 0)
     }
 }

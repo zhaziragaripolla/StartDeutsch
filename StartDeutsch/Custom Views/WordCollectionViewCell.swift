@@ -50,18 +50,14 @@ class WordCollectionViewCell: UICollectionViewCell {
         label.textColor = .white
         return label
     }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.setRandomGradient()
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.white.cgColor
-        self.layer.masksToBounds = false
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
-    
-        let gradientLayer = GradientLayer()
-        self.contentView.layer.addSublayer(gradientLayer)
-        gradientLayer.frame = contentView.bounds
 
         addSubview(themeLabel)
         themeLabel.snp.makeConstraints({ make in

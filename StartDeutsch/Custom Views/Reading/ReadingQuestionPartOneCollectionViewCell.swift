@@ -108,14 +108,7 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.white.cgColor
-        self.layer.masksToBounds = false
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
-        let gradientLayer = GradientLayer()
-        self.contentView.layer.addSublayer(gradientLayer)
-        gradientLayer.frame = contentView.bounds
+        setRandomGradient()
         
         addSubview(questionImageView)
         questionImageView.snp.makeConstraints({ make in
