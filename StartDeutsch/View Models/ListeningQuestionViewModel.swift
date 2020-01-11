@@ -8,21 +8,26 @@
 
 import Foundation
 
-struct ListeningQuestionViewModel {
+class ListeningQuestionViewModel: QuestionCellViewModel {
+    let orderNumber: Int
+    let question: String
     
-    let listeningQuestion: ListeningQuestion
-    let audioPath: URL?
+    init(question: String, orderNumber: Int){
+        self.question = question
+        self.orderNumber = orderNumber
+    }
+}
+
+class ListeningQuestionMultipleChoiceViewModel: ListeningQuestionViewModel {
+    var answerChoices: [String]
     
-    var question: String {
-        return "\(listeningQuestion.orderNumber.description). \(listeningQuestion.questionText)"
+    init(question: String, orderNumber: Int, answerChoices: [String]){
+        self.answerChoices = answerChoices
+        super.init(question: question, orderNumber: orderNumber)
     }
     
-    var answerChoices: [String] {
-        return listeningQuestion.answerChoices ?? []
-    }
-    
-    var isMultipleChoice: Bool {
-        return listeningQuestion.isMultipleChoice
-    }
-    
+}
+
+class ListeningQuestionBinaryChoiceViewModel: ListeningQuestionViewModel  {
+
 }

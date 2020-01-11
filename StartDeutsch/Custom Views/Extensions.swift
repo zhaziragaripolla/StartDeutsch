@@ -22,29 +22,37 @@ extension UIImageView {
 
 extension UIButton {
     static func makeForAnswerChoice(title: String) -> UIButton {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = .systemFont(ofSize: 15)
-        button.titleLabel?.textColor = .blue
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.cornerRadius = 20
+        button.layer.masksToBounds = true
+        button.layer.backgroundColor = UIColor.white.cgColor
+        let widthConstraint = button.widthAnchor.constraint(equalToConstant: 300.0)
+        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 20.0)
+        NSLayoutConstraint.activate([widthConstraint, heightConstraint])
         return button
     }
     
     static func makeForBinaryQuestion(_ state: Bool) -> UIButton {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.titleLabel?.font = .systemFont(ofSize: 20)
-//        button.titleLabel?.textColor = .blue
-        button.layer.cornerRadius = 10
-        button.layer.backgroundColor = UIColor.white.cgColor
-        button.titleLabel?.textColor = .black
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        if state {
-            button.setTitle("Richtig", for: .normal)
-        }
-        else {
-            button.setTitle("Falsch", for: .normal)
-        }
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.cornerRadius = 20
+        button.layer.masksToBounds = true
+        button.layer.backgroundColor = UIColor.white.cgColor
+        let title = state ? "Richtig" : "Falsch"
+        button.setTitle(title, for: .normal)
+        let tag = state ? 1 : 0
+        button.tag = tag
+        let widthConstraint = button.widthAnchor.constraint(equalToConstant: 200.0)
+        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 20.0)
+        NSLayoutConstraint.activate([widthConstraint, heightConstraint])
         return button
     }
     

@@ -79,7 +79,7 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
         let cellViewModel = viewModel.viewModel(for: indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier(for: cellViewModel!), for: indexPath)
         if let cell = cell as? CellConfigurable {
-            cell.delegate = self
+//            cell.delegate = self
             cell.configure(with: cellViewModel!)
         }
         return cell
@@ -117,7 +117,7 @@ extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDele
     
 }
 
-extension ReadingCourseViewController: ReadingQuestionDelegate{
+extension ReadingCourseViewController: AnswerToReadingQuestionSelectable{
     // TODO: Refactor
     func didSelectMultipleAnswer(cell: UICollectionViewCell, answers: [Bool?]) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
@@ -127,7 +127,7 @@ extension ReadingCourseViewController: ReadingQuestionDelegate{
         }
     }
     
-    func didSelectSignleAnswer(cell: UICollectionViewCell, answer:
+    func didSelectSingleAnswer(cell: UICollectionViewCell, answer:
     Int) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         userAnswers[indexPath.row] = answer

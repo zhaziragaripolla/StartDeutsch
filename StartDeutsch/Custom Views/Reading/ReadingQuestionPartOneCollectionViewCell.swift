@@ -8,16 +8,9 @@
 
 import UIKit
 
-protocol QuestionCellViewModel {}
-
-protocol CellConfigurable: class {
-    func configure(with viewModel: QuestionCellViewModel)
-    var delegate: ReadingQuestionDelegate? { get set }
-}
-
-protocol ReadingQuestionDelegate: class {
+protocol AnswerToReadingQuestionSelectable: class {
     func didSelectMultipleAnswer(cell: UICollectionViewCell, answers: [Bool?])
-    func didSelectSignleAnswer(cell: UICollectionViewCell, answer: Int)
+    func didSelectSingleAnswer(cell: UICollectionViewCell, answer: Int)
 }
 
 class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
@@ -31,7 +24,7 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
     // There is only 2 type of buttons that user can tap to choose an answer: True or False. We have multiple questions with set of true/false buttons for each. This variable is required for calculating the index of question when user taps a button.
     var n = 2
     
-    weak var delegate: ReadingQuestionDelegate?
+    weak var delegate: AnswerToReadingQuestionSelectable?
     
     private var questionLabel: UILabel {
         let label = UILabel()

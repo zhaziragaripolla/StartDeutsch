@@ -10,7 +10,7 @@ import UIKit
 
 class ReadingQuestionPartThreeCollectionViewCell: UICollectionViewCell {
     
-    weak var delegate: ReadingQuestionDelegate?
+    weak var delegate: AnswerToReadingQuestionSelectable?
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
@@ -67,7 +67,7 @@ class ReadingQuestionPartThreeCollectionViewCell: UICollectionViewCell {
     }()
     
     @objc func didTapAnswerButton(_ sender: UIButton){
-        delegate?.didSelectSignleAnswer(cell: self, answer: sender.tag)
+        delegate?.didSelectSingleAnswer(cell: self, answer: sender.tag)
     }
     
     override func prepareForReuse() {
@@ -117,6 +117,11 @@ class ReadingQuestionPartThreeCollectionViewCell: UICollectionViewCell {
 }
 
 extension ReadingQuestionPartThreeCollectionViewCell: CellConfigurable{
+
+    func configure(with userAnswer: Int) {
+        
+    }
+    
     func configure(with viewModel: QuestionCellViewModel) {
         guard let model = viewModel as? ReadingPartThreeViewModel else {return}
         descriptionLabel.text = model.description

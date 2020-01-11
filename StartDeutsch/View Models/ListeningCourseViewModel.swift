@@ -49,10 +49,12 @@ class ListeningCourseViewModel {
         return documentsDirectory
     }
     
-    public func viewModel(for index: Int)-> ListeningQuestionViewModel {
+    public func viewModel(for index: Int)-> QuestionCellViewModel {
         let question = questions[index]
-        let audioPath = storedAudioPaths[index]
-        return ListeningQuestionViewModel(listeningQuestion: question, audioPath: audioPath)
+        if question.isMultipleChoice {
+            return ListeningQuestionMultipleChoiceViewModel(question: question.questionText, orderNumber: question.orderNumber, answerChoices: question.answerChoices ?? [])
+        }
+        return ListeningQuestionBinaryChoiceViewModel(question: question.questionText, orderNumber: question.orderNumber)
     }
     
     public func getQuestions() {
@@ -130,10 +132,10 @@ class ListeningCourseViewModel {
         }
     }
 
-    public func checkUserAnswers(userAnswers: [UserAnswer]){
+    public func checkUserAnswers(answers: [Int?]){
         var count = 0
         for index in 0..<questions.count{
-            if (questions[index].correctChoiceIndex == userAnswers[index].value) {
+            if (questions[index].correctChoiceIndex == answers[index]) {
                 count += 1
             }
         }

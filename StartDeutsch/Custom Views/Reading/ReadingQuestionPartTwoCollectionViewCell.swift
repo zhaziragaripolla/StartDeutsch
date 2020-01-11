@@ -13,7 +13,7 @@ class ReadingQuestionPartTwoCollectionViewCell: UICollectionViewCell {
     // Used for assigning a tag for generated buttons.
     var indexCounter = 0
     
-    weak var delegate: ReadingQuestionDelegate?
+    weak var delegate: AnswerToReadingQuestionSelectable?
     
     private let questionLabel: UILabel = {
         let label = UILabel()
@@ -68,7 +68,7 @@ class ReadingQuestionPartTwoCollectionViewCell: UICollectionViewCell {
     }()
     
     @objc func didTapAnswerButton(_ sender: UIButton){
-        delegate?.didSelectSignleAnswer(cell: self, answer: sender.tag)
+        delegate?.didSelectSingleAnswer(cell: self, answer: sender.tag)
     }
 
     override func prepareForReuse() {
@@ -115,6 +115,11 @@ class ReadingQuestionPartTwoCollectionViewCell: UICollectionViewCell {
 }
 
 extension ReadingQuestionPartTwoCollectionViewCell: CellConfigurable{
+
+    func configure(with userAnswer: Int) {
+        
+    }
+    
     func configure(with viewModel: QuestionCellViewModel) {
         guard let model = viewModel as? ReadingPartTwoViewModel else {return}
         questionLabel.text = model.questionText

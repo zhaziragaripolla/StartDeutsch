@@ -13,9 +13,31 @@ import AVFoundation
 class ListeningCourseViewController: UIViewController {
     
     private var viewModel: ListeningCourseViewModel!
-    private var userAnswers = [UserAnswer](repeating: UserAnswer(), count: 15)
-    private let tableView = UITableView()
     private var audioPlayer: AVAudioPlayer?
+    private var answers = [Int?](repeating: nil, count: 15)
+    
+    private var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 40, right: 10)
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 20
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(ListeningQuestionBinaryChoiceCollectionViewCell.self, forCellWithReuseIdentifier: "cell1")
+        collectionView.register(ListeningQuestionMultipleChoiceCollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
+    
+    fileprivate func setupCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.snp.makeConstraints({ make in
+            make.edges.equalToSuperview()
+        })
+    }
     
     init(viewModel: ListeningCourseViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -25,21 +47,10 @@ class ListeningCourseViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    fileprivate func setupTableView() {
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints({ make in
-            make.top.bottom.trailing.leading.equalToSuperview()
-        })
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(ListeningQuestionBinaryChoiceTableViewCell.self, forCellReuseIdentifier: "binaryQuestion")
-        tableView.register(ListeningQuestionMultipleChoiceTableViewCell.self, forCellReuseIdentifier: "multipleQuestion")
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
+        setupCollectionView()
         viewModel.delegate = self
         viewModel.errorDelegate = self
         viewModel.getQuestions()
@@ -70,7 +81,7 @@ extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelega
     }
     
     func questionsDownloaded() {
-        tableView.reloadData()
+        collectionView.reloadData()
     }
     
     func showError(message: String) {
@@ -82,54 +93,58 @@ extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelega
     
 }
 
-extension ListeningCourseViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension ListeningCourseViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.questions.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let questionViewModel = viewModel.viewModel(for: indexPath.row)
-        let userAnswer = userAnswers[indexPath.row]
-        if questionViewModel.isMultipleChoice {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "multipleQuestion", for: indexPath) as! ListeningQuestionMultipleChoiceTableViewCell
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier(for: questionViewModel), for: indexPath)
+        if let cell = cell as? CellConfigurable {
             cell.configure(with: questionViewModel)
-            if userAnswer.isAnswered {
-                cell.changeButtonState(userAnswer.value)
-            }
-            cell.delegate = self
-            return cell
         }
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "binaryQuestion", for: indexPath) as! ListeningQuestionBinaryChoiceTableViewCell
-            cell.configure(with: questionViewModel)
-            if userAnswer.isAnswered {
-                cell.changeButtonState(userAnswer.value)
-            }
+        if let cell = cell as? ListeningQuestionCollectionViewCell{
             cell.delegate = self
-            return cell
+            if let answer = answers[indexPath.row] {
+                cell.changeButtonState(for: answer)
+            }
         }
-        
+        return cell
+    }
+
+    private func cellIdentifier(for viewModel: QuestionCellViewModel)-> String {
+        switch viewModel {
+        case is ListeningQuestionBinaryChoiceViewModel:
+            return "cell1"
+        case is ListeningQuestionMultipleChoiceViewModel:
+            return "cell2"
+        default:
+            fatalError("Unexpected view model type: \(viewModel)")
+        }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let questionViewModel = viewModel.viewModel(for: indexPath.row)
-        return questionViewModel.isMultipleChoice ? 200 : 120
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width-20, height: view.frame.height-100)
     }
 }
 
 
-extension ListeningCourseViewController: ListeningCellDelegate{
-    func didSelectAnswer(_ index: Int, _ cell: UITableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let userAnswer = UserAnswer(value: index, isAnswered: true)
-        userAnswers[indexPath.row] = userAnswer
-        if !userAnswers.contains(where: { $0.isAnswered == false }) {
-            viewModel.checkUserAnswers(userAnswers: userAnswers)
-        }
-    }
-    
-    func didTapAudioButton(_ cell: UITableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
+extension ListeningCourseViewController: ListeningQuestionDelegate {
+    func didTapAudioButton(_ cell: UICollectionViewCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         viewModel.getAudio(for: indexPath.row)
     }
+    
+    func didSelectAnswer(index: Int, cell: UICollectionViewCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        answers[indexPath.row] = index
+        print(answers)
+        if !answers.contains(where: { $0 == nil }) {
+            viewModel.checkUserAnswers(answers: answers)
+        }
+    }
+
 }

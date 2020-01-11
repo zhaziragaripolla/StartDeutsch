@@ -20,9 +20,9 @@
 		56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */; };
 		56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */; };
 		56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */; };
-		56113D5B238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5A238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift */; };
-		56113D5D238EC69700A7DA6B /* ListeningQuestionMultipleChoiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D5C238EC69700A7DA6B /* ListeningQuestionMultipleChoiceTableViewCell.swift */; };
 		5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */; };
+		56726A0723CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */; };
+		56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */; };
 		56963E9323C1B29A007ACE1D /* SpeakingCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9223C1B29A007ACE1D /* SpeakingCourseViewController.swift */; };
 		56963E9523C1B982007ACE1D /* WordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9423C1B982007ACE1D /* WordListViewController.swift */; };
 		56963E9723C1C201007ACE1D /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9623C1C201007ACE1D /* WordListViewModel.swift */; };
@@ -130,9 +130,9 @@
 		56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRequest.swift; sourceTree = "<group>"; };
 		56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionViewModel.swift; sourceTree = "<group>"; };
-		56113D5A238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionBinaryChoiceTableViewCell.swift; sourceTree = "<group>"; };
-		56113D5C238EC69700A7DA6B /* ListeningQuestionMultipleChoiceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionMultipleChoiceTableViewCell.swift; sourceTree = "<group>"; };
 		5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
+		56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionCollectionViewCell.swift; sourceTree = "<group>"; };
+		56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCellViewModel.swift; sourceTree = "<group>"; };
 		56963E9223C1B29A007ACE1D /* SpeakingCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingCourseViewController.swift; sourceTree = "<group>"; };
 		56963E9423C1B982007ACE1D /* WordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewController.swift; sourceTree = "<group>"; };
 		56963E9623C1C201007ACE1D /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
@@ -285,6 +285,7 @@
 				5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */,
 				569F4F4523AD3FF50054BC65 /* Extensions.swift */,
 				56963EAC23C49AEF007ACE1D /* GradientLayer.swift */,
+				56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -416,6 +417,7 @@
 				56ADF87F23B8B0B5008F62FC /* LetterViewModel.swift */,
 				56963E9623C1C201007ACE1D /* WordListViewModel.swift */,
 				56963E9C23C1C435007ACE1D /* CardListViewModel.swift */,
+				56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -423,8 +425,6 @@
 		569F4F4B23AF72320054BC65 /* Listening */ = {
 			isa = PBXGroup;
 			children = (
-				56113D5A238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift */,
-				56113D5C238EC69700A7DA6B /* ListeningQuestionMultipleChoiceTableViewCell.swift */,
 				5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */,
 			);
 			path = Listening;
@@ -716,6 +716,7 @@
 				56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */,
 				56968375239273BE008AF9A4 /* AppCoordinator.swift in Sources */,
 				56963EA923C382A8007ACE1D /* WordCollectionViewCell.swift in Sources */,
+				56726A0723CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift in Sources */,
 				5696836B238EFFDC008AF9A4 /* LoadingOverlay.swift in Sources */,
 				56ADF86423B3DFEA008F62FC /* BlankListViewController.swift in Sources */,
 				56ADF87A23B67BC3008F62FC /* BlankDetailCoordinator.swift in Sources */,
@@ -730,7 +731,6 @@
 				56963EA523C1F968007ACE1D /* CardListCoordinator.swift in Sources */,
 				56ADF87223B613FE008F62FC /* BlankListCoordinator.swift in Sources */,
 				569683772392741E008AF9A4 /* TestListCoordinator.swift in Sources */,
-				56113D5B238E855B00A7DA6B /* ListeningQuestionBinaryChoiceTableViewCell.swift in Sources */,
 				56ADF87623B624D9008F62FC /* Blank.swift in Sources */,
 				56ADF86A23B3E316008F62FC /* LetterViewController.swift in Sources */,
 				569F4F4023AB910D0054BC65 /* ReadingQuestion.swift in Sources */,
@@ -754,12 +754,12 @@
 				56113D332386C0BA00A7DA6B /* ListeningCourseViewController.swift in Sources */,
 				56113D2F23859BC700A7DA6B /* TestListViewController.swift in Sources */,
 				56ADF84823B0BAFB008F62FC /* GermanCourse.xcdatamodeld in Sources */,
-				56113D5D238EC69700A7DA6B /* ListeningQuestionMultipleChoiceTableViewCell.swift in Sources */,
 				569F4F5223AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift in Sources */,
 				56113D312386C0AB00A7DA6B /* ListeningCourseViewModel.swift in Sources */,
 				56963E9323C1B29A007ACE1D /* SpeakingCourseViewController.swift in Sources */,
 				56ADF87C23B8AEC3008F62FC /* LetterDetailCoordinator.swift in Sources */,
 				56963E9723C1C201007ACE1D /* WordListViewModel.swift in Sources */,
+				56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
