@@ -32,7 +32,7 @@ extension UIButton {
         button.layer.masksToBounds = true
         button.layer.backgroundColor = UIColor.white.cgColor
         let widthConstraint = button.widthAnchor.constraint(equalToConstant: 300.0)
-        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 20.0)
+        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 40.0)
         NSLayoutConstraint.activate([widthConstraint, heightConstraint])
         return button
     }
@@ -50,8 +50,8 @@ extension UIButton {
         button.setTitle(title, for: .normal)
         let tag = state ? 1 : 0
         button.tag = tag
-        let widthConstraint = button.widthAnchor.constraint(equalToConstant: 200.0)
-        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 20.0)
+        let widthConstraint = button.widthAnchor.constraint(equalToConstant: 100.0)
+        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 40.0)
         NSLayoutConstraint.activate([widthConstraint, heightConstraint])
         return button
     }
