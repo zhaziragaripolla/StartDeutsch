@@ -82,6 +82,16 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
 //            cell.delegate = self
             cell.configure(with: cellViewModel!)
         }
+        if let cell = cell as? ReadingQuestionCollectionViewCell{
+             cell.delegate = self
+             
+         }
+        if let cell = cell as? ReadingQuestionPartOneCollectionViewCell{
+//            cell.delegate = self
+            if let answer = userAnswers[indexPath.row] as? [Bool?] {
+                cell.setUserAnswer(answer)
+            }
+        }
         return cell
     }
     
@@ -140,7 +150,7 @@ extension ReadingCourseViewController: AnswerToReadingQuestionSelectable{
 }
 
 extension Bool {
-    var intValue: Int {
+    var toInt: Int {
         return self ? 1 : 0
     }
 }

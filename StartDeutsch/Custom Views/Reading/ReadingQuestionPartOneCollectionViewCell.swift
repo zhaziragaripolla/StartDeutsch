@@ -13,10 +13,82 @@ protocol AnswerToReadingQuestionSelectable: class {
     func didSelectSingleAnswer(cell: UICollectionViewCell, answer: Int)
 }
 
-class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
+class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable {
+    func configure(with viewModel: QuestionCellViewModel) {
+//        orderNumberLabel.text = "\(viewModel.orderNumber)/15"
+    }
+    var buttons: [UIButton] = []
+    weak var delegate: AnswerToReadingQuestionSelectable?
+    
+    let orderNumberLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .white
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let answerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
+    @objc func didTapAnswerButton(_ sender: UIButton){
+        changeButtonState(for: sender.tag)
+        delegate?.didSelectSingleAnswer(cell: self, answer: sender.tag)
+    }
+    
+    override init(frame: CGRect){
+        super.init(frame: frame)
+        setRandomGradient()
+        addSubview(orderNumberLabel)
+        orderNumberLabel.snp.makeConstraints({ make in
+            make.top.equalToSuperview().offset(10)
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.1)
+        })
+
+//        addSubview(answerStackView)
+//        answerStackView.snp.makeConstraints({ make in
+//            make.top.equalTo(orderNumberLabel.snp.bottom).offset(10)
+//            make.width.equalToSuperview()
+//            make.height.equalToSuperview().multipliedBy(0.5)
+//        })
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        answerStackView.arrangedSubviews.forEach({
+            $0.removeFromSuperview()
+        })
+        buttons.removeAll()
+        resetView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func resetView(){
+        buttons.forEach({$0.backgroundColor = .white})
+    }
+       
+    func changeButtonState(for index: Int){
+        resetView()
+        buttons[index].backgroundColor = .orange
+    }
+    
+}
+
+class ReadingQuestionPartOneCollectionViewCell: ReadingQuestionCollectionViewCell {
     
     var answers: [Bool?] = []
-    var buttons: [UIButton] = []
     
     // Used for assigning a tag for generated buttons.
     var indexCounter = 0
@@ -24,64 +96,79 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
     // There is only 2 type of buttons that user can tap to choose an answer: True or False. We have multiple questions with set of true/false buttons for each. This variable is required for calculating the index of question when user taps a button.
     var n = 2
     
-    weak var delegate: AnswerToReadingQuestionSelectable?
-    
     private var questionLabel: UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 18)
-        label.textColor = .white
         label.lineBreakMode = .byWordWrapping
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .white
+        label.textAlignment = .center
         return label
     }
    
-    private var answerButtonsStackView: UIStackView {
+//    func addButtonToStackView(state: Bool){
+//        let button = UIButton.makeForBinaryQuestion(state)
+//        button.tag = indexCounter
+//        indexCounter += 1
+//        button.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+//        buttons.append(button)
+//        buttonStackView.addArrangedSubview(button)
+//        answerStackView.addArrangedSubview(buttonStackView)
+//    }
+    
+    private var buttonStackView: UIStackView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.spacing = 20
+        stackView.spacing = 15
         stackView.distribution = .fillEqually
-        let trueButton = UIButton.makeForBinaryQuestion(true)
-        trueButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
-        trueButton.tag = indexCounter
-        indexCounter += 1
-        stackView.addArrangedSubview(trueButton)
-        trueButton.snp.makeConstraints({ make in
-            make.width.equalTo(100)
-            make.height.equalTo(40)
-        })
         let falseButton = UIButton.makeForBinaryQuestion(false)
-        falseButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        let trueButton = UIButton.makeForBinaryQuestion(true)
         falseButton.tag = indexCounter
         indexCounter += 1
+        trueButton.tag = indexCounter
+        indexCounter += 1
+        buttons.append(falseButton)
+        buttons.append(trueButton)
+        trueButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
+        falseButton.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
         stackView.addArrangedSubview(falseButton)
-        falseButton.snp.makeConstraints({ make in
-            make.width.equalTo(100)
-            make.height.equalTo(40)
-        })
+        stackView.addArrangedSubview(trueButton)
         return stackView
     }
     
-    @objc func didTapAnswerButton(_ sender: UIButton){
+    @objc override func didTapAnswerButton(_ sender: UIButton){
         print(sender.tag)
+        changeButtonState(for: sender.tag)
         let indexOfQuestion = sender.tag/n
         let state = sender.defineAnswerState()
         answers[indexOfQuestion] = state
+        print(answers)
         delegate?.didSelectMultipleAnswer(cell: self, answers: answers)
     }
-
-    private let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillProportionally
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 0
-        return stackView
-    }()
     
+    override func changeButtonState(for index: Int) {
+        // resetting buttons for same question
+        if (index.isMultiple(of: 2)) {
+            buttons[index+1].backgroundColor = .white
+        }
+        else {
+            buttons[index-1].backgroundColor = .white
+        }
+        buttons[index].backgroundColor = .orange
+    }
+    
+    public func setUserAnswer(_ answers: [Bool?]) {
+        for index in 0..<answers.count{
+            if let answer = answers[index] {
+                let buttonTag = 2 * index + answer.toInt
+                changeButtonState(for: buttonTag)
+            }
+        }
+    }
+
     let questionImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,29 +180,26 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         indexCounter = 0
         answers.removeAll()
-        stackView.arrangedSubviews.forEach({
+        answerStackView.arrangedSubviews.forEach({
             $0.removeFromSuperview()
         })
     }
 
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setRandomGradient()
-        
+  
         addSubview(questionImageView)
         questionImageView.snp.makeConstraints({ make in
-            make.top.equalToSuperview().offset(15)
+            make.top.equalTo(orderNumberLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
             make.height.equalToSuperview().multipliedBy(0.4)
         })
      
-        addSubview(stackView)
-        stackView.snp.makeConstraints({ make in
+        addSubview(answerStackView)
+        answerStackView.snp.makeConstraints({ make in
             make.top.equalTo(questionImageView.snp.bottom).offset(10)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.5)
             make.bottom.equalToSuperview().inset(20)
         })
@@ -124,18 +208,18 @@ class ReadingQuestionPartOneCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-extension ReadingQuestionPartOneCollectionViewCell: CellConfigurable{
-    func configure(with viewModel: QuestionCellViewModel) {
+    
+    override func configure(with viewModel: QuestionCellViewModel) {
+        super.configure(with: viewModel)
         guard let model = viewModel as? ReadingPartOneViewModel else {return}
         for text in model.texts{
             let label = questionLabel
             label.text = text
-            stackView.addArrangedSubview(label)
-            stackView.addArrangedSubview(answerButtonsStackView)
+            answerStackView.addArrangedSubview(label)
+            answerStackView.addArrangedSubview(buttonStackView)
             answers.append(nil)
         }
         questionImageView.load(url: model.imageUrl)
     }
 }
+
