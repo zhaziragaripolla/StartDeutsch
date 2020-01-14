@@ -55,17 +55,17 @@ class ReadingCourseViewModel {
         switch question.section {
         case 1:
             let url: URL = imageUrls[question.imagePath!]!
-            viewModel = ReadingPartOneViewModel(question: question, url: url)
+            viewModel = ReadingQuestionPartOneViewModel(orderNumber: question.orderNumber, texts: question.questionTexts ?? [], url: url)
         case 2:
             if let imagePaths = question.answerImagePaths{
                 let urls: [URL] = imagePaths.map({
                     return imageUrls[$0]!
                 })
-                viewModel = ReadingPartTwoViewModel(question: question, urls: urls)
+                viewModel = ReadingPartTwoViewModel(orderNumber: question.orderNumber, text: question.questionText ?? "", urls: urls)
             }
         case 3:
             let url: URL = imageUrls[question.imagePath!]!
-            viewModel = ReadingPartThreeViewModel(question: question, url: url)
+            viewModel = ReadingPartThreeViewModel(orderNumber: question.orderNumber, text: question.questionText ?? "", description: question.description ?? "", url: url)
         default:
             return nil
         }
