@@ -60,3 +60,17 @@ extension UIButton {
         return self.titleLabel?.text == "Richtig" ? true : false
     }
 }
+
+
+extension UILabel {
+    static func make()-> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .white
+        label.textAlignment = .center
+        return label
+    }
+}
