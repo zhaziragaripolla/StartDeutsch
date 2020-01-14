@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseUI
 
 protocol AnswerToReadingQuestionSelectable: class {
     func didSelectMultipleAnswer(cell: UICollectionViewCell, answers: [Bool?])
@@ -17,6 +18,9 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
 
     fileprivate var buttons: [UIButton] = []
     weak var delegate: AnswerToReadingQuestionSelectable?
+    
+    // Referencce to Firebase Storage to download images using FirebaseUI
+    let storage = Storage.storage()
     
     fileprivate let orderNumberLabel: UILabel = {
         let label = UILabel()
@@ -172,7 +176,7 @@ class ReadingQuestionPartOneCollectionViewCell: ReadingQuestionCollectionViewCel
         questionImageView.snp.makeConstraints({ make in
             make.top.equalTo(orderNumberLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(0.4)
         })
      
@@ -200,7 +204,7 @@ class ReadingQuestionPartOneCollectionViewCell: ReadingQuestionCollectionViewCel
             answerStackView.addArrangedSubview(buttonStackView)
             answers.append(nil)
         }
-        questionImageView.load(url: model.imageUrl)
+        questionImageView.sd_setImage(with: storage.reference(withPath: model.imageUrl))
     }
 }
 
@@ -267,10 +271,11 @@ class ReadingQuestionPartTwoCollectionViewCell: ReadingQuestionCollectionViewCel
         super.configure(with: viewModel)
         guard let model = viewModel as? ReadingPartTwoViewModel else {return}
         questionLabel.text = model.text
+        // TODO: Rename url to path
         for url in model.imageUrls{
             let cardView = CardView()
             answerStackView.addArrangedSubview(cardView)
-            cardView.cardImageView.load(url: url)
+            cardView.cardImageView.sd_setImage(with: storage.reference(withPath: url))
             cardViews.append(cardView)
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCardView(_:)))
             cardView.addGestureRecognizer(tapGesture)
@@ -350,7 +355,7 @@ class ReadingQuestionPartThreeCollectionViewCell: ReadingQuestionCollectionViewC
         guard let model = viewModel as? ReadingPartThreeViewModel else {return}
         descriptionLabel.text = model.description
         questionLabel.text = model.text
-        questionImageView.load(url: model.imageUrl)
+        questionImageView.sd_setImage(with: storage.reference(withPath: model.imageUrl))
         answerStackView.addArrangedSubview(falseButton)
         answerStackView.addArrangedSubview(trueButton)
         buttons.append(falseButton)

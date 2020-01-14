@@ -21,7 +21,6 @@ class ReadingCourseViewModel {
     
     // Models
     var questions: [ReadingQuestionEntity] = []
-    public var imageUrls: Dictionary<String, URL> = [:]
     
     // Delegates
     weak var delegate: ReadingCourseViewModelDelegate?
@@ -32,57 +31,30 @@ class ReadingCourseViewModel {
     
     init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<ReadingQuestionEntity>, test: Test) {
         self.firebaseManager = firebaseManager
-//        self.localDatabase = localDatabase
         self.test = test
         self.storage = firebaseStorageManager
         self.repository = repository
-        
-        for i in 1...20{
-            let key = "test1/reading/\(i).png"
-            let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/startdeutsch-34bdd.appspot.com/o/test1%2Freading%2F1.png?alt=media&token=e5abe96c-7587-4fa2-b5ca-157225d08399")!
-            imageUrls[key] = url
-        }
     }
     
     public func getQuestions() {
         fetchFromLocalDatabase()
-//        fetchImage()
     }
     
+    // TODO: change "url" to "path"
     public func viewModel(for index: Int)-> QuestionCellViewModel?{
         let question = questions[index]
         var viewModel: QuestionCellViewModel?
         switch question.section {
         case 1:
-            let url: URL = imageUrls[question.imagePath!]!
-            viewModel = ReadingQuestionPartOneViewModel(orderNumber: question.orderNumber, texts: question.questionTexts ?? [], url: url)
+            viewModel = ReadingQuestionPartOneViewModel(orderNumber: question.orderNumber, texts: question.questionTexts ?? [], url: question.imagePath ?? "")
         case 2:
-            if let imagePaths = question.answerImagePaths{
-                let urls: [URL] = imagePaths.map({
-                    return imageUrls[$0]!
-                })
-                viewModel = ReadingPartTwoViewModel(orderNumber: question.orderNumber, text: question.questionText ?? "", urls: urls)
-            }
+            viewModel = ReadingPartTwoViewModel(orderNumber: question.orderNumber, text: question.questionText ?? "", urls: question.answerImagePaths ?? [])
         case 3:
-            let url: URL = imageUrls[question.imagePath!]!
-            viewModel = ReadingPartThreeViewModel(orderNumber: question.orderNumber, text: question.questionText ?? "", description: question.description ?? "", url: url)
+            viewModel = ReadingPartThreeViewModel(orderNumber: question.orderNumber, text: question.questionText ?? "", description: question.description ?? "", url: question.imagePath ?? "")
         default:
             return nil
         }
         return viewModel
-    }
-
-    private func fetchImage(path: String){
-        
-        // TODO: fix
-//        for question in questionsPartOne{
-//            dispatchGroup.enter()
-//            storage.createDownloadUrl(question.imagePath){ url in
-//                self.imageUrls[question.imagePath] = url
-//                print("saved \(url) to \(question.imagePath)")
-//                self.dispatchGroup.leave()
-//            }
-//        }
     }
 
     private func fetchFromLocalDatabase(){

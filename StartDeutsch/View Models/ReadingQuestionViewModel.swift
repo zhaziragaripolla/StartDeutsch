@@ -15,12 +15,12 @@ class ReadingQuestionViewModel: QuestionCellViewModel {
     }
 }
 
-
+// TODO: change "url" to "path"
 class ReadingQuestionPartOneViewModel: ReadingQuestionViewModel{
-    var imageUrl: URL
+    var imageUrl: String
     var texts: [String]
     
-    init(orderNumber: Int, texts: [String], url: URL){
+    init(orderNumber: Int, texts: [String], url: String){
         self.texts = texts
         self.imageUrl = url
         super.init(orderNumber: orderNumber)
@@ -30,9 +30,9 @@ class ReadingQuestionPartOneViewModel: ReadingQuestionViewModel{
 
 class ReadingPartTwoViewModel: ReadingQuestionViewModel{
     var text: String
-    var imageUrls: [URL]
+    var imageUrls: [String]
     
-    init(orderNumber: Int, text: String, urls: [URL]){
+    init(orderNumber: Int, text: String, urls: [String]){
         self.text = text
         self.imageUrls = urls
         super.init(orderNumber: orderNumber)
@@ -42,9 +42,9 @@ class ReadingPartTwoViewModel: ReadingQuestionViewModel{
 class ReadingPartThreeViewModel: ReadingQuestionViewModel{
     var text: String
     var description: String
-    var imageUrl: URL
+    var imageUrl: String
     
-    init(orderNumber: Int, text: String, description: String, url: URL){
+    init(orderNumber: Int, text: String, description: String, url: String){
         self.text = text
         self.description = description
         self.imageUrl = url
