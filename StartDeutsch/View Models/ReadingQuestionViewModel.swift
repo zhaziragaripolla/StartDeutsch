@@ -8,47 +8,46 @@
 
 import UIKit
 
-
-struct ReadingPartOneViewModel: QuestionCellViewModel{
-    let question: ReadingQuestionEntity
-    let url: URL
-    
-    var imageUrl: URL {
-        return url
-    }
-    
-    var texts: [String]{
-        return question.questionTexts!
+class ReadingQuestionViewModel: QuestionCellViewModel {
+    let orderNumber: Int
+    init(orderNumber: Int){
+        self.orderNumber = orderNumber
     }
 }
 
 
-struct ReadingPartTwoViewModel: QuestionCellViewModel{
-    let question: ReadingQuestionEntity
-    let urls: [URL]
+class ReadingQuestionPartOneViewModel: ReadingQuestionViewModel{
+    var imageUrl: URL
+    var texts: [String]
     
-    var questionText: String {
-        return question.questionText!
-    }
-    
-    var imageUrls: [URL]{
-        return urls
+    init(orderNumber: Int, texts: [String], url: URL){
+        self.texts = texts
+        self.imageUrl = url
+        super.init(orderNumber: orderNumber)
     }
 }
 
-struct ReadingPartThreeViewModel: QuestionCellViewModel{
-    let question: ReadingQuestionEntity
-    let url: URL
-    
-    var questionText: String {
-        return question.questionText!
-    }
-    
-    var description: String{
-        return question.description!
-    }
 
-    var imageUrl: URL{
-        return url
+class ReadingPartTwoViewModel: ReadingQuestionViewModel{
+    var text: String
+    var imageUrls: [URL]
+    
+    init(orderNumber: Int, text: String, urls: [URL]){
+        self.text = text
+        self.imageUrls = urls
+        super.init(orderNumber: orderNumber)
+    }
+}
+
+class ReadingPartThreeViewModel: ReadingQuestionViewModel{
+    var text: String
+    var description: String
+    var imageUrl: URL
+    
+    init(orderNumber: Int, text: String, description: String, url: URL){
+        self.text = text
+        self.description = description
+        self.imageUrl = url
+        super.init(orderNumber: orderNumber)
     }
 }
