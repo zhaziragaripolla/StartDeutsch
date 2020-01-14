@@ -23,6 +23,7 @@
 		5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */; };
 		56726A0723CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */; };
 		56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */; };
+		56726A0B23CDCD7F00F3D7CB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0A23CDCD7F00F3D7CB /* CardView.swift */; };
 		56963E9323C1B29A007ACE1D /* SpeakingCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9223C1B29A007ACE1D /* SpeakingCourseViewController.swift */; };
 		56963E9523C1B982007ACE1D /* WordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9423C1B982007ACE1D /* WordListViewController.swift */; };
 		56963E9723C1C201007ACE1D /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9623C1C201007ACE1D /* WordListViewModel.swift */; };
@@ -75,9 +76,7 @@
 		569F4F4423ABC70C0054BC65 /* ReadingCourseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F4323ABC70C0054BC65 /* ReadingCourseCoordinator.swift */; };
 		569F4F4623AD3FF50054BC65 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F4523AD3FF50054BC65 /* Extensions.swift */; };
 		569F4F4823AE2D6D0054BC65 /* ReadingQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F4723AE2D6C0054BC65 /* ReadingQuestionViewModel.swift */; };
-		569F4F4D23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F4C23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift */; };
-		569F4F4F23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F4E23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift */; };
-		569F4F5223AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F5123AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift */; };
+		569F4F5223AF79A90054BC65 /* ReadingQuestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F4F5123AF79A90054BC65 /* ReadingQuestionCollectionViewCell.swift */; };
 		56ADF83923AF8363008F62FC /* ReadingCourseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF83823AF8363008F62FC /* ReadingCourseViewModelTests.swift */; };
 		56ADF84823B0BAFB008F62FC /* GermanCourse.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF84623B0BAFB008F62FC /* GermanCourse.xcdatamodeld */; };
 		56ADF86223B3DF7A008F62FC /* WritingCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADF86123B3DF7A008F62FC /* WritingCourseViewController.swift */; };
@@ -133,6 +132,7 @@
 		5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
 		56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionCollectionViewCell.swift; sourceTree = "<group>"; };
 		56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCellViewModel.swift; sourceTree = "<group>"; };
+		56726A0A23CDCD7F00F3D7CB /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardView.swift; path = Reading/CardView.swift; sourceTree = "<group>"; };
 		56963E9223C1B29A007ACE1D /* SpeakingCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingCourseViewController.swift; sourceTree = "<group>"; };
 		56963E9423C1B982007ACE1D /* WordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewController.swift; sourceTree = "<group>"; };
 		56963E9623C1C201007ACE1D /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
@@ -185,9 +185,7 @@
 		569F4F4323ABC70C0054BC65 /* ReadingCourseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseCoordinator.swift; sourceTree = "<group>"; };
 		569F4F4523AD3FF50054BC65 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		569F4F4723AE2D6C0054BC65 /* ReadingQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingQuestionViewModel.swift; sourceTree = "<group>"; };
-		569F4F4C23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingQuestionPartTwoCollectionViewCell.swift; sourceTree = "<group>"; };
-		569F4F4E23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingQuestionPartThreeCollectionViewCell.swift; sourceTree = "<group>"; };
-		569F4F5123AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingQuestionPartOneCollectionViewCell.swift; sourceTree = "<group>"; };
+		569F4F5123AF79A90054BC65 /* ReadingQuestionCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingQuestionCollectionViewCell.swift; sourceTree = "<group>"; };
 		56ADF83823AF8363008F62FC /* ReadingCourseViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseViewModelTests.swift; sourceTree = "<group>"; };
 		56ADF84723B0BAFB008F62FC /* GermanCourse.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GermanCourse.xcdatamodel; sourceTree = "<group>"; };
 		56ADF86123B3DF7A008F62FC /* WritingCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCourseViewController.swift; sourceTree = "<group>"; };
@@ -278,13 +276,14 @@
 		56113D372386F60900A7DA6B /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				56726A0A23CDCD7F00F3D7CB /* CardView.swift */,
 				56963EA623C34601007ACE1D /* CardCollectionViewCell.swift */,
 				56963EA823C382A8007ACE1D /* WordCollectionViewCell.swift */,
-				569F4F5023AF790C0054BC65 /* Reading */,
 				569F4F4B23AF72320054BC65 /* Listening */,
 				5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */,
 				569F4F4523AD3FF50054BC65 /* Extensions.swift */,
 				56963EAC23C49AEF007ACE1D /* GradientLayer.swift */,
+				569F4F5123AF79A90054BC65 /* ReadingQuestionCollectionViewCell.swift */,
 				56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */,
 			);
 			path = "Custom Views";
@@ -428,16 +427,6 @@
 				5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */,
 			);
 			path = Listening;
-			sourceTree = "<group>";
-		};
-		569F4F5023AF790C0054BC65 /* Reading */ = {
-			isa = PBXGroup;
-			children = (
-				569F4F5123AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift */,
-				569F4F4C23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift */,
-				569F4F4E23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift */,
-			);
-			path = Reading;
 			sourceTree = "<group>";
 		};
 		56D7BABF2382F79A00CECC71 = {
@@ -742,23 +731,22 @@
 				56ADF86623B3E016008F62FC /* LetterListViewController.swift in Sources */,
 				56963EA123C1C4F9007ACE1D /* SpeakingCourseCoordinator.swift in Sources */,
 				5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */,
-				569F4F4F23AF78EE0054BC65 /* ReadingQuestionPartThreeCollectionViewCell.swift in Sources */,
 				5696837D23927FFF008AF9A4 /* CourseListViewControllerDelegate.swift in Sources */,
 				56963E9F23C1C44C007ACE1D /* Card.swift in Sources */,
 				56963E9523C1B982007ACE1D /* WordListViewController.swift in Sources */,
 				56963EA323C1C595007ACE1D /* WordListCoordinator.swift in Sources */,
 				5696838123929A09008AF9A4 /* TestListViewControllerDelegate.swift in Sources */,
-				569F4F4D23AF78C00054BC65 /* ReadingQuestionPartTwoCollectionViewCell.swift in Sources */,
 				56ADF86823B3E308008F62FC /* BlankViewController.swift in Sources */,
 				5696837923927A99008AF9A4 /* CourseListCoordinator.swift in Sources */,
 				56113D332386C0BA00A7DA6B /* ListeningCourseViewController.swift in Sources */,
 				56113D2F23859BC700A7DA6B /* TestListViewController.swift in Sources */,
 				56ADF84823B0BAFB008F62FC /* GermanCourse.xcdatamodeld in Sources */,
-				569F4F5223AF79A90054BC65 /* ReadingQuestionPartOneCollectionViewCell.swift in Sources */,
+				569F4F5223AF79A90054BC65 /* ReadingQuestionCollectionViewCell.swift in Sources */,
 				56113D312386C0AB00A7DA6B /* ListeningCourseViewModel.swift in Sources */,
 				56963E9323C1B29A007ACE1D /* SpeakingCourseViewController.swift in Sources */,
 				56ADF87C23B8AEC3008F62FC /* LetterDetailCoordinator.swift in Sources */,
 				56963E9723C1C201007ACE1D /* WordListViewModel.swift in Sources */,
+				56726A0B23CDCD7F00F3D7CB /* CardView.swift in Sources */,
 				56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

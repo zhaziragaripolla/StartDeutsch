@@ -22,7 +22,6 @@ class ReadingCourseViewController: UIViewController {
 
     private var viewModel: ReadingCourseViewModel!
     private var userAnswers: Dictionary<Int, Any?> = [:]
-    private let tableView = UITableView()
 
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -48,7 +47,7 @@ class ReadingCourseViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setupTableView() {
+    fileprivate func setupCollectionView() {
         
         view.addSubview(collectionView)
         collectionView.delegate = self
@@ -60,7 +59,7 @@ class ReadingCourseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
+        setupCollectionView()
         view.backgroundColor = .white
         viewModel.delegate = self
         viewModel.errorDelegate = self
@@ -79,16 +78,17 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
         let cellViewModel = viewModel.viewModel(for: indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier(for: cellViewModel!), for: indexPath)
         if let cell = cell as? CellConfigurable {
-//            cell.delegate = self
             cell.configure(with: cellViewModel!)
         }
         if let cell = cell as? ReadingQuestionCollectionViewCell{
-             cell.delegate = self
-             
-         }
-        if let cell = cell as? ReadingQuestionPartOneCollectionViewCell{
-//            cell.delegate = self
-            if let answer = userAnswers[indexPath.row] as? [Bool?] {
+            cell.delegate = self
+            if let answer = userAnswers[indexPath.row] as? Int {
+                cell.changeButtonState(for: answer)
+            }
+        }
+        
+        if let answer = userAnswers[indexPath.row] as? [Bool?] {
+            if let cell = cell as? ReadingQuestionPartOneCollectionViewCell{
                 cell.setUserAnswer(answer)
             }
         }
@@ -97,7 +97,7 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
     
     private func cellIdentifier(for viewModel: QuestionCellViewModel)-> String {
         switch viewModel {
-        case is ReadingPartOneViewModel:
+        case is ReadingQuestionPartOneViewModel:
             return "partOne"
         case is ReadingPartTwoViewModel:
             return "partTwo"
@@ -120,29 +120,28 @@ extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDele
     }
     
     func didDownloadQuestions() {
-        print("Downloaded questions!!")
-        tableView.reloadData()
         collectionView.reloadData()
     }
     
 }
 
 extension ReadingCourseViewController: AnswerToReadingQuestionSelectable{
-    // TODO: Refactor
+    
     func didSelectMultipleAnswer(cell: UICollectionViewCell, answers: [Bool?]) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         userAnswers[indexPath.row] = answers
-        if userAnswers.values.count == 12 {
-            viewModel.checkUserAnswers(userAnswers: userAnswers)
-        }
+        checkIfAllAnswersCollected()
     }
-    
+
     func didSelectSingleAnswer(cell: UICollectionViewCell, answer:
     Int) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         userAnswers[indexPath.row] = answer
-        print(userAnswers)
-        if userAnswers.values.count == 12 {
+        checkIfAllAnswersCollected()
+    }
+    
+    private func checkIfAllAnswersCollected(){
+        if userAnswers.values.count == viewModel.questions.count {
             viewModel.checkUserAnswers(userAnswers: userAnswers)
         }
     }
