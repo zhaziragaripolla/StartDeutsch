@@ -70,7 +70,7 @@ class BlankListViewModel{
     
     public func getDetailViewModel(for index: Int)-> BlankViewModel{
         let blank = blanks[index]
-        return BlankViewModel(title: blank.title, url: URL(string: "https://firebasestorage.googleapis.com/v0/b/startdeutsch-34bdd.appspot.com/o/test1%2Freading%2F1.png?alt=media&token=e5abe96c-7587-4fa2-b5ca-157225d08399")!, text: blank.text, answers: blank.answerTexts)
+        return BlankViewModel(title: blank.title, imagePath: blank.imagePath, text: blank.text, answers: blank.answerTexts)
     }
     
 }

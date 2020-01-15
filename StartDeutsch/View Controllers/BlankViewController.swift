@@ -16,15 +16,20 @@ class BlankViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 34)
+        label.font = .boldSystemFont(ofSize: 26)
+        label.textAlignment = .center
+        label.textColor = .white
         return label
     }()
     
     private let textLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .white
+        label.textAlignment = .justified
         return label
     }()
     
@@ -35,23 +40,27 @@ class BlankViewController: UIViewController {
         return imageView
     }()
     
-    private let answerButton: UIButton = {
+    private let revealButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.backgroundColor = UIColor.white.cgColor
+        button.layer.cornerRadius = 20
+        button.layer.borderColor = .none
         button.setTitle("Antworten anzeigen", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
         return button
     }()
     
-    private let answerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 0
-        stackView.distribution = .fillEqually
-        stackView.isHidden = true
-        return stackView
+    private let answerLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
     }()
 
     init(viewModel: BlankViewModel) {
@@ -63,68 +72,71 @@ class BlankViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var isShowingAnswers = false
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         
         titleLabel.text = viewModel.title
         textLabel.text = viewModel.text
-        blankImageView.load(url: viewModel.url)
+        blankImageView.load(from: viewModel.imagePath)
         var index = 1
+        var text = ""
         for answer in viewModel.answers {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.text =  "\(index). \(answer)"
+            text.append("\(index). \(answer)\n")
             index += 1
-            answerStackView.addArrangedSubview(label)
         }
-        answerButton.addTarget(self, action: #selector(didTapRevealAnswerButton), for: .touchUpInside)
+        answerLabel.text = text
+        revealButton.addTarget(self, action: #selector(didTapRevealButton), for: .touchUpInside)
     }
     
-    @objc func didTapRevealAnswerButton(){
-        isShowingAnswers = !isShowingAnswers
-        answerStackView.isHidden = !isShowingAnswers
+    @objc func didTapRevealButton(){
+        revealButton.isEnabled = false
+        answerLabel.isHidden = false
     }
     
     private func setupView(){
-        view.backgroundColor = .white
+        view.setRandomGradient()
         
-        view.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints({ make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.1)
-        })
+//        view.addSubview(titleLabel)
+//        titleLabel.snp.makeConstraints({ make in
+//            make.top.equalToSuperview()
+//            make.width.equalToSuperview()
+//            make.height.equalToSuperview().multipliedBy(0.1)
+//            make.centerX.equalToSuperview()
+//        })
        
         view.addSubview(textLabel)
         textLabel.snp.makeConstraints({ make in
-            make.top.equalTo(titleLabel.snp.bottom)
+//            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.top.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
+            make.height.equalToSuperview().multipliedBy(0.25)
             make.centerX.equalToSuperview()
         })
         
         view.addSubview(blankImageView)
         blankImageView.snp.makeConstraints({ make in
-            make.top.equalTo(textLabel.snp.bottom).offset(10)
+            make.top.equalTo(textLabel.snp.bottom)
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.35)
+            make.height.equalToSuperview().multipliedBy(0.5)
             make.centerX.equalToSuperview()
         })
         
-        view.addSubview(answerButton)
-        answerButton.snp.makeConstraints({ make in
-            make.top.equalTo(blankImageView.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
+        view.addSubview(revealButton)
+        revealButton.snp.makeConstraints({ make in
+            make.top.equalTo(blankImageView.snp.bottom)
             make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalTo(40)
+            make.centerX.equalToSuperview()
         })
         
-        view.addSubview(answerStackView)
-        answerStackView.snp.makeConstraints({ make in
-            make.top.equalTo(answerButton.snp.bottom).offset(10)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.bottom.equalTo(view.snp.bottom).inset(30)
+        view.addSubview(answerLabel)
+        answerLabel.snp.makeConstraints({ make in
+            make.top.equalTo(revealButton.snp.bottom)
+            make.width.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.2)
+            make.centerX.equalToSuperview()
         })
         
         

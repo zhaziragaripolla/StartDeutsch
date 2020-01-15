@@ -10,7 +10,7 @@ import Foundation
 
 struct BlankViewModel{
     var title: String
-    var url: URL
+    var imagePath: String
     var text: String
     var answers: [String]
 }
