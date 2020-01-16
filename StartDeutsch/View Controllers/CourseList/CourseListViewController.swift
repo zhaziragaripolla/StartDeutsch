@@ -56,6 +56,7 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CourseTableViewCell
         let course = viewModel.courses[indexPath.row]
         cell.titleLabel.text = course.title
+        cell.courseImageView.image = UIImage(named: "\(course.aliasName).png")
         return cell
     }
     
