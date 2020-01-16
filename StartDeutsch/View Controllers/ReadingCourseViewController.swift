@@ -116,7 +116,10 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
 extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDelegate{
  
     func showError(message: String) {
-        print(message)
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
     }
     
     func didDownloadQuestions() {

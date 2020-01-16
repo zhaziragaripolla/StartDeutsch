@@ -63,7 +63,9 @@ class WordListViewModel {
                 self.saveToLocalDatabase()
                 print("fetched from Firebase")
             case .failure(let error):
-                self.errorDelegate?.showError(message: error.localizedDescription)
+                if let message = error.errorDescription {
+                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+                }
             }
         }
     }

@@ -46,6 +46,7 @@ class BlankListViewController: UIViewController {
         
         setupTableView()
         viewModel.delegate = self
+        viewModel.errorDelegate = self
         viewModel.getBlanks()
     }
 
@@ -65,14 +66,20 @@ extension BlankListViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let blankViewModel = viewModel.getDetailViewModel(for: indexPath.row)
-        print(delegate)
         delegate?.didSelectBlank(detailViewModel: blankViewModel)
     }
     
 }
 
-extension BlankListViewController: BlankListViewModelDelegate{
+extension BlankListViewController: BlankListViewModelDelegate, ErrorDelegate{
     func didDownloadBlanks() {
         tableView.reloadData()
+    }
+    
+    func showError(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
     }
 }

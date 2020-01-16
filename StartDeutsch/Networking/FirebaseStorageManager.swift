@@ -7,43 +7,45 @@
 //
 
 import Foundation
-import FirebaseFirestore
 import FirebaseStorage
+import FirebaseFunctions
+
+typealias FileDownloadingCompletion = (_ completion: (Result<Data, ErrorResponse>))-> Void
 
 protocol FirebaseStorageManagerProtocol {
-    func downloadFromUrl(_ url: String, completion: @escaping (Data)-> Void)
-    
-    // TODO: delete this function because all downloads will be held from url, not path
-    func downloadFile(_ path: String, completion: @escaping (Data)-> Void)
+    func downloadFileFromUrl(_ url: String, completion: @escaping FileDownloadingCompletion)
+    func downloadFileFromPath(_ path: String, completion: @escaping FileDownloadingCompletion)
 }
 
 class FirebaseStorageManager: FirebaseStorageManagerProtocol {
     
     var storage: Storage { return Storage.storage()}
-    
-    func downloadFromUrl(_ url: String, completion: @escaping (Data)-> Void){
+       
+    func downloadFileFromUrl(_ url: String, completion: @escaping FileDownloadingCompletion) {
         storage.reference(forURL: url).getData(maxSize: 2 * 1024 * 1024){ data, error in
-            if let error = error {
-                print(error)
-            } else {
-                if let data = data {
-                    completion(data)
-                }
+            if let error = error as NSError?,
+                let code = FunctionsErrorCode(rawValue: error.code){
+                let message = error.localizedDescription
+                // let details = error.userInfo[FunctionsErrorDetailsKey]
+                completion(.failure(ErrorResponse(code: code.rawValue, message: message)))
+            }
+            if let data = data {
+                completion(.success(data))
             }
         }
     }
-    
-    func downloadFile(_ path: String, completion: @escaping (Data)-> Void) {
-
+   
+    func downloadFileFromPath(_ path: String, completion: @escaping FileDownloadingCompletion) {
         storage.reference(withPath: path).getData(maxSize: 2 * 1024 * 1024) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                if let data = data {
-                    completion(data)
-                }
+            if let error = error as NSError?,
+                let code = FunctionsErrorCode(rawValue: error.code){
+                let message = error.localizedDescription
+                // let details = error.userInfo[FunctionsErrorDetailsKey]
+                completion(.failure(ErrorResponse(code: code.rawValue, message: message)))
+            }
+            if let data = data {
+                completion(.success(data))
             }
         }
     }
-    
 }

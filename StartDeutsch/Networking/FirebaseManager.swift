@@ -8,12 +8,11 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseFunctions
 
-typealias DocumentFetchingCompletion = (_ completion: (Result<[QueryDocumentSnapshot], Error>))-> Void
+typealias DocumentFetchingCompletion = (_ completion: (Result<[QueryDocumentSnapshot], ErrorResponse>))-> Void
 
-// TODO: rename later
 protocol FirebaseManagerProtocol: class {
-//    associatedtype Reference: ReferenceType
     func getDocuments(_ path: String, completion: @escaping DocumentFetchingCompletion)
 }
 
@@ -22,24 +21,21 @@ class FirebaseManager: FirebaseManagerProtocol {
     var firestore: Firestore { return Firestore.firestore() }
     
     func getDocuments(_ path: String, completion: @escaping DocumentFetchingCompletion) {
-        
         firestore.collection(path).getDocuments { querySnapshot, error in
-                   if let error = error {
-                       // TODO: smth with error
-                       completion(.failure(error))
-                   }
-                           
-                   if let querySnapshot = querySnapshot {
-                       var results: [QueryDocumentSnapshot] = []
-                       for document in querySnapshot.documents {
-                        results.append(document)
-                       }
-                       completion(.success(results))
-                   }
-               }
+            if let error = error as NSError?,
+                let code = FunctionsErrorCode(rawValue: error.code){
+                let message = error.localizedDescription
+                // let details = error.userInfo[FunctionsErrorDetailsKey]
+                completion(.failure(ErrorResponse(code: code.rawValue, message: message)))
+            }
+            
+            if let querySnapshot = querySnapshot {
+                var results: [QueryDocumentSnapshot] = []
+                for document in querySnapshot.documents {
+                    results.append(document)
+                }
+                completion(.success(results))
+            }
+        }
     }
-    
-//    typealias Reference = Test
-  
-    
 }

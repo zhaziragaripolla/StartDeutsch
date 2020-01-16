@@ -42,6 +42,7 @@ class CourseListViewController: UIViewController {
         
         setupTableView()
         viewModel.delegate = self
+        viewModel.errorDelegate = self
         viewModel.getCourses()
     }
 
@@ -71,8 +72,16 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
     }
 }
 
-extension CourseListViewController: CoursesViewModelDelegate {
+extension CourseListViewController: CoursesViewModelDelegate, ErrorDelegate {
+    func showError(message: String) {
+                let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     func reloadData() {
         tableView.reloadData()
     }
+    
 }

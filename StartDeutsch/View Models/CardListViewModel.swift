@@ -57,7 +57,9 @@ class CardListViewModel {
                 self.reloadImages()
                 print("fetched from Firebase")
             case .failure(let error):
-                self.errorDelegate?.showError(message: error.localizedDescription)
+                if let message = error.errorDescription {
+                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+                }
             }
         }
     }
@@ -92,14 +94,21 @@ class CardListViewModel {
     }
     
     private func downloadImageToLocalFile(for card: Card){
-        storage.downloadFromUrl(card.imageUrl) { data in
-            let fileUrl = self.getImageStoredPath(id: card.id)
-            do {
-                try data.write(to: fileUrl)
-                self.storedImageUrls.append(fileUrl)
-            }
-            catch {
-                self.errorDelegate?.showError(message: error.localizedDescription)
+        storage.downloadFileFromUrl(card.imageUrl) { response in
+            switch response {
+            case .success(let data):
+                do {
+                    let fileUrl = self.getImageStoredPath(id: card.id)
+                    try data.write(to: fileUrl)
+                    self.storedImageUrls.append(fileUrl)
+                }
+                catch {
+                    self.errorDelegate?.showError(message: error.localizedDescription)
+                }
+            case .failure(let error):
+                if let message = error.errorDescription {
+                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+                }
             }
         }
     }

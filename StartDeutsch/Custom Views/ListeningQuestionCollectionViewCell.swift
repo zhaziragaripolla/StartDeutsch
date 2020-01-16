@@ -33,7 +33,7 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = .boldSystemFont(ofSize: 22)
+        label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .white
         label.textAlignment = .center
         return label

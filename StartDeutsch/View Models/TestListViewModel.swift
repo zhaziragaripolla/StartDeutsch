@@ -15,7 +15,7 @@ protocol TestsViewModelDelegate: class {
 
 
 class TestListViewModel {
-    
+    weak var errorDelegate: ErrorDelegate?
     weak var delegate: TestsViewModelDelegate?
     private let firebaseManager: FirebaseManagerProtocol
     private let repository: CoreDataRepository<Test>
@@ -52,7 +52,9 @@ class TestListViewModel {
         firebaseManager.getDocuments(course.documentPath.appending("/tests")) { result in
             switch result {
             case .failure(let error):
-                print(error)
+                if let message = error.errorDescription {
+                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+                }
             case .success(let response):
                 self.tests = response.map({ return Test(dictionary: $0.data(), path: $0.reference.path)! })
                 self.saveToLocalDatabase()

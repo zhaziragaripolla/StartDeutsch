@@ -18,6 +18,7 @@ class LetterListViewModel{
     private let repository: CoreDataRepository<Letter>
     var letters: [Letter] = []
     weak var delegate: LetterListViewModelDelegate?
+    weak var errorDelegate: ErrorDelegate?
     
     init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<Letter>){
         self.firebaseManager = firebaseManager
@@ -57,7 +58,9 @@ class LetterListViewModel{
                 self.saveToLocalDatabase()
                 print("fetched from Firebase")
             case .failure(let error):
-                print(error)
+                if let message = error.errorDescription {
+                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+                }
             }
         }
     }

@@ -18,6 +18,7 @@ class BlankListViewModel{
     private let repository: CoreDataRepository<Blank>
     var blanks: [Blank] = []
     weak var delegate: BlankListViewModelDelegate?
+    weak var errorDelegate: ErrorDelegate?
     
     init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository:CoreDataRepository<Blank>){
         self.firebaseManager = firebaseManager
@@ -57,7 +58,9 @@ class BlankListViewModel{
                 print("fetched from Firebase")
                 self.saveToLocalDatabase()
             case .failure(let error):
-                print(error)
+                if let message = error.errorDescription {
+                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+                }
             }
         }
     }

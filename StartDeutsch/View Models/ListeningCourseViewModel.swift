@@ -98,7 +98,9 @@ class ListeningCourseViewModel {
         firebaseManager.getDocuments(test.documentPath.appending("/questions")) { result in
             switch result {
             case .failure(let error):
-                self.errorDelegate?.showError(message: error.localizedDescription)
+                if let message = error.errorDescription {
+                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+                }
             case .success(let response):
                 self.questions = response.map({
                     return ListeningQuestion(dictionary: $0.data())!
@@ -117,17 +119,24 @@ class ListeningCourseViewModel {
     }
 
     private func downloadAudio(for question: ListeningQuestion) {
-        storage.downloadFile(question.audioPath) { audio in
-            do {
-                let fileURL = self.getAudioStoredPath(id: question.id)
-                try audio.write(to: fileURL)
-                self.storedAudioPaths[question.orderNumber-1] = fileURL
-                print(self.fileManager.fileExists(atPath: fileURL.path))
-                print("Audio downloaded and saved at \(fileURL.description)")
-                self.delegate?.didDownloadAudio(path: fileURL)
-            }
-            catch {
-                self.errorDelegate?.showError(message: error.localizedDescription)
+        storage.downloadFileFromPath(question.audioPath) { response in
+            switch response {
+            case .failure(let error):
+                if let message = error.errorDescription {
+                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+                }
+            case .success(let data):
+                do {
+                    let fileURL = self.getAudioStoredPath(id: question.id)
+                    try data.write(to: fileURL)
+                    self.storedAudioPaths[question.orderNumber-1] = fileURL
+                    print(self.fileManager.fileExists(atPath: fileURL.path))
+                    print("Audio downloaded and saved at \(fileURL.description)")
+                    self.delegate?.didDownloadAudio(path: fileURL)
+                }
+                catch {
+                    self.errorDelegate?.showError(message: error.localizedDescription)
+                }
             }
         }
     }

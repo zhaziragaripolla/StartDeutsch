@@ -46,6 +46,7 @@ class LetterListViewController: UIViewController {
         
         setupTableView()
         viewModel.delegate = self
+        viewModel.errorDelegate = self
         viewModel.getLetters()
     }
 
@@ -71,9 +72,16 @@ extension LetterListViewController: UITableViewDelegate, UITableViewDataSource{
     
 }
 
-extension LetterListViewController: LetterListViewModelDelegate{
+extension LetterListViewController: LetterListViewModelDelegate, ErrorDelegate{
     func didDownloadLetters() {
         tableView.reloadData()
+    }
+    
+    func showError(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
