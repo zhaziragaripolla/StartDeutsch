@@ -10,8 +10,8 @@ import Foundation
 
 protocol ListeningViewModelDelegate: class {
     func didDownloadAudio(path: URL)
-    func questionsDownloaded()
-    func answersChecked(result: Int)
+    func didDownloadQuestions()
+    func didCheckUserAnswers(result: Int)
 }
 
 protocol ErrorDelegate: class {
@@ -29,6 +29,7 @@ class ListeningCourseViewModel {
     // Models
     public var storedAudioPaths = [URL?](repeating: nil, count: 15)
     public var questions: [ListeningQuestion] = []
+    public var showsCorrectAnswer: Bool = false
     
     // Delegates
     weak var delegate: ListeningViewModelDelegate?
@@ -59,6 +60,11 @@ class ListeningCourseViewModel {
     
     public func getQuestions() {
         fetchFromLocalDatabase()
+    }
+    
+    public func getCorrectAnswer(for index: Int)-> Int{
+        let question = questions[index]
+        return question.correctChoiceIndex
     }
     
     private func fetchFromLocalDatabase(){
@@ -106,7 +112,7 @@ class ListeningCourseViewModel {
                     return ListeningQuestion(dictionary: $0.data())!
                 })
                 self.questions.sort(by: { $0.orderNumber < $1.orderNumber })
-//                self.delegate?.questionsDownloaded()
+                self.delegate?.didDownloadQuestions()
                 self.saveToLocalDatabase()
             }
         }
@@ -148,7 +154,7 @@ class ListeningCourseViewModel {
                 count += 1
             }
         }
-        delegate?.answersChecked(result: count)
+        delegate?.didCheckUserAnswers(result: count)
     }
 }
 

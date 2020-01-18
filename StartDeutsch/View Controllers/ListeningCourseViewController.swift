@@ -13,8 +13,9 @@ import AVFoundation
 class ListeningCourseViewController: UIViewController {
     
     private var viewModel: ListeningCourseViewModel!
-    private var audioPlayer: AVAudioPlayer?
-    private var answers = [Int?](repeating: nil, count: 15)
+    private var audioPlayer = AVAudioPlayer()
+    private var userAnswers = [Int?](repeating: nil, count: 15)
+    private var finishBarButtonItem = UIBarButtonItem()
     
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -50,42 +51,54 @@ class ListeningCourseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        finishBarButtonItem = UIBarButtonItem(title: "Finish", style: .done, target: self, action: #selector(didTapFinishButton(_:)))
+        finishBarButtonItem.isEnabled = false
+        navigationItem.setRightBarButton(finishBarButtonItem, animated: true)
         setupCollectionView()
         viewModel.delegate = self
         viewModel.errorDelegate = self
         viewModel.getQuestions()
     }
+    
+    @objc func didTapFinishButton(_ sender: UIBarButtonItem){
+        viewModel.checkUserAnswers(answers: userAnswers)
+    }
+ 
 }
 
 extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelegate {
-    func answersChecked(result: Int) {
+    func didCheckUserAnswers(result: Int) {
+        finishBarButtonItem.isEnabled = false
+        viewModel.showsCorrectAnswer = true
         let alertController = UIAlertController(title: "Result", message: "Here is your score: \(result)", preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelButton)
+              let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+              alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
+        collectionView.reloadData()
     }
     
     func didDownloadAudio(path: URL) {
-        if audioPlayer?.isPlaying ?? false{
-            audioPlayer?.stop()
+        if audioPlayer.isPlaying {
+            audioPlayer.stop()
         }
         else {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: path)
-                audioPlayer?.play()
+                audioPlayer.play()
             }
             catch{
-                print(error)
+                return
             }
         }
     }
     
-    func questionsDownloaded() {
+    func didDownloadQuestions() {
         collectionView.reloadData()
     }
     
     func showError(message: String) {
-        let alertController = UIAlertController(title: "Result", message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
@@ -101,18 +114,30 @@ extension ListeningCourseViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let questionViewModel = viewModel.viewModel(for: indexPath.row)
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier(for: questionViewModel), for: indexPath)
         if let cell = cell as? CellConfigurable {
             cell.configure(with: questionViewModel)
         }
-        if let cell = cell as? ListeningQuestionCollectionViewCell{
-            cell.delegate = self
-            if let answer = answers[indexPath.row] {
-                cell.changeButtonState(for: answer)
+        guard let questionCell = cell as? ListeningQuestionCollectionViewCell else { return cell}
+        questionCell.delegate = self
+        
+        if let userAnswer = userAnswers[indexPath.row] {
+            questionCell.resetView()
+            if viewModel.showsCorrectAnswer {
+                questionCell.buttons.forEach({$0.isEnabled = false})
+                if userAnswer == viewModel.getCorrectAnswer(for: indexPath.row) {
+                    questionCell.changeButtonState(for: userAnswer, state: .correct)
+                }
+                else {
+                    questionCell.changeButtonState(for: userAnswer, state: .mistake)
+                    questionCell.changeButtonState(for: viewModel.getCorrectAnswer(for: indexPath.row), state: .correct)
+                }
+            }
+            else {
+                questionCell.changeButtonState(for: userAnswer, state: .chosen)
             }
         }
-        return cell
+        return questionCell
     }
 
     private func cellIdentifier(for viewModel: QuestionCellViewModel)-> String {
@@ -140,10 +165,9 @@ extension ListeningCourseViewController: ListeningQuestionDelegate {
     
     func didSelectAnswer(index: Int, cell: UICollectionViewCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        answers[indexPath.row] = index
-        print(answers)
-        if !answers.contains(where: { $0 == nil }) {
-            viewModel.checkUserAnswers(answers: answers)
+        userAnswers[indexPath.row] = index
+        if !userAnswers.contains(where: { $0 == nil }) {
+            finishBarButtonItem.isEnabled = true
         }
     }
 

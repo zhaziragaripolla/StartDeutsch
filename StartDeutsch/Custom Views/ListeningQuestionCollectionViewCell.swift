@@ -8,6 +8,22 @@
 
 import UIKit
 
+enum State {
+    case mistake
+    case correct
+    case chosen
+}
+
+struct Answer{
+    static func setColor(_ state: State)-> UIColor {
+        switch state {
+        case .chosen: return .orange
+        case .correct: return UIColor.init(hexString: "7fcd91")
+        case .mistake: return UIColor.init(hexString: "eb4d55")
+        }
+    }
+}
+
 protocol ListeningQuestionDelegate: class {
     func didTapAudioButton(_ cell: UICollectionViewCell)
     func didSelectAnswer(index: Int, cell: UICollectionViewCell)
@@ -60,7 +76,8 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
     }()
     
     @objc func didTapAnswerButton(_ sender: UIButton){
-        changeButtonState(for: sender.tag)
+        resetView()
+        changeButtonState(for: sender.tag, state: .chosen)
         delegate?.didSelectAnswer(index: sender.tag, cell: self)
     }
     
@@ -71,8 +88,11 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
         delegate?.didTapAudioButton(self)
     }
     
-    private func resetView(){
-        buttons.forEach({$0.backgroundColor = .white})
+    public func resetView(){
+        buttons.forEach({
+            $0.backgroundColor = .white
+            $0.setTitleColor(.systemBlue, for: .normal)
+        })
     }
     
     override func prepareForReuse() {
@@ -84,9 +104,9 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
         resetView()
     }
     
-    func changeButtonState(for index: Int){
-        resetView()
-        buttons[index].backgroundColor = .orange
+    func changeButtonState(for index: Int, state: State){
+        buttons[index].backgroundColor = Answer.setColor(state)
+        buttons[index].setTitleColor(.white, for: .normal)
     }
     
     override init(frame: CGRect) {
@@ -102,8 +122,9 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
         addSubview(questionLabel)
         questionLabel.snp.makeConstraints({ make in
             make.top.equalTo(orderNumberLabel.snp.bottom).offset(10)
-            make.width.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(0.3)
+            make.centerX.equalToSuperview()
         })
 
         addSubview(answerButtonStackView)
@@ -156,23 +177,24 @@ class ListeningQuestionBinaryChoiceCollectionViewCell: ListeningQuestionCollecti
 
 class ListeningQuestionMultipleChoiceCollectionViewCell: ListeningQuestionCollectionViewCell {
     
-    var indexCounter = 0
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        indexCounter = 0
+    @objc override func didTapAnswerButton(_ sender: UIButton){
+        resetView()
+        for index in 0..<buttons.count {
+            if buttons[index] == sender {
+                changeButtonState(for: index, state: .chosen)
+                delegate?.didSelectAnswer(index: index, cell: self)
+            }
+        }
     }
-
+    
     override func configure(with viewModel: QuestionCellViewModel) {
         super.configure(with: viewModel)
         guard let viewModel = viewModel as? ListeningQuestionMultipleChoiceViewModel else { return }
         viewModel.answerChoices.forEach({
             let button = UIButton.makeForAnswerChoice(title: $0)
             button.addTarget(self, action: #selector(didTapAnswerButton(_:)), for: .touchUpInside)
-            button.tag = indexCounter
             buttons.append(button)
             answerButtonStackView.addArrangedSubview(button)
-            indexCounter += 1
         })
     }
 
