@@ -22,7 +22,7 @@ extension UIButton {
         button.setTitle(title, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.layer.borderWidth = 1.0
+        button.layer.borderWidth = 2.0
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.cornerRadius = 20
         button.layer.masksToBounds = true
@@ -37,7 +37,7 @@ extension UIButton {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.layer.borderWidth = 1.0
+        button.layer.borderWidth = 2.0
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.cornerRadius = 20
         button.layer.masksToBounds = true
