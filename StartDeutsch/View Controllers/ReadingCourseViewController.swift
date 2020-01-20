@@ -9,20 +9,13 @@
 import UIKit
 import SnapKit
 
-struct ReadingCourseUserAnswer {
-    // Not-nil only for Reading Part One questions
-    var questionIndex: Int?
-    var singleValue: Int?
-    var arrayValue: [Bool]?
-    var isAnswered: Bool = false
-}
-
 
 class ReadingCourseViewController: UIViewController {
 
     private var viewModel: ReadingCourseViewModel!
     private var userAnswers: Dictionary<Int, Any?> = [:]
-
+    private var finishBarButtonItem = UIBarButtonItem()
+    
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 40, right: 10)
@@ -60,10 +53,17 @@ class ReadingCourseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        finishBarButtonItem = UIBarButtonItem(title: "Finish", style: .done, target: self, action: #selector(didTapFinishButton(_:)))
+              finishBarButtonItem.isEnabled = false
+        navigationItem.setRightBarButton(finishBarButtonItem, animated: true)
         view.backgroundColor = .white
         viewModel.delegate = self
         viewModel.errorDelegate = self
         viewModel.getQuestions()
+    }
+    
+    @objc func didTapFinishButton(_ sender: UIBarButtonItem){
+        viewModel.checkUserAnswers(userAnswers: userAnswers)
     }
 }
 
@@ -74,22 +74,44 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print(viewModel.questions[indexPath.row].section)
         let cellViewModel = viewModel.viewModel(for: indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier(for: cellViewModel!), for: indexPath)
         if let cell = cell as? CellConfigurable {
             cell.configure(with: cellViewModel!)
         }
-        if let cell = cell as? ReadingQuestionCollectionViewCell{
-            cell.delegate = self
-            if let answer = userAnswers[indexPath.row] as? Int {
-                cell.changeButtonState(for: answer)
+        guard let questionCell = cell as? ReadingQuestionCollectionViewCell else {return cell}
+        questionCell.delegate = self
+        questionCell.resetView()
+        
+        if let userAnswer = userAnswers[indexPath.row] as? Int,
+            let correctAnswer = viewModel.getCorrectAnswer(for: indexPath.row) as? Int{
+            if viewModel.showsCorrectAnswer {
+                questionCell.buttons.forEach({$0.isEnabled = false})
+                if userAnswer == correctAnswer {
+                    questionCell.changeButtonState(for: userAnswer, state: .correct)
+                }
+                else {
+                    questionCell.changeButtonState(for: userAnswer, state: .mistake)
+                    questionCell.changeButtonState(for: correctAnswer, state: .correct)
+                }
+            }
+            else {
+                questionCell.changeButtonState(for: userAnswer, state: .chosen)
             }
         }
         
-        if let answer = userAnswers[indexPath.row] as? [Bool?] {
-            if let cell = cell as? ReadingQuestionPartOneCollectionViewCell{
-                cell.setUserAnswer(answer)
+        // Custom configure with user answer for Part-1 Question
+        guard let questionCellPart1 = cell as? ReadingQuestionPartOneCollectionViewCell else { return questionCell}
+        
+        if let userAnswer = userAnswers[indexPath.row] as? [Bool?], let correctAnswer = viewModel.getCorrectAnswer(for: indexPath.row) as? [Bool?] {
+            if viewModel.showsCorrectAnswer {
+                questionCellPart1.buttons.forEach({$0.isEnabled = false})
+                let userAnswerInt = userAnswer.map({return $0!.toInt})
+                let correctAnswerInt = correctAnswer.map({return $0!.toInt})
+                questionCellPart1.setResult(userAnswer: userAnswerInt, correctAnswer: correctAnswerInt)
+            }
+            else {
+                questionCellPart1.setUserAnswer(userAnswer, state: .chosen)
             }
         }
         return cell
@@ -114,6 +136,17 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
 }
 
 extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDelegate{
+    
+    func didCheckUserAnswers(result: Int) {
+        finishBarButtonItem.isEnabled = false
+        viewModel.showsCorrectAnswer = true
+        let alertController = UIAlertController(title: "Result", message: "Here is your score: \(result)", preferredStyle: .alert)
+              let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+              alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
+        collectionView.reloadData()
+    }
  
     func showError(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -145,7 +178,7 @@ extension ReadingCourseViewController: AnswerToReadingQuestionSelectable{
     
     private func checkIfAllAnswersCollected(){
         if userAnswers.values.count == viewModel.questions.count {
-            viewModel.checkUserAnswers(userAnswers: userAnswers)
+            finishBarButtonItem.isEnabled = true
         }
     }
     

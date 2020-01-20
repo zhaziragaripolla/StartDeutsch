@@ -15,7 +15,7 @@ protocol AnswerToReadingQuestionSelectable: class {
 
 class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable {
 
-    fileprivate var buttons: [UIButton] = []
+    var buttons: [UIButton] = []
     weak var delegate: AnswerToReadingQuestionSelectable?
     
     
@@ -50,7 +50,8 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
     }()
     
     @objc func didTapAnswerButton(_ sender: UIButton){
-        changeButtonState(for: sender.tag)
+        resetView()
+        changeButtonState(for: sender.tag, state: .chosen)
         delegate?.didSelectSingleAnswer(cell: self, answer: sender.tag)
     }
     
@@ -79,13 +80,12 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func resetView(){
-        buttons.forEach({$0.backgroundColor = .white})
+    func resetView(){
+        buttons.forEach({$0.reset()})
     }
        
-    func changeButtonState(for index: Int){
-        resetView()
-        buttons[index].backgroundColor = .orange
+    func changeButtonState(for index: Int, state: AnswerState){
+        buttons[index].setState(state)
     }
     
     func configure(with viewModel: QuestionCellViewModel) {
@@ -120,10 +120,18 @@ class ReadingQuestionPartOneCollectionViewCell: ReadingQuestionCollectionViewCel
         return stackView
     }
     
+    private let questionImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     @objc override func didTapAnswerButton(_ sender: UIButton){
         for index in 0..<buttons.count {
             if buttons[index] == sender {
-                changeButtonState(for: index)
+                resetView(index)
+                changeButtonState(for: index, state: .chosen)
                 let indexOfQuestion = index/n
                 answers[indexOfQuestion] = sender.defineAnswerState()
                 delegate?.didSelectMultipleAnswer(cell: self, answers: answers)
@@ -132,32 +140,37 @@ class ReadingQuestionPartOneCollectionViewCell: ReadingQuestionCollectionViewCel
     }
     
     // When some button(answer) is tapped, it is needed to reset other button background colors. But only for buttons that relate to the same question. All questions has n buttons that related to them. All buttons are saved into "buttons" array. So, first n buttons are related to 1st question, second n buttons relate to 2nd question and so on. Knowing index of selected button, we can calculate other buttons that need to be resetted. This function works only for n = 2.
-    override func changeButtonState(for index: Int) {
-        if (index.isMultiple(of: 2)) {
-            buttons[index+1].backgroundColor = .white
-        }
-        else {
-            buttons[index-1].backgroundColor = .white
-        }
-        buttons[index].backgroundColor = .orange
+    override func changeButtonState(for index: Int, state: AnswerState) {
+        buttons[index].setState(state)
     }
     
-    public func setUserAnswer(_ answers: [Bool?]) {
+    func resetView(_ index: Int) {
+        index.isMultiple(of: 2) ? buttons[index+1].reset() : buttons[index-1].reset()
+    }
+    
+    public func setUserAnswer(_ answers: [Bool?], state: AnswerState) {
         for index in 0..<answers.count{
             if let answer = answers[index] {
                 let indexOfSelectedButton = 2 * index + answer.toInt
-                changeButtonState(for: indexOfSelectedButton)
+                resetView(indexOfSelectedButton)
+                changeButtonState(for: indexOfSelectedButton, state: state)
+            }
+        }
+    }
+    
+    public func setResult(userAnswer: [Int], correctAnswer: [Int]){
+        for index in 0..<userAnswer.count {
+            if userAnswer[index]==correctAnswer[index]{
+                let indexOfSelectedButton = 2 * index + userAnswer[index]
+                changeButtonState(for: indexOfSelectedButton, state: .correct)
+            }
+            else {
+                changeButtonState(for: 2 * index + correctAnswer[index], state: .correct)
+                changeButtonState(for: 2 * index + userAnswer[index], state: .mistake)
             }
         }
     }
 
-    private let questionImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         answers.removeAll()
@@ -238,24 +251,20 @@ class ReadingQuestionPartTwoCollectionViewCell: ReadingQuestionCollectionViewCel
         cardViews.removeAll()
     }
     
-    override func changeButtonState(for index: Int) {
-        resetView()
-        cardViews[index].isSelected = true
+    override func changeButtonState(for index: Int, state: AnswerState) {
+        cardViews[index].setState(state)
     }
     
-    private func resetView(){
+    override func resetView(){
         cardViews.forEach({
-            $0.isSelected = false
+            $0.reset()
         })
     }
     
     @objc func didTapCardView(_ sender: UITapGestureRecognizer){
         if let cardView = sender.view as? CardView {
-            // Change UI to manage the selection state of the card view.
             resetView()
-            cardView.isSelected = !cardView.isSelected
-            
-            // Delegate to View Controller the index of selected model.
+            cardView.setState(.chosen)
             for index in 0..<cardViews.count{
                 if cardViews[index] == cardView{
                     delegate?.didSelectSingleAnswer(cell: self, answer: index)

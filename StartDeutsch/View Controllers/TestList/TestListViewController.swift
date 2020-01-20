@@ -37,9 +37,8 @@ class TestListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
+        tableView.tableFooterView = UIView()
         view.backgroundColor = .white
-        
         viewModel.delegate = self
         viewModel.getTests()
         

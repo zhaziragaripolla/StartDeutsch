@@ -10,6 +10,7 @@ import Foundation
 
 protocol ReadingCourseViewModelDelegate: class {
     func didDownloadQuestions()
+    func didCheckUserAnswers(result: Int)
 }
 
 class ReadingCourseViewModel {
@@ -21,6 +22,7 @@ class ReadingCourseViewModel {
     
     // Models
     var questions: [ReadingQuestionEntity] = []
+    public var showsCorrectAnswer: Bool = false
     
     // Delegates
     weak var delegate: ReadingCourseViewModelDelegate?
@@ -98,6 +100,16 @@ class ReadingCourseViewModel {
         })
     }
     
+    public func getCorrectAnswer(for index: Int)-> Any{
+        let question = questions[index]
+        switch question.section {
+        case 1:
+            return question.correctAnswers as Any
+        default:
+            return question.correctChoiceIndex as Any
+        }
+    }
+    
     public func checkUserAnswers(userAnswers: Dictionary<Int, Any?>){
         // TODO: Refactor
         var count = 0
@@ -121,6 +133,6 @@ class ReadingCourseViewModel {
             }
         }
         print("Result is: \(count)")
-//        delegate?.answersChecked(result: count)
+        delegate?.didCheckUserAnswers(result: count)
     }
 }

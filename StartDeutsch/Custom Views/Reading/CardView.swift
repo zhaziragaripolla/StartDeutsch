@@ -20,7 +20,7 @@ class CardView: UIView {
     let indicatorButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderWidth = 1.0
+        button.layer.borderWidth = 2.0
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
         button.layer.backgroundColor = UIColor.white.cgColor
@@ -31,17 +31,12 @@ class CardView: UIView {
         return button
     }()
     
-    var isSelected = false {
-        didSet{
-            changeSelectionState()
-        }
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
         layer.cornerRadius = 20
         layer.borderColor = UIColor.white.cgColor
+        layer.borderWidth = 2.0
         addSubview(cardImageView)
         cardImageView.snp.makeConstraints({ make in
             make.width.equalToSuperview().multipliedBy(0.9)
@@ -61,11 +56,30 @@ class CardView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-   
-    private func changeSelectionState(){
-        let indicatorButtonStateColor: CGColor
-        indicatorButtonStateColor = isSelected ? UIColor.orange.cgColor : UIColor.white.cgColor
-        indicatorButton.layer.backgroundColor = indicatorButtonStateColor
+    
+}
+
+extension CardView {
+    func setState(_ answerState: AnswerState){
+        switch answerState {
+        case .correct:
+            backgroundColor = Answer.setColor(.correct)
+            indicatorButton.setImage(UIImage(named: "correct"), for: .normal)
+            layer.borderColor = UIColor.white.cgColor
+        case .mistake:
+            backgroundColor = Answer.setColor(.mistake)
+            indicatorButton.setImage(UIImage(named: "incorrect"), for: .normal)
+            self.layer.borderColor = Answer.setColor(.mistake).cgColor
+        case .chosen:
+            backgroundColor = Answer.setColor(.chosen)
+            indicatorButton.setImage(UIImage(systemName: "smallcircle.circle.fill"), for: .normal)
+            layer.borderColor = Answer.setColor(.chosen).cgColor
+        }
     }
     
+    func reset(){
+        backgroundColor = .white
+        indicatorButton.setImage(nil, for: .normal)
+        layer.borderColor = UIColor.white.cgColor
+    }
 }

@@ -8,14 +8,14 @@
 
 import UIKit
 
-enum State {
+enum AnswerState {
     case mistake
     case correct
     case chosen
 }
 
 struct Answer{
-    static func setColor(_ state: State)-> UIColor {
+    static func setColor(_ state: AnswerState)-> UIColor {
         switch state {
         case .chosen: return .orange
         case .correct: return UIColor.init(hexString: "7fcd91")
@@ -104,9 +104,8 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
         resetView()
     }
     
-    func changeButtonState(for index: Int, state: State){
-        buttons[index].backgroundColor = Answer.setColor(state)
-        buttons[index].setTitleColor(.white, for: .normal)
+    func changeButtonState(for index: Int, state: AnswerState){
+        buttons[index].setState(state)
     }
     
     override init(frame: CGRect) {
