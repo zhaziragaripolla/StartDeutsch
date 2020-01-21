@@ -32,6 +32,7 @@ class CourseListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CourseTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.separatorStyle = .none
     }
     
     override func viewDidLoad() {
@@ -56,8 +57,7 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CourseTableViewCell
         let course = viewModel.courses[indexPath.row]
-        cell.titleLabel.text = course.title
-        cell.courseImageView.image = UIImage(named: "\(course.aliasName).png")
+        cell.configure(course: course)
         return cell
     }
     
