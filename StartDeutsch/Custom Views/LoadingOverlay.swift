@@ -45,7 +45,55 @@ public class LoadingOverlay {
         DispatchQueue.main.async {
              self.activityIndicator.stopAnimating()
         }
-       
-        overlayView.removeFromSuperview()
+        if overlayView.superview != nil {
+           overlayView.removeFromSuperview()
+        }
     }
 }
+
+public class ConnectionFailOverlay {
+    
+    var overlayView = UIView()
+    
+    var label: UILabel =  {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.textColor = .darkGray
+        label.numberOfLines = 0
+        label.clipsToBounds = true
+        label.text = "This device appears to be offline, please check the internet connection."
+        return label
+    }()
+    
+    class var shared: ConnectionFailOverlay {
+        struct Static {
+            static let instance: ConnectionFailOverlay = ConnectionFailOverlay()
+        }
+        return Static.instance
+    }
+
+    public func showOverlay(view: UIView) {
+        overlayView.addSubview(label)
+        label.snp.makeConstraints({ make in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
+        })
+        view.addSubview(overlayView)
+        overlayView.snp.makeConstraints({ make in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
+            make.height.equalToSuperview().multipliedBy(0.3)
+        })
+    }
+
+    public func hideOverlayView() {
+        if overlayView.superview != nil {
+            overlayView.removeFromSuperview()
+        }
+    }
+}
+
