@@ -24,12 +24,7 @@ class TestListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        title = "Tests"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        
+    fileprivate func setupTableView() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
             make.top.bottom.trailing.leading.equalToSuperview()
@@ -38,10 +33,18 @@ class TestListViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.tableFooterView = UIView()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = viewModel.course.title
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        setupTableView()
         view.backgroundColor = .white
         viewModel.delegate = self
         viewModel.getTests()
-        
     }
     
 
@@ -66,9 +69,31 @@ extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension TestListViewController: TestsViewModelDelegate {
-    func reloadData() {
-        tableView.reloadData()
+extension TestListViewController: ViewModelDelegate {
+    func didStartLoading() {
+        LoadingOverlay.shared.showOverlay(view: view)
     }
     
+    func didCompleteLoading() {
+        LoadingOverlay.shared.hideOverlayView()
+    }
+    
+    func networkOffline() {
+        ConnectionFailOverlay.shared.showOverlay(view: view)
+    }
+    
+    func networkOnline() {
+        ConnectionFailOverlay.shared.hideOverlayView()
+    }
+    
+    func showError(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelButton)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func didDownloadData() {
+        tableView.reloadData()
+    }
 }

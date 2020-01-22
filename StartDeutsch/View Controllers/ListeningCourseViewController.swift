@@ -55,8 +55,10 @@ class ListeningCourseViewController: UIViewController {
         finishBarButtonItem.isEnabled = false
         navigationItem.setRightBarButton(finishBarButtonItem, animated: true)
         setupCollectionView()
-        viewModel.delegate = self
+        viewModel.audioDelegate = self
         viewModel.errorDelegate = self
+        viewModel.delegate = self
+        viewModel.userAnswerDelegate = self
         viewModel.getQuestions()
     }
     
@@ -66,7 +68,27 @@ class ListeningCourseViewController: UIViewController {
  
 }
 
-extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelegate {
+extension ListeningCourseViewController: ViewModelDelegate, ListeningViewModelDelegate, ErrorDelegate, UserAnswerDelegate {
+    func didDownloadData() {
+        collectionView.reloadData()
+    }
+    
+    func didStartLoading() {
+        LoadingOverlay.shared.showOverlay(view: view)
+    }
+    
+    func didCompleteLoading() {
+        LoadingOverlay.shared.hideOverlayView()
+    }
+    
+    func networkOffline() {
+        ConnectionFailOverlay.shared.showOverlay(view: view)
+    }
+    
+    func networkOnline() {
+        ConnectionFailOverlay.shared.hideOverlayView()
+    }
+    
     func didCheckUserAnswers(result: Int) {
         finishBarButtonItem.isEnabled = false
         viewModel.showsCorrectAnswer = true
@@ -92,11 +114,7 @@ extension ListeningCourseViewController: ListeningViewModelDelegate, ErrorDelega
             }
         }
     }
-    
-    func didDownloadQuestions() {
-        collectionView.reloadData()
-    }
-    
+
     func showError(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)

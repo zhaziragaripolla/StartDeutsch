@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import os
 
 protocol ListeningViewModelDelegate: class {
     func didDownloadAudio(path: URL)
-    func didDownloadQuestions()
+}
+
+protocol UserAnswerDelegate: class {
     func didCheckUserAnswers(result: Int)
 }
 
@@ -25,6 +28,7 @@ class ListeningCourseViewModel {
     private let firebaseManager: FirebaseManagerProtocol
     private let test: Test
     private let repository: CoreDataRepository<ListeningQuestion>
+    private let networkManager: NetworkManagerProtocol
     
     // Models
     public var storedAudioPaths = [URL?](repeating: nil, count: 15)
@@ -32,16 +36,19 @@ class ListeningCourseViewModel {
     public var showsCorrectAnswer: Bool = false
     
     // Delegates
-    weak var delegate: ListeningViewModelDelegate?
+    weak var audioDelegate: ListeningViewModelDelegate?
+    weak var delegate: ViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
+    weak var userAnswerDelegate: UserAnswerDelegate?
     
     private let fileManager = FileManager.default
   
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, test: Test, repository: CoreDataRepository<ListeningQuestion>) {
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, test: Test, repository: CoreDataRepository<ListeningQuestion>, networkManager: NetworkManagerProtocol) {
         self.firebaseManager = firebaseManager
         self.test = test
         self.storage = firebaseStorageManager
         self.repository = repository
+        self.networkManager = networkManager
     }
     
     func getDocumentsDirectory() -> URL {
@@ -60,6 +67,14 @@ class ListeningCourseViewModel {
     
     public func getQuestions() {
         fetchFromLocalDatabase()
+        if questions.isEmpty{
+            if !networkManager.isReachable(){
+                 self.delegate?.networkOffline()
+            }
+        }
+        else {
+            delegate?.didDownloadData()
+        }
     }
     
     public func getCorrectAnswer(for index: Int)-> Int{
@@ -70,12 +85,6 @@ class ListeningCourseViewModel {
     private func fetchFromLocalDatabase(){
         do {
             self.questions = try repository.getAll(where: nil)
-            if questions.isEmpty {
-                self.fetchFromRemoteDatabase()
-            }
-//            else {
-//                self.delegate?.questionsDownloaded()
-//            }
         }
         catch let error {
             errorDelegate?.showError(message: error.localizedDescription)
@@ -93,7 +102,7 @@ class ListeningCourseViewModel {
         let path = getAudioStoredPath(id: question.id)
         if fileManager.fileExists(atPath: path.path) {
             storedAudioPaths[index] = path
-            delegate?.didDownloadAudio(path: path)
+            audioDelegate?.didDownloadAudio(path: path)
         }
         else {
             self.downloadAudio(for: question)
@@ -112,7 +121,7 @@ class ListeningCourseViewModel {
                     return ListeningQuestion(dictionary: $0.data())!
                 })
                 self.questions.sort(by: { $0.orderNumber < $1.orderNumber })
-                self.delegate?.didDownloadQuestions()
+                self.delegate?.didDownloadData()
                 self.saveToLocalDatabase()
             }
         }
@@ -138,7 +147,7 @@ class ListeningCourseViewModel {
                     self.storedAudioPaths[question.orderNumber-1] = fileURL
                     print(self.fileManager.fileExists(atPath: fileURL.path))
                     print("Audio downloaded and saved at \(fileURL.description)")
-                    self.delegate?.didDownloadAudio(path: fileURL)
+                    self.audioDelegate?.didDownloadAudio(path: fileURL)
                 }
                 catch {
                     self.errorDelegate?.showError(message: error.localizedDescription)
@@ -154,7 +163,24 @@ class ListeningCourseViewModel {
                 count += 1
             }
         }
-        delegate?.didCheckUserAnswers(result: count)
+        userAnswerDelegate?.didCheckUserAnswers(result: count)
     }
 }
 
+extension ListeningCourseViewModel: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+    if isReachable {
+            os_log("Change of intenet connection. Device is online.")
+            self.delegate?.networkOnline()
+            if questions.isEmpty {
+                fetchFromRemoteDatabase()
+            }
+        }
+        else {
+            os_log("Change of intenet connection. Device is offline.")
+            if questions.isEmpty {
+                self.delegate?.networkOffline()
+            }
+        }
+    }
+}

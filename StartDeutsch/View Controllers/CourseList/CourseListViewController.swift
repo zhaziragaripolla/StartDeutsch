@@ -40,7 +40,6 @@ class CourseListViewController: UIViewController {
         
         title = "Start Deutsch A1"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        
         setupTableView()
         viewModel.delegate = self
         viewModel.errorDelegate = self
@@ -72,15 +71,31 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
     }
 }
 
-extension CourseListViewController: CoursesViewModelDelegate, ErrorDelegate {
+extension CourseListViewController: ViewModelDelegate, ErrorDelegate {
+    func didStartLoading() {
+        LoadingOverlay.shared.showOverlay(view: view)
+    }
+    
+    func didCompleteLoading() {
+        LoadingOverlay.shared.hideOverlayView()
+    }
+    
+    func networkOffline() {
+        ConnectionFailOverlay.shared.showOverlay(view: view)
+    }
+    
+    func networkOnline() {
+        ConnectionFailOverlay.shared.hideOverlayView()
+    }
+    
     func showError(message: String) {
-                let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
     }
     
-    func reloadData() {
+    func didDownloadData() {
         tableView.reloadData()
     }
     

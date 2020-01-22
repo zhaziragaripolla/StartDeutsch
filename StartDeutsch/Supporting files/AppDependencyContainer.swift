@@ -12,7 +12,7 @@ class AppDependencyContainer {
     
     let sharedFirebaseManager: FirebaseManager
     let sharedFirebaseStorageManager: FirebaseStorageManager
-    
+    let networkManager: NetworkManager
     init(){
         
         func makeFirebaseManager()-> FirebaseManager {
@@ -22,43 +22,53 @@ class AppDependencyContainer {
         func makeFirebaseStorageManager()-> FirebaseStorageManager {
             return FirebaseStorageManager()
         }
-        
+        func makeNetworkManager()->NetworkManager{
+            return NetworkManager([])
+        }
         self.sharedFirebaseManager = makeFirebaseManager()
         self.sharedFirebaseStorageManager = makeFirebaseStorageManager()
+        self.networkManager = makeNetworkManager()
+    }
+    
+    deinit {
+        networkManager.stopNotifier()
     }
     
     // MARK: Courses
     // TODO: rename to CourseList
     func makeCoursesViewController()-> CourseListViewController {
         let viewModel = makeCoursesViewModel()
+        networkManager.addDelegate(viewModel)
         return CourseListViewController(viewModel: viewModel)
         
     }
     
     func makeCoursesViewModel()-> CourseListViewModel {
         let repo = CoreDataRepository<Course>()
-        return CourseListViewModel(firebaseManager: sharedFirebaseManager, repository: repo)
+        return CourseListViewModel(firebaseManager: sharedFirebaseManager, repository: repo, networkManager: networkManager)
     }
     
     
     // MARK: Tests
     func makeTestsViewController(course: Course)-> TestListViewController {
         let viewModel = makeTestsViewModel(course: course)
+        networkManager.addDelegate(viewModel)
         return TestListViewController(viewModel: viewModel)
     }
     
     func makeTestsViewModel(course: Course)-> TestListViewModel {
-        return TestListViewModel(firebaseManager: sharedFirebaseManager, course: course, repository: CoreDataRepository<Test>())
+        return TestListViewModel(firebaseManager: sharedFirebaseManager, course: course, repository: CoreDataRepository<Test>(), networkManager: networkManager)
     }
     
     // MARK: - Listening
     func makeListeningCourseViewController(test: Test)-> ListeningCourseViewController {
         let viewModel = makeListeningQuestionsViewModel(test: test)
+        networkManager.addDelegate(viewModel)
         return ListeningCourseViewController(viewModel: viewModel)
     }
     
     func makeListeningQuestionsViewModel(test: Test)-> ListeningCourseViewModel {
-        return ListeningCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>())
+        return ListeningCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>(), networkManager: networkManager)
     }
     
     // MARK: - Reading

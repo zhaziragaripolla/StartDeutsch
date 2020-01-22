@@ -41,7 +41,7 @@ class BlankListViewModel{
                 delegate?.didDownloadBlanks()
             }
         }
-        catch let error {
+        catch {
 //            errorDelegate?.showError(message: error.localizedDescription)
             fetchFromRemoteDatabase()
         }
