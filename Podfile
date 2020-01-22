@@ -16,6 +16,7 @@ target 'StartDeutsch' do
     pod 'FirebaseUI/Storage'
     pod 'SnapKit', '~> 5.0.0'
     pod 'Firebase/Functions'
+    pod 'ReachabilitySwift'
     # Optionally, include the Swift extensions if you're using Swift.
     pod 'FirebaseFirestoreSwift'
 
