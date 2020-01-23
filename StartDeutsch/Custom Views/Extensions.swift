@@ -11,6 +11,7 @@ import FirebaseUI
 
 extension UIImageView {
     func load(from path: String) {
+        self.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
         let reference = Storage.storage().reference(withPath: path)
         self.sd_setImage(with: reference)
     }
