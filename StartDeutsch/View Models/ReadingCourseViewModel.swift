@@ -8,38 +8,47 @@
 
 import Foundation
 
-protocol ReadingCourseViewModelDelegate: class {
-    func didDownloadQuestions()
-    func didCheckUserAnswers(result: Int)
-}
-
 class ReadingCourseViewModel {
     // Dependencies
     private let storage: FirebaseStorageManagerProtocol
     private let firebaseManager: FirebaseManagerProtocol
     private let test: Test
     private let repository: CoreDataRepository<ReadingQuestionEntity>
+    private let networkManager: NetworkManagerProtocol
     
     // Models
     var questions: [ReadingQuestionEntity] = []
     public var showsCorrectAnswer: Bool = false
     
     // Delegates
-    weak var delegate: ReadingCourseViewModelDelegate?
+    weak var delegate: ViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
+    weak var userAnswerDelegate: UserAnswerDelegate?
     
     private let fileManager = FileManager.default
-    private let dispatchGroup = DispatchGroup()
     
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<ReadingQuestionEntity>, test: Test) {
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<ReadingQuestionEntity>, test: Test, networkManager: NetworkManagerProtocol) {
         self.firebaseManager = firebaseManager
         self.test = test
         self.storage = firebaseStorageManager
         self.repository = repository
+        self.networkManager = networkManager
     }
     
     public func getQuestions() {
         fetchFromLocalDatabase()
+        if questions.isEmpty {
+            if networkManager.isReachable(){
+                fetchFromRemoteDatabase()
+            }
+            else {
+                self.delegate?.networkOffline()
+            }
+        }
+        else {
+            self.questions.sort(by: { $0.orderNumber < $1.orderNumber})
+            self.delegate?.didDownloadData()
+        }
     }
     
     // TODO: change "url" to "path"
@@ -62,13 +71,6 @@ class ReadingCourseViewModel {
     private func fetchFromLocalDatabase(){
         do {
             self.questions = try repository.getAll(where: nil)
-            if questions.isEmpty {
-                self.fetchFromRemoteDatabase()
-            }
-            else {
-                self.questions.sort(by: { $0.orderNumber < $1.orderNumber})
-                self.delegate?.didDownloadQuestions()
-            }
         }
         catch let error {
             errorDelegate?.showError(message: error.localizedDescription)
@@ -77,6 +79,7 @@ class ReadingCourseViewModel {
     }
     
     private func fetchFromRemoteDatabase(){
+        delegate?.didStartLoading()
         firebaseManager.getDocuments(test.documentPath.appending("/questions")){ result in
             switch result {
             case .failure(let error):
@@ -87,7 +90,8 @@ class ReadingCourseViewModel {
                 self.questions = response.map({
                     return ReadingQuestionEntity(dictionary: $0.data())!
                 })
-                self.delegate?.didDownloadQuestions()
+                self.delegate?.didCompleteLoading()
+                self.delegate?.didDownloadData()
                 self.saveToLocalDatabase()
                 self.questions.sort(by: { $0.orderNumber < $1.orderNumber})
             }
@@ -133,6 +137,22 @@ class ReadingCourseViewModel {
             }
         }
         print("Result is: \(count)")
-        delegate?.didCheckUserAnswers(result: count)
+        userAnswerDelegate?.didCheckUserAnswers(result: count)
+    }
+}
+
+extension ReadingCourseViewModel: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            self.delegate?.networkOnline()
+            if questions.isEmpty {
+                fetchFromRemoteDatabase()
+            }
+        }
+        else {
+            if questions.isEmpty {
+                self.delegate?.networkOffline()
+            }
+        }
     }
 }

@@ -8,34 +8,42 @@
 
 import Foundation
 
-protocol CardListViewModelDelegate: class {
-    func didDownloadCards()
-}
-
 class CardListViewModel {
+    // Models
     private var cards: [Card] = []
     private var randomCards: [Card] = []
     public var storedImageUrls: [URL] = [] {
         didSet {
-            delegate?.didDownloadCards()
+            delegate?.didDownloadData()
         }
     }
+    
+    //Dependencies
     private let repository: CoreDataRepository<Card>
     private let firebaseManager: FirebaseManagerProtocol
     private let storage: FirebaseStorageManagerProtocol
-    weak var delegate: CardListViewModelDelegate?
+    private let networkManager: NetworkManagerProtocol
+    
+    // Delegates
+    weak var delegate: ViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<Card>){
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<Card>, networkManager: NetworkManagerProtocol){
         self.firebaseManager = firebaseManager
         self.storage = firebaseStorageManager
         self.repository = repository
+        self.networkManager = networkManager
     }
     
     public func getCards(){
         fetchFromLocalDatabase()
-        if cards.isEmpty {
-            fetchFromRemoteDatabase()
+        if cards.isEmpty{
+            if networkManager.isReachable(){
+                fetchFromRemoteDatabase()
+            }
+            else {
+                self.delegate?.networkOffline()
+            }
         }
     }
     
@@ -47,12 +55,14 @@ class CardListViewModel {
     }
     
     private func fetchFromRemoteDatabase(){
+        delegate?.didStartLoading()
         firebaseManager.getDocuments("/courses/speaking/cards"){ result in
             switch result {
             case .success(let response):
                 self.cards = response.map({
                     return Card(dictionary: $0.data())!
                 })
+                self.delegate?.didCompleteLoading()
                 self.saveToLocalDatabase()
                 self.reloadImages()
                 print("fetched from Firebase")
@@ -133,3 +143,20 @@ class CardListViewModel {
     
     
 }
+
+extension CardListViewModel: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            self.delegate?.networkOnline()
+            if cards.isEmpty {
+                fetchFromRemoteDatabase()
+            }
+        }
+        else {
+            if cards.isEmpty {
+                self.delegate?.networkOffline()
+            }
+        }
+    }
+}
+

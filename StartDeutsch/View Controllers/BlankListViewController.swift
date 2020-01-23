@@ -71,8 +71,8 @@ extension BlankListViewController: UITableViewDelegate, UITableViewDataSource{
     
 }
 
-extension BlankListViewController: BlankListViewModelDelegate, ErrorDelegate{
-    func didDownloadBlanks() {
+extension BlankListViewController: ViewModelDelegate, ErrorDelegate{
+    func didDownloadData() {
         tableView.reloadData()
     }
     
@@ -81,5 +81,21 @@ extension BlankListViewController: BlankListViewModelDelegate, ErrorDelegate{
         let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func didStartLoading() {
+        LoadingOverlay.shared.showOverlay(view: view)
+    }
+    
+    func didCompleteLoading() {
+        LoadingOverlay.shared.hideOverlayView()
+    }
+    
+    func networkOffline() {
+        ConnectionFailOverlay.shared.showOverlay(view: view)
+    }
+    
+    func networkOnline() {
+        ConnectionFailOverlay.shared.hideOverlayView()
     }
 }

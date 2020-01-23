@@ -8,31 +8,40 @@
 
 import Foundation
 
-protocol WordListViewModelDelegate: class {
-    func didDownloadWords()
-}
-
 class WordListViewModel {
+    
+    // Models
     private var words: [Word] = []
     public var randomWords: [Word] = [] {
         didSet{
-            delegate?.didDownloadWords()
+            delegate?.didDownloadData()
         }
     }
+    
+    // Dependencies
     private let firebaseManager: FirebaseManagerProtocol
     private let repository: CoreDataRepository<Word>
-    weak var delegate: WordListViewModelDelegate?
+    private let networkManager: NetworkManagerProtocol
+    
+    // Delegates
+    weak var delegate: ViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
-    init(firebaseManager: FirebaseManagerProtocol, repository: CoreDataRepository<Word>){
+    init(firebaseManager: FirebaseManagerProtocol, repository: CoreDataRepository<Word>, networkManager: NetworkManagerProtocol){
         self.firebaseManager = firebaseManager
         self.repository = repository
+        self.networkManager = networkManager
     }
     
     public func getWords(){
         fetchFromLocalDatabase()
-        if words.isEmpty {
-            fetchFromRemoteDatabase()
+        if words.isEmpty{
+            if networkManager.isReachable(){
+                fetchFromRemoteDatabase()
+            }
+            else {
+                self.delegate?.networkOffline()
+            }
         }
     }
     
@@ -53,6 +62,7 @@ class WordListViewModel {
     }
     
     private func fetchFromRemoteDatabase(){
+        delegate?.didStartLoading()
         firebaseManager.getDocuments("/courses/speaking/words"){ result in
             switch result {
             case .success(let response):
@@ -60,6 +70,7 @@ class WordListViewModel {
                     return Word(dictionary: $0.data())!
                 })
                 self.reloadWords()
+                self.delegate?.didCompleteLoading()
                 self.saveToLocalDatabase()
                 print("fetched from Firebase")
             case .failure(let error):
@@ -88,4 +99,20 @@ class WordListViewModel {
         }
     }
     
+}
+
+extension WordListViewModel: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            self.delegate?.networkOnline()
+            if words.isEmpty {
+                fetchFromRemoteDatabase()
+            }
+        }
+        else {
+            if words.isEmpty {
+                self.delegate?.networkOffline()
+            }
+        }
+    }
 }

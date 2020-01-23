@@ -74,11 +74,12 @@ class AppDependencyContainer {
     // MARK: - Reading
     func makeReadingCourseViewController(test: Test)-> ReadingCourseViewController {
         let viewModel = makeReadingQuestionsViewModel(test: test)
+        networkManager.addDelegate(viewModel)
         return ReadingCourseViewController(viewModel: viewModel)
     }
     
     func makeReadingQuestionsViewModel(test: Test)-> ReadingCourseViewModel {
-        return ReadingCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<ReadingQuestionEntity>(), test: test)
+        return ReadingCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<ReadingQuestionEntity>(), test: test, networkManager: networkManager)
     }
     
     // MARK: - Writing
@@ -87,12 +88,14 @@ class AppDependencyContainer {
     }
     
     func makeBlankListViewController()-> BlankListViewController{
-        let viewModel = BlankListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Blank>())
+        let viewModel = BlankListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Blank>(), networkManager: networkManager)
+        networkManager.addDelegate(viewModel)
         return BlankListViewController(viewModel: viewModel)
     }
     
     func makeLetterListViewController()-> LetterListViewController {
-        let viewModel = LetterListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Letter>())
+        let viewModel = LetterListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Letter>(), networkManager: networkManager)
+        networkManager.addDelegate(viewModel)
         return LetterListViewController(viewModel: viewModel)
     }
     
@@ -111,12 +114,14 @@ class AppDependencyContainer {
       }
     
     func makeWordListViewController()-> WordListViewController{
-        let viewModel = WordListViewModel(firebaseManager: sharedFirebaseManager, repository: CoreDataRepository<Word>())
+        let viewModel = WordListViewModel(firebaseManager: sharedFirebaseManager, repository: CoreDataRepository<Word>(), networkManager: networkManager)
+        networkManager.addDelegate(viewModel)
         return WordListViewController(viewModel: viewModel)
     }
     
     func makeCardListViewController()-> CardListViewController {
-        let viewModel = CardListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Card>())
+        let viewModel = CardListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Card>(), networkManager: networkManager)
+        networkManager.addDelegate(viewModel)
         return CardListViewController(viewModel: viewModel)
     }
     

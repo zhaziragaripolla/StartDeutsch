@@ -80,8 +80,8 @@ extension CardListViewController: UICollectionViewDelegate, UICollectionViewData
 }
 
 
-extension CardListViewController: CardListViewModelDelegate, ErrorDelegate {
-    func didDownloadCards() {
+extension CardListViewController: ViewModelDelegate, ErrorDelegate {
+    func didDownloadData() {
         collectionView.reloadData()
     }
     
@@ -90,6 +90,22 @@ extension CardListViewController: CardListViewModelDelegate, ErrorDelegate {
         let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func didStartLoading() {
+        LoadingOverlay.shared.showOverlay(view: view)
+    }
+    
+    func didCompleteLoading() {
+        LoadingOverlay.shared.hideOverlayView()
+    }
+    
+    func networkOffline() {
+        ConnectionFailOverlay.shared.showOverlay(view: view)
+    }
+    
+    func networkOnline() {
+        ConnectionFailOverlay.shared.hideOverlayView()
     }
 }
 

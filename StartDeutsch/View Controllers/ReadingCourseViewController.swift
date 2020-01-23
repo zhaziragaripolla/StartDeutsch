@@ -58,6 +58,7 @@ class ReadingCourseViewController: UIViewController {
         navigationItem.setRightBarButton(finishBarButtonItem, animated: true)
         view.backgroundColor = .white
         viewModel.delegate = self
+        viewModel.userAnswerDelegate = self
         viewModel.errorDelegate = self
         viewModel.getQuestions()
     }
@@ -135,7 +136,7 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
     }
 }
 
-extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDelegate{
+extension ReadingCourseViewController: ViewModelDelegate, ErrorDelegate, UserAnswerDelegate{
     
     func didCheckUserAnswers(result: Int) {
         finishBarButtonItem.isEnabled = false
@@ -154,9 +155,25 @@ extension ReadingCourseViewController: ErrorDelegate, ReadingCourseViewModelDele
         alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
     }
-    
-    func didDownloadQuestions() {
+
+    func didDownloadData() {
         collectionView.reloadData()
+    }
+    
+    func didStartLoading() {
+        LoadingOverlay.shared.showOverlay(view: view)
+    }
+    
+    func didCompleteLoading() {
+        LoadingOverlay.shared.hideOverlayView()
+    }
+    
+    func networkOffline() {
+        ConnectionFailOverlay.shared.showOverlay(view: view)
+    }
+    
+    func networkOnline() {
+        ConnectionFailOverlay.shared.hideOverlayView()
     }
     
 }

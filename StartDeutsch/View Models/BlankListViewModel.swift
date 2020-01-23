@@ -8,38 +8,47 @@
 
 import Foundation
 
-protocol BlankListViewModelDelegate: class {
-    func didDownloadBlanks()
-}
-
 class BlankListViewModel{
+    
+    // Dependencies
     private let storage: FirebaseStorageManagerProtocol
     private let firebaseManager: FirebaseManagerProtocol
     private let repository: CoreDataRepository<Blank>
+    private let networkManager: NetworkManagerProtocol
+    
+    // Models
     var blanks: [Blank] = []
-    weak var delegate: BlankListViewModelDelegate?
+    
+    // Delegates
+    weak var delegate: ViewModelDelegate?
     weak var errorDelegate: ErrorDelegate?
     
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository:CoreDataRepository<Blank>){
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository:CoreDataRepository<Blank>, networkManager: NetworkManagerProtocol){
         self.firebaseManager = firebaseManager
         self.storage = firebaseStorageManager
         self.repository = repository
+        self.networkManager = networkManager
     }
     
     public func getBlanks(){
         fetchFromLocalDatabase()
+        if blanks.isEmpty {
+            if networkManager.isReachable(){
+                fetchFromRemoteDatabase()
+            }
+            else {
+                self.delegate?.networkOffline()
+            }
+        }
+        else {
+            print("fetched from Core Data")
+            delegate?.didDownloadData()
+        }
     }
     
     private func fetchFromLocalDatabase(){
         do {
             blanks = try repository.getAll(where: nil)
-            if blanks.isEmpty {
-                fetchFromRemoteDatabase()
-            }
-            else {
-                print("fetched from Core Data")
-                delegate?.didDownloadBlanks()
-            }
         }
         catch {
 //            errorDelegate?.showError(message: error.localizedDescription)
@@ -48,13 +57,15 @@ class BlankListViewModel{
     }
     
     private func fetchFromRemoteDatabase(){
+        delegate?.didStartLoading()
         firebaseManager.getDocuments("/courses/writing/forms"){ result in
             switch result {
             case .success(let response):
                 self.blanks = response.map({
                     return Blank(dictionary: $0.data())!
                 })
-                self.delegate?.didDownloadBlanks()
+                self.delegate?.didDownloadData()
+                self.delegate?.didCompleteLoading()
                 print("fetched from Firebase")
                 self.saveToLocalDatabase()
             case .failure(let error):
@@ -76,4 +87,20 @@ class BlankListViewModel{
         return BlankViewModel(title: blank.title, imagePath: blank.imagePath, text: blank.text, answers: blank.answerTexts)
     }
     
+}
+
+extension BlankListViewModel: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            self.delegate?.networkOnline()
+            if blanks.isEmpty {
+                fetchFromRemoteDatabase()
+            }
+        }
+        else {
+            if blanks.isEmpty {
+                self.delegate?.networkOffline()
+            }
+        }
+    }
 }

@@ -68,8 +68,11 @@ class ListeningCourseViewModel {
     public func getQuestions() {
         fetchFromLocalDatabase()
         if questions.isEmpty{
-            if !networkManager.isReachable(){
-                 self.delegate?.networkOffline()
+            if networkManager.isReachable(){
+                fetchFromRemoteDatabase()
+            }
+            else {
+                self.delegate?.networkOffline()
             }
         }
         else {

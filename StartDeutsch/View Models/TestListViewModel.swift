@@ -33,7 +33,10 @@ class TestListViewModel {
     public func getTests(){
         fetchFromLocalDatabase()
         if tests.isEmpty{
-            if !networkManager.isReachable(){
+            if networkManager.isReachable(){
+                fetchFromRemoteDatabase()
+            }
+            else {
                 self.delegate?.networkOffline()
             }
         }
