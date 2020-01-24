@@ -17,7 +17,8 @@ protocol WritingCourseViewControllerDelegate: class {
 class WritingCourseViewController: UIViewController {
 
     let tableView = UITableView()
-    let writingCourseTitles = ["Teil 1", "Teil 2"]
+    let writingCourseTitles = ["Blanks", "Letters"]
+    private let courseSubtitles = ["Practice filling out forms", "Practice writing formal/informal letters"]
     weak var delegate: WritingCourseViewControllerDelegate?
     
     fileprivate func setupTableView() {
@@ -48,8 +49,10 @@ extension WritingCourseViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.textLabel?.text = writingCourseTitles[indexPath.row]
+        cell.detailTextLabel?.text = courseSubtitles[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
@@ -62,6 +65,7 @@ extension WritingCourseViewController: UITableViewDelegate, UITableViewDataSourc
         default:
             fatalError("Unsupported part of writing is selected")
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }

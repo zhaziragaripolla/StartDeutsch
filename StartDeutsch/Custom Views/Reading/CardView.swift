@@ -21,12 +21,12 @@ class CardView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderWidth = 2.0
-        button.layer.cornerRadius = 15
+        button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
         button.layer.backgroundColor = UIColor.white.cgColor
         button.layer.borderColor = UIColor.lightGray.cgColor
-        let widthConstraint = button.widthAnchor.constraint(equalToConstant: 30.0)
-        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 30.0)
+        let widthConstraint = button.widthAnchor.constraint(equalToConstant: 24.0)
+        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 24.0)
         NSLayoutConstraint.activate([widthConstraint, heightConstraint])
         return button
     }()
@@ -49,7 +49,7 @@ class CardView: UIView {
         indicatorButton.snp.makeConstraints({ make in
             make.top.equalTo(cardImageView.snp.bottom)
             make.leading.equalTo(cardImageView.snp.leading)
-            make.bottom.lessThanOrEqualToSuperview()
+            make.bottom.lessThanOrEqualToSuperview().offset(5)
         })
     }
     

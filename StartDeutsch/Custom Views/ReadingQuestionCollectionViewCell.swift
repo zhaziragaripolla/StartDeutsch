@@ -184,18 +184,18 @@ class ReadingQuestionPartOneCollectionViewCell: ReadingQuestionCollectionViewCel
   
         addSubview(questionImageView)
         questionImageView.snp.makeConstraints({ make in
-            make.top.equalTo(orderNumberLabel.snp.bottom).offset(10)
+            make.top.equalTo(orderNumberLabel.snp.bottom).offset(5)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.4)
+            make.height.equalToSuperview().multipliedBy(0.35)
         })
      
         addSubview(answerStackView)
         answerStackView.snp.makeConstraints({ make in
-            make.top.equalTo(questionImageView.snp.bottom).offset(10)
+            make.top.equalTo(questionImageView.snp.bottom).offset(5)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(0.5)
-            make.bottom.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(5)
             make.centerX.equalToSuperview()
         })
     }

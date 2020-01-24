@@ -58,7 +58,7 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
     let audioButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "play.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
         button.layer.backgroundColor = UIColor.white.cgColor
         button.layer.cornerRadius = 25
         button.clipsToBounds = true

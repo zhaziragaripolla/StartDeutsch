@@ -34,6 +34,7 @@ class CourseTableViewCell: UITableViewCell {
         label.clipsToBounds = true
         return label
     }()
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         addSubview(gradientView)
@@ -43,9 +44,8 @@ class CourseTableViewCell: UITableViewCell {
             make.height.equalToSuperview().multipliedBy(0.8)
             make.width.equalToSuperview().multipliedBy(0.9)
         })
-        gradientView.layer.cornerRadius = 30
-//        gradientView.layer.borderWidth = 1.0
-        gradientView.setRandomGradient()
+        gradientView.layer.cornerRadius = 15
+        gradientView.setThemeGradientLayer()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -54,9 +54,8 @@ class CourseTableViewCell: UITableViewCell {
         addSubview(courseImageView)
         courseImageView.snp.makeConstraints({ make in
             make.top.leading.bottom.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.7)
-//            make.centerY.equalToSuperview().multipliedBy(0.)
+            make.width.equalToSuperview().multipliedBy(0.45)
+            make.height.equalToSuperview().multipliedBy(0.5)
         })
         
         addSubview(titleLabel)
@@ -71,19 +70,6 @@ class CourseTableViewCell: UITableViewCell {
     }
     
     func configure(course: Course){
-//        switch course.aliasName{
-//        case "listening":
-//            gradientView.backgroundColor = .init(hexString: "68DAE2")
-//        case "reading":
-//            gradientView.backgroundColor = .init(hexString: "FFD042")
-//        case "writing":
-//            gradientView.backgroundColor = .init(hexString: "B797F3")
-//        case "speaking":
-//            gradientView.backgroundColor = .init(hexString: "FFA08E")
-//        default:
-//            gradientView.backgroundColor = .none
-//        }
-        gradientView.setRandomGradient()
         titleLabel.text = course.title
         courseImageView.image = UIImage(named: "\(course.aliasName).png")
     }

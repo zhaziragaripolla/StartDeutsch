@@ -32,4 +32,18 @@ extension UIView {
         gradientLayer.frame = bounds
         layer.insertSublayer(gradientLayer, at: 0)
     }
+    
+    func setThemeGradientLayer(){
+        let gradientLayer = CAGradientLayer()
+        let color1 = UIColor(hexString: "692AA4")
+        let color2 = UIColor(hexString: "B638AF")
+        gradientLayer.colors = [color1.cgColor,color2.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1 )
+        layer.borderColor = UIColor.white.cgColor
+//        layer.cornerRadius = 10
+        clipsToBounds = true
+        gradientLayer.frame = bounds
+        layer.insertSublayer(gradientLayer, at: 0)
+    }
 }

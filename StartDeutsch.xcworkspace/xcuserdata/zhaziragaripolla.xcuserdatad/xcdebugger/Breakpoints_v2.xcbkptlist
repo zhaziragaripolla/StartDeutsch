@@ -23,32 +23,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9BFE7D88-EF3D-4539-B09F-FCA18953E76A"
+            uuid = "C4D88168-C03B-49F4-941D-4FF04AA85E9B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StartDeutsch/View Models/TestListViewModel.swift"
+            filePath = "StartDeutsch/View Controllers/ListeningCourseViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "reachabilityChanged(_:)"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "didDownloadAudio(path:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "620C19A4-032B-4C8D-B7E2-423E515A4DEC"
+            uuid = "60DDFE3E-DAF1-442F-8A46-C14E78F03363"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StartDeutsch/View Models/TestListViewModel.swift"
+            filePath = "StartDeutsch/View Controllers/ListeningCourseViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "getTests()"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "didDownloadAudio(path:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EDC13251-E91D-4DE9-BEAA-85A9104906A7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StartDeutsch/View Controllers/ListeningCourseViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "didTapAudioButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

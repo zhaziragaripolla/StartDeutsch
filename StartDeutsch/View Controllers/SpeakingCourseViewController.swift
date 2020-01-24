@@ -17,7 +17,8 @@ protocol SpeakingCourseViewControllerDelegate: class {
 class SpeakingCourseViewController: UIViewController {
 
     private let tableView = UITableView()
-    private let courseTitles = ["Teil 1", "Teil 2", "Teil 3"]
+    private let courseTitles = ["W-question cards", "\"Bitte\" sentences"]
+    private let courseSubtitles = ["Let's train asking question on 10+ common topics", "Practice making polite requests with 100+ cards"]
     weak var delegate: SpeakingCourseViewControllerDelegate?
     
     fileprivate func setupTableView() {
@@ -48,22 +49,23 @@ extension SpeakingCourseViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.textLabel?.text = courseTitles[indexPath.row]
+        cell.detailTextLabel?.text = courseSubtitles[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            delegate?.didSelectSpeakingPartOne()
-        case 1:
             delegate?.didSelectSpeakingPartTwo()
-        case 2:
+        case 1:
             delegate?.didSelectSpeakingPartThree()
         default:
             fatalError("Unsupported part of writing is selected")
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }
