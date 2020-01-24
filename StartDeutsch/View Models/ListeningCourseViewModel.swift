@@ -87,7 +87,8 @@ class ListeningCourseViewModel {
     
     private func fetchFromLocalDatabase(){
         do {
-            self.questions = try repository.getAll(where: nil)
+            let predicate = NSPredicate(format: "testId == %@", test.id)
+            self.questions = try repository.getAll(where: predicate)
         }
         catch let error {
             errorDelegate?.showError(message: error.localizedDescription)
