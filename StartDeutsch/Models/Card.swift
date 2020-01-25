@@ -26,7 +26,7 @@ extension Card{
     init?(dictionary: [String : Any]) {
         guard let id = dictionary["id"] as? String,
             let courseId = dictionary["courseId"] as? String,
-            let imageUrl = dictionary["imageUrl"] as? String else { return nil}
+            let imageUrl = dictionary["imagePath"] as? String else { return nil}
         self.init(id: id, imageUrl: imageUrl, courseId: courseId)
     }
 }

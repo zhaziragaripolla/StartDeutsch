@@ -63,13 +63,13 @@ class CardListViewController: UIViewController {
 extension CardListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.storedImageUrls.count
+        return viewModel.randomCards.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
-        let url = viewModel.storedImageUrls[indexPath.row]
-        cell.cardImageView.image = UIImage(contentsOfFile: url.path)
+        let path = viewModel.randomCards[indexPath.row].imageUrl
+        cell.cardImageView.load(from: path)
         return cell
     }
  

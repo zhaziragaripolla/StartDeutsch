@@ -11,13 +11,8 @@ import Foundation
 class CardListViewModel {
     // Models
     private var cards: [Card] = []
-    private var randomCards: [Card] = []
-    public var storedImageUrls: [URL] = [] {
-        didSet {
-            delegate?.didDownloadData()
-        }
-    }
-    
+    public var randomCards: [Card] = []
+
     //Dependencies
     private let repository: CoreDataRepository<Card>
     private let firebaseManager: FirebaseManagerProtocol
@@ -49,9 +44,8 @@ class CardListViewModel {
     
     public func reloadImages(){
         randomCards.removeAll()
-        storedImageUrls.removeAll()
         generateRandomCards()
-        getImages()
+        delegate?.didDownloadData()
     }
     
     private func fetchFromRemoteDatabase(){
@@ -84,43 +78,11 @@ class CardListViewModel {
             }
         }
     }
-    
-    private func getImages(){
-        randomCards.forEach({
-            let url = getImageStoredPath(id: $0.id)
-            if FileManager.default.fileExists(atPath: url.path) {
-                storedImageUrls.append(url)
-            }
-            else {
-                self.downloadImageToLocalFile(for: $0)
-            }
-        })
-    }
-    
+
     private func getImageStoredPath(id: String)-> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentDirectory = paths[0]
         return documentDirectory.appendingPathComponent("\(id).png")
-    }
-    
-    private func downloadImageToLocalFile(for card: Card){
-        storage.downloadFileFromUrl(card.imageUrl) { response in
-            switch response {
-            case .success(let data):
-                do {
-                    let fileUrl = self.getImageStoredPath(id: card.id)
-                    try data.write(to: fileUrl)
-                    self.storedImageUrls.append(fileUrl)
-                }
-                catch {
-                    self.errorDelegate?.showError(message: error.localizedDescription)
-                }
-            case .failure(let error):
-                if let message = error.errorDescription {
-                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
-                }
-            }
-        }
     }
     
     private func saveToLocalDatabase(){
@@ -128,7 +90,6 @@ class CardListViewModel {
             repository.insert(item: $0)
         })
     }
-    
     
     private func fetchFromLocalDatabase(){
         do {
