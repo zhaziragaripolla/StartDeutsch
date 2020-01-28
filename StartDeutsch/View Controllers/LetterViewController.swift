@@ -28,16 +28,24 @@ class LetterViewController: UIViewController {
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .white
-        label.textAlignment = .natural
+        label.textAlignment = .left
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
-    private let assignmentImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "letter_assignment")
-        return imageView
+    let assignmentLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .italicSystemFont(ofSize: 16)
+        label.textAlignment = .center
+        label.textColor = .white
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.text = "Schreiben Sie zu jedem Punkt ein bis zwei Sätze (circa 30 Wörter)."
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
+        return label
     }()
     
     private let answerImageView: UIImageView = {
@@ -51,7 +59,7 @@ class LetterViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.backgroundColor = UIColor.white.cgColor
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 15
         button.layer.borderColor = .none
         button.setTitle("Antworten anzeigen", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
@@ -98,27 +106,24 @@ class LetterViewController: UIViewController {
 //
         view.addSubview(taskLabel)
         taskLabel.snp.makeConstraints({ make in
-//            make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.top.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.3)
             make.centerX.equalToSuperview()
         })
-        
-        view.addSubview(assignmentImageView)
-        assignmentImageView.snp.makeConstraints({ make in
+
+        view.addSubview(assignmentLabel)
+        assignmentLabel.snp.makeConstraints({ make in
             make.top.equalTo(taskLabel.snp.bottom).offset(5)
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.15)
             make.centerX.equalToSuperview()
         })
         
         revealButton.addTarget(self, action: #selector(didTapRevealButton(_:)), for: .touchUpInside)
         view.addSubview(revealButton)
         revealButton.snp.makeConstraints({ make in
-            make.top.equalTo(assignmentImageView.snp.bottom).offset(15)
+            make.top.equalTo(assignmentLabel.snp.bottom).offset(15)
             make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalTo(40)
+            make.height.equalTo(30)
             make.centerX.equalToSuperview()
         })
         
@@ -128,7 +133,7 @@ class LetterViewController: UIViewController {
             make.width.equalToSuperview().multipliedBy(0.95)
             make.height.equalToSuperview().multipliedBy(0.4)
             make.centerX.equalToSuperview()
-            make.bottom.lessThanOrEqualToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         })
     }
 

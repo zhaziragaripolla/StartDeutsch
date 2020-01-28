@@ -41,7 +41,7 @@ class LetterListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Teil 2"
+        title = "Letters"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupTableView()
@@ -68,6 +68,7 @@ extension LetterListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let letterViewModel = viewModel.getDetailViewModel(for: indexPath.row)
         delegate?.didSelectLetter(detailViewModel: letterViewModel)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

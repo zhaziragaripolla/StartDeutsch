@@ -41,7 +41,7 @@ class BlankListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Teil 1"
+        title = "Blanks"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupTableView()
@@ -67,6 +67,7 @@ extension BlankListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let blankViewModel = viewModel.getDetailViewModel(for: indexPath.row)
         delegate?.didSelectBlank(detailViewModel: blankViewModel)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

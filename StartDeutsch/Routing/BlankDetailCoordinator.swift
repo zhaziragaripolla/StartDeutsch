@@ -22,8 +22,7 @@ class BlankDetailCoordinator: Coordinator {
     
     func start() {
         let vc = container.makeBlankDetailViewController(viewModel: viewModel)
-        presenter.modalPresentationStyle = .overCurrentContext
-        presenter.modalTransitionStyle = .flipHorizontal
+        presenter.modalPresentationStyle = .fullScreen
         presenter.present(vc, animated: true, completion: nil)
     }
     

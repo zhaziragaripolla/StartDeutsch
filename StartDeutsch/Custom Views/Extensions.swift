@@ -23,6 +23,9 @@ extension UIButton {
         button.setTitle(title, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.textAlignment = .center
         button.setTitleColor(.systemBlue, for: .normal)
         button.layer.borderWidth = 2.0
         button.layer.borderColor = UIColor.white.cgColor

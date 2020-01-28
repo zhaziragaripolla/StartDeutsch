@@ -12,11 +12,6 @@ class CourseTableViewCell: UITableViewCell {
     
     public let gradientView = UIView()
     
-    let readingColor: UIColor = .init(hexString: "FFD042")
-    let speakingColor: UIColor = .init(hexString: "FFA08E")
-    let writingColor: UIColor = .init(hexString: "68DAE2")
-    let listeningColor: UIColor = .init(hexString: "68DAE2")
-    
     public let courseImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,6 +27,18 @@ class CourseTableViewCell: UITableViewCell {
         label.lineBreakMode = .byWordWrapping
         label.textColor = .white
         label.clipsToBounds = true
+        return label
+    }()
+    
+    public let detailLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.textColor = .white
+        label.clipsToBounds = true
+        label.numberOfLines = 0
         return label
     }()
     
@@ -63,6 +70,12 @@ class CourseTableViewCell: UITableViewCell {
             make.leading.equalTo(courseImageView.snp.trailing)
             make.top.trailing.bottom.equalToSuperview()
         })
+        
+//        addSubview(detailLabel)
+//        detailLabel.snp.makeConstraints({ make in
+//            make.leading.equalTo(titleLabel.snp.bottom)
+//            make.top.trailing.bottom.equalToSuperview()
+//        })
     }
     
     required init?(coder: NSCoder) {
