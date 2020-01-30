@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-
+import os
 
 class ReadingCourseViewController: UIViewController {
 
@@ -37,7 +37,7 @@ class ReadingCourseViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     fileprivate func setupCollectionView() {
@@ -127,8 +127,9 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
         case is ReadingPartThreeViewModel:
             return "partThree"
         default:
-            fatalError("Unexpected view model type: \(viewModel)")
+            os_log("Unexpected view model type")
         }
+        return ""
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -145,7 +146,7 @@ extension ReadingCourseViewController: ViewModelDelegate, ErrorDelegate, UserAns
               let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
               alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
-        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: false)
         collectionView.reloadData()
     }
  

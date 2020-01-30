@@ -14,11 +14,12 @@ protocol ObjectConvertable {
 }
 
 
-public struct Course: Decodable {
+public struct Course {
     let title: String
     public let id: String
     let documentPath: String
     let aliasName: String
+    let descriptionText: String
 }
 
 extension Course: ObjectConvertable {
@@ -26,7 +27,8 @@ extension Course: ObjectConvertable {
         return ["id" : id,
                 "title" : title,
                 "documentPath" : documentPath,
-                "aliasName" : aliasName ]
+                "aliasName" : aliasName,
+                "descriptionText":descriptionText]
     }
 }
 
@@ -35,7 +37,9 @@ extension Course: DocumentSerializable {
     init?(dictionary: [String : Any], path: String) {
         guard let title = dictionary["title"] as? String,
             let id = dictionary["id"] as? String,
-            let aliasName = dictionary["aliasName"] as? String else { return nil}
-        self.init(title: title, id: id, documentPath: path, aliasName: aliasName)
+            let aliasName = dictionary["aliasName"] as? String,
+            let description = dictionary["descriptionText"] as? String else { return nil}
+        
+        self.init(title: title, id: id, documentPath: path, aliasName: aliasName, descriptionText: description)
     }
 }

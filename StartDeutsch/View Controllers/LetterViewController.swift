@@ -26,18 +26,21 @@ class LetterViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 18)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 18
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
         label.textColor = .white
         label.textAlignment = .left
-        label.minimumScaleFactor = 0.5
-        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     let assignmentLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .italicSystemFont(ofSize: 16)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 16
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
+        label.font = .italicSystemFont(ofSize: calculatedFontSize)
         label.textAlignment = .center
         label.textColor = .white
         label.lineBreakMode = .byWordWrapping
@@ -61,8 +64,10 @@ class LetterViewController: UIViewController {
         button.layer.backgroundColor = UIColor.white.cgColor
         button.layer.cornerRadius = 15
         button.layer.borderColor = .none
-        button.setTitle("Antworten anzeigen", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.setTitle("Reveal answer", for: .normal)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 12
+        button.titleLabel?.font = .boldSystemFont(ofSize: calculatedFontSize)
         return button
     }()
     
@@ -72,7 +77,7 @@ class LetterViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     let constraintConstant: Int = 5

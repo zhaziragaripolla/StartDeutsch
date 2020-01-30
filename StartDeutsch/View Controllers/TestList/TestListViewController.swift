@@ -21,7 +21,7 @@ class TestListViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     fileprivate func setupTableView() {
@@ -58,6 +58,7 @@ extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = "Test \(indexPath.row+1)"
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     

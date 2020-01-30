@@ -35,9 +35,12 @@ class BlankViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 17)
         label.textColor = .white
         label.textAlignment = .center
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 14
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
         label.minimumScaleFactor = 0.5
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -56,10 +59,10 @@ class BlankViewController: UIViewController {
         button.layer.backgroundColor = UIColor.white.cgColor
         button.layer.cornerRadius = 15
         button.layer.borderColor = .none
-        button.setTitle("Antworten anzeigen", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.titleLabel?.minimumScaleFactor = 0.5
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.setTitle("Reveal answer", for: .normal)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 12
+        button.titleLabel?.font = .boldSystemFont(ofSize: calculatedFontSize)
         return button
     }()
     
@@ -68,7 +71,7 @@ class BlankViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 14)
         label.textColor = .white
         label.textAlignment = .center
         label.isHidden = true
@@ -83,7 +86,7 @@ class BlankViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     override func viewDidLoad() {

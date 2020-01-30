@@ -63,7 +63,7 @@ extension WritingCourseViewController: UITableViewDelegate, UITableViewDataSourc
         case 1:
             delegate?.didSelectWritingPartTwo()
         default:
-            fatalError("Unsupported part of writing is selected")
+            print("Unsupported part of writing is selected")
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

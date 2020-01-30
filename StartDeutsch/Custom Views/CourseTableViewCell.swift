@@ -12,14 +12,14 @@ class CourseTableViewCell: UITableViewCell {
     
     public let gradientView = UIView()
     
-    public let courseImageView: UIImageView = {
+    private let courseImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
-    public let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 30)
@@ -27,18 +27,21 @@ class CourseTableViewCell: UITableViewCell {
         label.lineBreakMode = .byWordWrapping
         label.textColor = .white
         label.clipsToBounds = true
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
-    public let detailLabel: UILabel = {
+    private let detailLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .systemFont(ofSize: 14)
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.textColor = .white
-        label.clipsToBounds = true
         label.numberOfLines = 0
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -68,23 +71,28 @@ class CourseTableViewCell: UITableViewCell {
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints({ make in
             make.leading.equalTo(courseImageView.snp.trailing)
-            make.top.trailing.bottom.equalToSuperview()
+            make.trailing.equalToSuperview()
         })
         
-//        addSubview(detailLabel)
-//        detailLabel.snp.makeConstraints({ make in
-//            make.leading.equalTo(titleLabel.snp.bottom)
-//            make.top.trailing.bottom.equalToSuperview()
-//        })
+        addSubview(detailLabel)
+        detailLabel.snp.makeConstraints({ make in
+            make.top.equalTo(courseImageView.snp.bottom)
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.width.equalTo(250)
+            make.height.equalTo(100)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
+        })
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     func configure(course: Course){
         titleLabel.text = course.title
         courseImageView.image = UIImage(named: "\(course.aliasName).png")
+        detailLabel.text = course.descriptionText
     }
 
 }

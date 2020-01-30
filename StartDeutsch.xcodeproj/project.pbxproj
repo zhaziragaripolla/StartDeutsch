@@ -19,6 +19,8 @@
 		56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */; };
 		56113D57238AFC4200A7DA6B /* FirebaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */; };
 		56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */; };
+		5651B99F23E07ADF00D346D7 /* ManagedCourse+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5651B99D23E07ADE00D346D7 /* ManagedCourse+CoreDataClass.swift */; };
+		5651B9A023E07ADF00D346D7 /* ManagedCourse+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5651B99E23E07ADF00D346D7 /* ManagedCourse+CoreDataProperties.swift */; };
 		5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */; };
 		56726A0723CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */; };
 		56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */; };
@@ -43,7 +45,6 @@
 		56963EE923C5BC6C007ACE1D /* ManagedTest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963ED923C5BC6A007ACE1D /* ManagedTest+CoreDataProperties.swift */; };
 		56963EEA23C5BC6C007ACE1D /* ManagedWord+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EDA23C5BC6A007ACE1D /* ManagedWord+CoreDataProperties.swift */; };
 		56963EEB23C5BC6C007ACE1D /* ManagedReadingQuestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EDB23C5BC6A007ACE1D /* ManagedReadingQuestion+CoreDataClass.swift */; };
-		56963EEC23C5BC6C007ACE1D /* ManagedCourse+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EDC23C5BC6A007ACE1D /* ManagedCourse+CoreDataClass.swift */; };
 		56963EED23C5BC6C007ACE1D /* ManagedCard+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EDD23C5BC6A007ACE1D /* ManagedCard+CoreDataProperties.swift */; };
 		56963EEE23C5BC6C007ACE1D /* ManagedBlank+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EDE23C5BC6B007ACE1D /* ManagedBlank+CoreDataProperties.swift */; };
 		56963EEF23C5BC6C007ACE1D /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EDF23C5BC6B007ACE1D /* ManagedListeningQuestion+CoreDataProperties.swift */; };
@@ -52,7 +53,6 @@
 		56963EF223C5BC6C007ACE1D /* ManagedWord+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EE223C5BC6B007ACE1D /* ManagedWord+CoreDataClass.swift */; };
 		56963EF323C5BC6C007ACE1D /* ManagedReadingQuestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EE323C5BC6B007ACE1D /* ManagedReadingQuestion+CoreDataProperties.swift */; };
 		56963EF423C5BC6C007ACE1D /* ManagedLetter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EE423C5BC6B007ACE1D /* ManagedLetter+CoreDataClass.swift */; };
-		56963EF523C5BC6C007ACE1D /* ManagedCourse+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EE523C5BC6C007ACE1D /* ManagedCourse+CoreDataProperties.swift */; };
 		56963EF823C5D7B6007ACE1D /* CourseListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EF723C5D7B6007ACE1D /* CourseListViewModelTests.swift */; };
 		56963EFA23C5D8B1007ACE1D /* MockFirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963EF923C5D8B1007ACE1D /* MockFirebaseManager.swift */; };
 		56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */; };
@@ -135,6 +135,8 @@
 		56113D54238ABE9F00A7DA6B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		56113D56238AFC4200A7DA6B /* FirebaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRequest.swift; sourceTree = "<group>"; };
 		56113D58238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionViewModel.swift; sourceTree = "<group>"; };
+		5651B99D23E07ADE00D346D7 /* ManagedCourse+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ManagedCourse+CoreDataClass.swift"; path = "StartDeutsch/Local Storage/ManagedModels/ManagedCourse+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		5651B99E23E07ADF00D346D7 /* ManagedCourse+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ManagedCourse+CoreDataProperties.swift"; path = "StartDeutsch/Local Storage/ManagedModels/ManagedCourse+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
 		56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionCollectionViewCell.swift; sourceTree = "<group>"; };
 		56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCellViewModel.swift; sourceTree = "<group>"; };
@@ -159,7 +161,6 @@
 		56963ED923C5BC6A007ACE1D /* ManagedTest+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedTest+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		56963EDA23C5BC6A007ACE1D /* ManagedWord+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedWord+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		56963EDB23C5BC6A007ACE1D /* ManagedReadingQuestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedReadingQuestion+CoreDataClass.swift"; sourceTree = "<group>"; };
-		56963EDC23C5BC6A007ACE1D /* ManagedCourse+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedCourse+CoreDataClass.swift"; sourceTree = "<group>"; };
 		56963EDD23C5BC6A007ACE1D /* ManagedCard+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedCard+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		56963EDE23C5BC6B007ACE1D /* ManagedBlank+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedBlank+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		56963EDF23C5BC6B007ACE1D /* ManagedListeningQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedListeningQuestion+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -168,7 +169,6 @@
 		56963EE223C5BC6B007ACE1D /* ManagedWord+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedWord+CoreDataClass.swift"; sourceTree = "<group>"; };
 		56963EE323C5BC6B007ACE1D /* ManagedReadingQuestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedReadingQuestion+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		56963EE423C5BC6B007ACE1D /* ManagedLetter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedLetter+CoreDataClass.swift"; sourceTree = "<group>"; };
-		56963EE523C5BC6C007ACE1D /* ManagedCourse+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManagedCourse+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		56963EF723C5D7B6007ACE1D /* CourseListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseListViewModelTests.swift; sourceTree = "<group>"; };
 		56963EF923C5D8B1007ACE1D /* MockFirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirebaseManager.swift; sourceTree = "<group>"; };
 		56968366238EF9E8008AF9A4 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
@@ -274,7 +274,7 @@
 				56726A0A23CDCD7F00F3D7CB /* CardView.swift */,
 				56963EA623C34601007ACE1D /* CardCollectionViewCell.swift */,
 				56963EA823C382A8007ACE1D /* WordCollectionViewCell.swift */,
-				569F4F4B23AF72320054BC65 /* Listening */,
+				5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */,
 				5696836A238EFFDC008AF9A4 /* LoadingOverlay.swift */,
 				569F4F4523AD3FF50054BC65 /* Extensions.swift */,
 				56963EAC23C49AEF007ACE1D /* GradientLayer.swift */,
@@ -305,8 +305,8 @@
 		56963EF623C5BCAB007ACE1D /* ManagedModels */ = {
 			isa = PBXGroup;
 			children = (
-				56963EE523C5BC6C007ACE1D /* ManagedCourse+CoreDataProperties.swift */,
-				56963EDC23C5BC6A007ACE1D /* ManagedCourse+CoreDataClass.swift */,
+				5651B99D23E07ADE00D346D7 /* ManagedCourse+CoreDataClass.swift */,
+				5651B99E23E07ADF00D346D7 /* ManagedCourse+CoreDataProperties.swift */,
 				56963EDE23C5BC6B007ACE1D /* ManagedBlank+CoreDataProperties.swift */,
 				56963ED723C5BC6A007ACE1D /* ManagedBlank+CoreDataClass.swift */,
 				56963EDD23C5BC6A007ACE1D /* ManagedCard+CoreDataProperties.swift */,
@@ -416,14 +416,6 @@
 				56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */,
 			);
 			path = "View Models";
-			sourceTree = "<group>";
-		};
-		569F4F4B23AF72320054BC65 /* Listening */ = {
-			isa = PBXGroup;
-			children = (
-				5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */,
-			);
-			path = Listening;
 			sourceTree = "<group>";
 		};
 		56D7BABF2382F79A00CECC71 = {
@@ -668,13 +660,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5651B99F23E07ADF00D346D7 /* ManagedCourse+CoreDataClass.swift in Sources */,
 				56963EE623C5BC6C007ACE1D /* ManagedListeningQuestion+CoreDataClass.swift in Sources */,
 				56963EE723C5BC6C007ACE1D /* ManagedBlank+CoreDataClass.swift in Sources */,
 				56963EE823C5BC6C007ACE1D /* ManagedLetter+CoreDataProperties.swift in Sources */,
 				56963EE923C5BC6C007ACE1D /* ManagedTest+CoreDataProperties.swift in Sources */,
 				56963EEA23C5BC6C007ACE1D /* ManagedWord+CoreDataProperties.swift in Sources */,
 				56963EEB23C5BC6C007ACE1D /* ManagedReadingQuestion+CoreDataClass.swift in Sources */,
-				56963EEC23C5BC6C007ACE1D /* ManagedCourse+CoreDataClass.swift in Sources */,
 				56963EED23C5BC6C007ACE1D /* ManagedCard+CoreDataProperties.swift in Sources */,
 				56963EEE23C5BC6C007ACE1D /* ManagedBlank+CoreDataProperties.swift in Sources */,
 				56963EEF23C5BC6C007ACE1D /* ManagedListeningQuestion+CoreDataProperties.swift in Sources */,
@@ -683,7 +675,6 @@
 				56963EF223C5BC6C007ACE1D /* ManagedWord+CoreDataClass.swift in Sources */,
 				56963EF323C5BC6C007ACE1D /* ManagedReadingQuestion+CoreDataProperties.swift in Sources */,
 				56963EF423C5BC6C007ACE1D /* ManagedLetter+CoreDataClass.swift in Sources */,
-				56963EF523C5BC6C007ACE1D /* ManagedCourse+CoreDataProperties.swift in Sources */,
 				56C776EE2396829400D5C9DE /* Course.swift in Sources */,
 				56ADF87423B61414008F62FC /* LetterListCoordinator.swift in Sources */,
 				56ADF86C23B60E0C008F62FC /* WritingCourseCoordinator.swift in Sources */,
@@ -695,6 +686,7 @@
 				56113D55238ABEA000A7DA6B /* FirebaseManager.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,
 				56ADF86E23B61226008F62FC /* BlankListViewModel.swift in Sources */,
+				5651B9A023E07ADF00D346D7 /* ManagedCourse+CoreDataProperties.swift in Sources */,
 				5696837223927397008AF9A4 /* Coordinator.swift in Sources */,
 				569F4F4823AE2D6D0054BC65 /* ReadingQuestionViewModel.swift in Sources */,
 				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,

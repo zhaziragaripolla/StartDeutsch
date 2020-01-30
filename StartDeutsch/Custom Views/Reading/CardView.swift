@@ -39,9 +39,9 @@ class CardView: UIView {
         layer.borderWidth = 2.0
         addSubview(cardImageView)
         cardImageView.snp.makeConstraints({ make in
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.85 )
-            make.top.equalToSuperview().offset(5)
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.height.equalToSuperview().multipliedBy(0.8)
+            make.top.equalToSuperview()
             make.centerX.equalToSuperview()
         })
         
@@ -49,12 +49,12 @@ class CardView: UIView {
         indicatorButton.snp.makeConstraints({ make in
             make.top.equalTo(cardImageView.snp.bottom)
             make.leading.equalTo(cardImageView.snp.leading)
-            make.bottom.lessThanOrEqualToSuperview().offset(5)
+            make.bottom.lessThanOrEqualToSuperview().offset(-5)
         })
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
 }

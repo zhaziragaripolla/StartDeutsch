@@ -24,7 +24,7 @@ class LetterListViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     fileprivate func setupTableView() {
@@ -62,6 +62,7 @@ extension LetterListViewController: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let letter = viewModel.letters[indexPath.row]
         cell.textLabel?.text = letter.title
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     

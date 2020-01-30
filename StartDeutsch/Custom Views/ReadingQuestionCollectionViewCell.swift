@@ -22,7 +22,9 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
     fileprivate let orderNumberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 20)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 16
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
         label.textColor = .white
         label.textAlignment = .center
         return label
@@ -31,11 +33,13 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
     fileprivate let questionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .white
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 16
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
+        label.numberOfLines = 5
         label.textAlignment = .center
+        label.minimumScaleFactor = 0.5
         return label
     }()
     
@@ -44,7 +48,7 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 10
+        stackView.spacing = 3
         stackView.distribution = .fillEqually
         return stackView
     }()
@@ -60,9 +64,9 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
         setRandomGradient()
         addSubview(orderNumberLabel)
         orderNumberLabel.snp.makeConstraints({ make in
-            make.top.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(5)
             make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.1)
+            make.height.equalToSuperview().multipliedBy(0.05)
         })
 
     }
@@ -77,7 +81,7 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     func resetView(){
@@ -184,10 +188,10 @@ class ReadingQuestionPartOneCollectionViewCell: ReadingQuestionCollectionViewCel
   
         addSubview(questionImageView)
         questionImageView.snp.makeConstraints({ make in
-            make.top.equalTo(orderNumberLabel.snp.bottom).offset(5)
+            make.top.equalTo(orderNumberLabel.snp.bottom)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.35)
+            make.height.equalToSuperview().multipliedBy(0.45)
         })
      
         addSubview(answerStackView)
@@ -201,7 +205,7 @@ class ReadingQuestionPartOneCollectionViewCell: ReadingQuestionCollectionViewCel
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     override func configure(with viewModel: QuestionCellViewModel) {
@@ -227,8 +231,9 @@ class ReadingQuestionPartTwoCollectionViewCell: ReadingQuestionCollectionViewCel
     
         contentView.addSubview(questionLabel)
         questionLabel.snp.makeConstraints({ make in
-            make.top.equalTo(orderNumberLabel.snp.bottom).offset(10)
+            make.top.equalTo(orderNumberLabel.snp.bottom)
             make.width.equalToSuperview().multipliedBy(0.9)
+            make.height.equalToSuperview().multipliedBy(0.2)
             make.centerX.equalToSuperview()
         })
 
@@ -237,13 +242,13 @@ class ReadingQuestionPartTwoCollectionViewCell: ReadingQuestionCollectionViewCel
             make.top.equalTo(questionLabel.snp.bottom).offset(5)
             make.width.equalToSuperview().multipliedBy(0.8)
             make.height.equalToSuperview().multipliedBy(0.75)
-            make.bottom.equalToSuperview().offset(-10)
+            make.bottom.equalToSuperview().inset(3)
             make.centerX.equalToSuperview()
         })
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     override func prepareForReuse() {
@@ -299,6 +304,8 @@ class ReadingQuestionPartThreeCollectionViewCell: ReadingQuestionCollectionViewC
         label.font = .italicSystemFont(ofSize: 18)
         label.textColor = .white
         label.textAlignment = .center
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -353,7 +360,7 @@ class ReadingQuestionPartThreeCollectionViewCell: ReadingQuestionCollectionViewC
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     override func configure(with viewModel: QuestionCellViewModel) {

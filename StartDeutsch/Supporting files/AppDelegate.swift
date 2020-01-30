@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Firebase
 import FirebaseFirestore
+import os
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -58,7 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                os_log("Error loading Core Data Persistent Store: ", error.localizedDescription)
+                os_log("Failure reason: ", error.localizedFailureReason ?? "")
             }
         })
         return container
@@ -75,10 +77,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                os_log("Unresolved error", nserror)
+                os_log("User info", nserror.userInfo)
             }
         }
     }
-
 }
 

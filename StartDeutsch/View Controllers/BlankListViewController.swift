@@ -35,7 +35,7 @@ class BlankListViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     override func viewDidLoad() {
@@ -61,6 +61,7 @@ extension BlankListViewController: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let blank = viewModel.blanks[indexPath.row]
         cell.textLabel?.text = blank.title
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     

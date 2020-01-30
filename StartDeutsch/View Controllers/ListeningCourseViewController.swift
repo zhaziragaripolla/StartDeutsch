@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import AVFoundation
+import os
 
 class ListeningCourseViewController: UIViewController {
     
@@ -46,7 +47,7 @@ class ListeningCourseViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
 
     override func viewDidLoad() {
@@ -96,7 +97,7 @@ extension ListeningCourseViewController: ViewModelDelegate, ListeningViewModelDe
               let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
               alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
-        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: false)
         collectionView.reloadData()
     }
     
@@ -165,8 +166,9 @@ extension ListeningCourseViewController: UICollectionViewDelegate, UICollectionV
         case is ListeningQuestionMultipleChoiceViewModel:
             return "cell2"
         default:
-            fatalError("Unexpected view model type: \(viewModel)")
+            os_log("Unexpected view model type")
         }
+        return ""
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

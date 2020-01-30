@@ -13,11 +13,11 @@ class ReadingCourseViewModel {
     private let storage: FirebaseStorageManagerProtocol
     private let firebaseManager: FirebaseManagerProtocol
     private let test: Test
-    private let repository: CoreDataRepository<ReadingQuestionEntity>
+    private let repository: CoreDataRepository<ReadingQuestion>
     private let networkManager: NetworkManagerProtocol
     
     // Models
-    var questions: [ReadingQuestionEntity] = []
+    var questions: [ReadingQuestion] = []
     public var showsCorrectAnswer: Bool = false
     
     // Delegates
@@ -27,7 +27,7 @@ class ReadingCourseViewModel {
     
     private let fileManager = FileManager.default
     
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<ReadingQuestionEntity>, test: Test, networkManager: NetworkManagerProtocol) {
+    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<ReadingQuestion>, test: Test, networkManager: NetworkManagerProtocol) {
         self.firebaseManager = firebaseManager
         self.test = test
         self.storage = firebaseStorageManager
@@ -89,7 +89,7 @@ class ReadingCourseViewModel {
                 }
             case .success(let response):
                 self.questions = response.map({
-                    return ReadingQuestionEntity(dictionary: $0.data())!
+                    return ReadingQuestion(dictionary: $0.data())!
                 })
                 self.delegate?.didCompleteLoading()
                 self.delegate?.didDownloadData()

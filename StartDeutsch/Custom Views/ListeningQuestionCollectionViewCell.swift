@@ -38,7 +38,9 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
     let orderNumberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 20)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 16
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
         label.textColor = .white
         label.textAlignment = .center
         return label
@@ -47,11 +49,14 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
     let questionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .white
         label.textAlignment = .center
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 16
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
+        label.numberOfLines = 5
+        label.textAlignment = .center
+        label.minimumScaleFactor = 0.5
         return label
     }()
     
@@ -90,8 +95,7 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
     
     public func resetView(){
         buttons.forEach({
-            $0.backgroundColor = .white
-            $0.setTitleColor(.systemBlue, for: .normal)
+            $0.reset()
         })
     }
     
@@ -115,7 +119,7 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
         orderNumberLabel.snp.makeConstraints({ make in
             make.top.equalToSuperview().offset(10)
             make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.1)
+            make.height.equalToSuperview().multipliedBy(0.05)
         })
 
         addSubview(questionLabel)
@@ -139,13 +143,13 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
         audioButton.snp.makeConstraints({ make in
             make.height.width.equalTo(50)
             make.top.equalTo(answerButtonStackView.snp.bottom).offset(50)
-            make.bottom.lessThanOrEqualToSuperview().offset(-20)
+            make.bottom.lessThanOrEqualToSuperview()
             make.centerX.equalToSuperview()
         })
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     func configure(with viewModel: QuestionCellViewModel) {

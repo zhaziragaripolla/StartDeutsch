@@ -32,22 +32,28 @@ class WordCollectionViewCell: UICollectionViewCell {
     public let themeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 14)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 18
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.textColor = .white
         label.clipsToBounds = true
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     public let wordLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 28)
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.textColor = .white
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 20
+        label.font = .boldSystemFont(ofSize: calculatedFontSize)
         return label
     }()
     
@@ -78,7 +84,7 @@ class WordCollectionViewCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
 
 }

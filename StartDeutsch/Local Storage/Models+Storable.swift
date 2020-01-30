@@ -21,7 +21,7 @@ extension ManagedCourse: Storable {
     
     public var model: Course {
         get {
-            return Course(title: title, id: id, documentPath: documentPath, aliasName: aliasName)
+            return Course(title: title, id: id, documentPath: documentPath, aliasName: aliasName, descriptionText: descriptionText)
         }
     }
 }
@@ -61,7 +61,7 @@ extension ManagedListeningQuestion: Storable {
     }
 }
 
-extension ReadingQuestionEntity: Entity {
+extension ReadingQuestion: Entity {
  
     public typealias StoreType = ManagedReadingQuestion
     
@@ -71,9 +71,9 @@ extension ReadingQuestionEntity: Entity {
 }
 
 extension ManagedReadingQuestion: Storable {
-    public var model: ReadingQuestionEntity {
+    public var model: ReadingQuestion {
         get {
-            return ReadingQuestionEntity(id: id, testId: testId, imagePath: imagePath ?? "", orderNumber:Int(orderNumber), questionText: questionText, questionTexts: questionTexts, correctAnswers: correctAnswers, answerImagePaths: answerImagePaths, correctChoiceIndex: Int(correctChoiceIndex), description: questionDescription, section: Int(section))
+            return ReadingQuestion(id: id, testId: testId, imagePath: imagePath ?? "", orderNumber:Int(orderNumber), questionText: questionText, questionTexts: questionTexts, correctAnswers: correctAnswers, answerImagePaths: answerImagePaths, correctChoiceIndex: Int(correctChoiceIndex), description: questionDescription, section: Int(section))
         }
     }
 }

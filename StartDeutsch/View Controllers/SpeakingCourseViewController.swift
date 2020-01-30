@@ -63,7 +63,7 @@ extension SpeakingCourseViewController: UITableViewDelegate, UITableViewDataSour
         case 1:
             delegate?.didSelectSpeakingPartThree()
         default:
-            fatalError("Unsupported part of writing is selected")
+            print("Unsupported part of writing is selected")
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
