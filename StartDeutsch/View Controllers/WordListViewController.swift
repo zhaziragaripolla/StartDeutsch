@@ -10,6 +10,17 @@ import UIKit
 
 class WordListViewController: UIViewController {
     
+    private let assignmentLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .italicSystemFont(ofSize: 18)
+        label.textAlignment = .center
+        label.textColor = .systemPurple
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
@@ -22,12 +33,21 @@ class WordListViewController: UIViewController {
         return collectionView
     }()
     
-    fileprivate func setupCollectionView() {
+    fileprivate func setupView() {
+        view.addSubview(assignmentLabel)
+        assignmentLabel.snp.makeConstraints({ make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.centerX.equalToSuperview()
+        })
+        
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.snp.makeConstraints({ make in
-            make.top.bottom.trailing.leading.equalToSuperview()
+            make.top.equalTo(assignmentLabel.snp.bottom)
+            make.trailing.leading.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         })
     }
     
@@ -49,7 +69,8 @@ class WordListViewController: UIViewController {
     
         let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
         self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
-        setupCollectionView()
+        setupView()
+        assignmentLabel.text = "Practice asking questions using given word cards on different topics."
         viewModel.errorDelegate = self
         viewModel.delegate = self
         viewModel.getWords()
@@ -76,7 +97,7 @@ extension WordListViewController: UICollectionViewDelegate, UICollectionViewData
     }
  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width/2-20, height: view.frame.height/4)
+        return CGSize(width: view.frame.width/2-20, height: view.frame.height/5)
     }
 }
 
@@ -102,10 +123,12 @@ extension WordListViewController: ViewModelDelegate, ErrorDelegate {
     
     func networkOffline() {
         ConnectionFailOverlay.shared.showOverlay(view: view)
+        assignmentLabel.isHidden = true
     }
     
     func networkOnline() {
         ConnectionFailOverlay.shared.hideOverlayView()
+        assignmentLabel.isHidden = false
     }
 }
 

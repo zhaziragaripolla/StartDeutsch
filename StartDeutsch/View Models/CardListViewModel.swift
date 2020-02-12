@@ -114,9 +114,10 @@ extension CardListViewModel: NetworkManagerDelegate{
             }
         }
         else {
-            if cards.isEmpty {
-                self.delegate?.networkOffline()
-            }
+            self.delegate?.networkOffline()
+//            if cards.isEmpty {
+//                self.delegate?.networkOffline()
+//            }
         }
     }
 }

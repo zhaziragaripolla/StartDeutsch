@@ -13,20 +13,34 @@ class BlankViewController: UIViewController {
     
     private var viewModel: BlankViewModel!
     
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
     private let stackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
+     let assignmentLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 26)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let calculatedFontSize = screenWidth / 375 * 16
+        label.font = .italicSystemFont(ofSize: calculatedFontSize)
         label.textAlignment = .center
         label.textColor = .white
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
+        label.text = "Read the text below and fill out a form with missing pieces of information."
         return label
     }()
     
@@ -35,11 +49,10 @@ class BlankViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 17)
         label.textColor = .white
         label.textAlignment = .center
         let screenWidth = UIScreen.main.bounds.size.width
-        let calculatedFontSize = screenWidth / 375 * 14
+        let calculatedFontSize = screenWidth / 375 * 16
         label.font = .boldSystemFont(ofSize: calculatedFontSize)
         label.minimumScaleFactor = 0.5
         label.adjustsFontSizeToFitWidth = true
@@ -61,7 +74,7 @@ class BlankViewController: UIViewController {
         button.layer.borderColor = .none
         button.setTitle("Reveal answer", for: .normal)
         let screenWidth = UIScreen.main.bounds.size.width
-        let calculatedFontSize = screenWidth / 375 * 12
+        let calculatedFontSize = screenWidth / 375 * 16
         button.titleLabel?.font = .boldSystemFont(ofSize: calculatedFontSize)
         return button
     }()
@@ -71,7 +84,7 @@ class BlankViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 14)
+        label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .center
         label.isHidden = true
@@ -91,8 +104,8 @@ class BlankViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         setupView()
-        titleLabel.text = viewModel.title
         textLabel.text = viewModel.text
         blankImageView.load(from: viewModel.imagePath)
         var index = 1
@@ -112,43 +125,55 @@ class BlankViewController: UIViewController {
     
     private func setupView(){
         view.setRandomGradient()
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints({ make in
+            make.edges.equalToSuperview()
+        })
         
-//        view.addSubview(titleLabel)
-//        titleLabel.snp.makeConstraints({ make in
-//            make.top.equalToSuperview()
-//            make.width.equalToSuperview()
-//            make.height.equalToSuperview().multipliedBy(0.1)
-//            make.centerX.equalToSuperview()
-//        })
-        view.addSubview(textLabel)
+        scrollView.addSubview(stackView)
+        stackView.snp.makeConstraints({ make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+        })
+        
+        stackView.addSubview(assignmentLabel)
+        assignmentLabel.snp.makeConstraints({ make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.height.equalTo(100)
+        })
+        
+        stackView.addSubview(textLabel)
         textLabel.snp.makeConstraints({ make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(assignmentLabel.snp.bottom).offset(15)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         })
         
-        view.addSubview(blankImageView)
+        stackView.addSubview(blankImageView)
         blankImageView.snp.makeConstraints({ make in
-            make.top.equalTo(textLabel.snp.bottom).offset(5)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.5)
+            make.top.equalTo(textLabel.snp.bottom).offset(15)
+            make.width.equalToSuperview().multipliedBy(0.95)
+            make.height.equalTo(view.snp.height).multipliedBy(0.5)
             make.centerX.equalToSuperview()
         })
 
-        view.addSubview(revealButton)
+        stackView.addSubview(revealButton)
         revealButton.snp.makeConstraints({ make in
             make.top.equalTo(blankImageView.snp.bottom).offset(5)
             make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalTo(30)
+            make.height.equalTo(40)
             make.centerX.equalToSuperview()
         })
         
-        view.addSubview(answerLabel)
+        stackView.addSubview(answerLabel)
         answerLabel.snp.makeConstraints({ make in
-            make.top.equalTo(revealButton.snp.bottom).offset(5)
+            make.top.equalTo(revealButton.snp.bottom).offset(10)
             make.width.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
+            make.height.equalTo(100)
         })
         
         

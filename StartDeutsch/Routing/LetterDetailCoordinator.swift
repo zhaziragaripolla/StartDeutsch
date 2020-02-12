@@ -22,8 +22,9 @@ class LetterDetailCoordinator: Coordinator {
     
     func start() {
         let vc = container.makeLetterDetailViewController(viewModel: viewModel)
-        presenter.modalPresentationStyle = .fullScreen
-        presenter.present(vc, animated: true, completion: nil)
+//        presenter.modalPresentationStyle = .fullScreen
+//        presenter.present(vc, animated: true, completion: nil)
+        presenter.pushViewController(vc, animated: true)
     }
     
 }

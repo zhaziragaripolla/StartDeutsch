@@ -12,6 +12,21 @@ class LetterViewController: UIViewController {
     
     private var viewModel: LetterViewModel!
     
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -31,6 +46,7 @@ class LetterViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: calculatedFontSize)
         label.textColor = .white
         label.textAlignment = .left
+        label.sizeToFit()
         return label
     }()
     
@@ -39,15 +55,12 @@ class LetterViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         let screenWidth = UIScreen.main.bounds.size.width
         let calculatedFontSize = screenWidth / 375 * 16
-        label.font = .boldSystemFont(ofSize: calculatedFontSize)
         label.font = .italicSystemFont(ofSize: calculatedFontSize)
         label.textAlignment = .center
         label.textColor = .white
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.text = "Schreiben Sie zu jedem Punkt ein bis zwei Sätze (circa 30 Wörter)."
-        label.minimumScaleFactor = 0.5
-        label.adjustsFontSizeToFitWidth = true
+        label.text = "Read a task and write a letter, e-mail or post card. Write 1-2 sentences to every point (approximately 30 words)."
         return label
     }()
     
@@ -66,7 +79,7 @@ class LetterViewController: UIViewController {
         button.layer.borderColor = .none
         button.setTitle("Reveal answer", for: .normal)
         let screenWidth = UIScreen.main.bounds.size.width
-        let calculatedFontSize = screenWidth / 375 * 12
+        let calculatedFontSize = screenWidth / 375 * 16
         button.titleLabel?.font = .boldSystemFont(ofSize: calculatedFontSize)
         return button
     }()
@@ -80,8 +93,6 @@ class LetterViewController: UIViewController {
         super.init(coder: coder)
     }
     
-    let constraintConstant: Int = 5
-    
     @objc func didTapRevealButton(_ sender: UIButton) {
         revealButton.isEnabled = false
         answerImageView.isHidden = false
@@ -89,7 +100,7 @@ class LetterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.setRandomGradient()
+        
         setupView()
         titleLabel.text = viewModel.title
         taskLabel.text = viewModel.task
@@ -101,6 +112,18 @@ class LetterViewController: UIViewController {
     }
     
     private func setupView(){
+        view.setRandomGradient()
+        view.addSubview(scrollView)
+        
+        scrollView.snp.makeConstraints({ make in
+            make.edges.equalToSuperview()
+        })
+        
+        scrollView.addSubview(stackView)
+        stackView.snp.makeConstraints({ make in
+            make.edges.equalToSuperview()
+            make.width.height.equalToSuperview()
+        })
 //        view.addSubview(titleLabel)
 //        titleLabel.snp.makeConstraints({ make in
 //            make.top.equalToSuperview()
@@ -109,36 +132,38 @@ class LetterViewController: UIViewController {
 //            make.centerX.equalToSuperview()
 //        })
 //
-        view.addSubview(taskLabel)
-        taskLabel.snp.makeConstraints({ make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+        
+        stackView.addSubview(assignmentLabel)
+        assignmentLabel.snp.makeConstraints({ make in
+            make.top.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.1)
         })
-
-        view.addSubview(assignmentLabel)
-        assignmentLabel.snp.makeConstraints({ make in
-            make.top.equalTo(taskLabel.snp.bottom).offset(5)
+        
+        stackView.addSubview(taskLabel)
+        taskLabel.snp.makeConstraints({ make in
+            make.top.equalTo(assignmentLabel.snp.bottom)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         })
         
         revealButton.addTarget(self, action: #selector(didTapRevealButton(_:)), for: .touchUpInside)
-        view.addSubview(revealButton)
+        stackView.addSubview(revealButton)
         revealButton.snp.makeConstraints({ make in
-            make.top.equalTo(assignmentLabel.snp.bottom).offset(15)
+            make.top.equalTo(taskLabel.snp.bottom).offset(15)
             make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalTo(30)
+            make.height.equalTo(40)
             make.centerX.equalToSuperview()
         })
         
-        view.addSubview(answerImageView)
+        stackView.addSubview(answerImageView)
         answerImageView.snp.makeConstraints({ make in
-            make.top.equalTo(revealButton.snp.bottom).offset(5)
+            make.top.equalTo(revealButton.snp.bottom).offset(15)
             make.width.equalToSuperview().multipliedBy(0.95)
             make.height.equalToSuperview().multipliedBy(0.4)
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.lessThanOrEqualToSuperview()
         })
     }
 

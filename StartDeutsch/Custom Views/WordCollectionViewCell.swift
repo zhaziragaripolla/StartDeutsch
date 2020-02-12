@@ -49,10 +49,10 @@ class WordCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 2
+//        label.numberOfLines = 1
         label.textColor = .white
         let screenWidth = UIScreen.main.bounds.size.width
-        let calculatedFontSize = screenWidth / 375 * 20
+        let calculatedFontSize = screenWidth / 375 * 18
         label.font = .boldSystemFont(ofSize: calculatedFontSize)
         return label
     }()
