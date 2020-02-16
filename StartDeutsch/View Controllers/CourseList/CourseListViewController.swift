@@ -115,7 +115,7 @@ extension CourseListViewController: MFMailComposeViewControllerDelegate{
         }
         
         let os = ProcessInfo().operatingSystemVersion
-        let osVersionString = String(os.majorVersion) + "." + String(os.minorVersion) + "." + String(os.patchVersion)
+        let osVersionString = "\(os.majorVersion.description).\(os.minorVersion.description).\(os.patchVersion.description)"
         body.append("Device iOS version: \(osVersionString)\n")
         body.append("Model: \(modelIdentifier())")
         
