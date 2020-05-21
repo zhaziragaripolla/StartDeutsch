@@ -8,55 +8,89 @@
 
 import CoreData
 import UIKit
+import Combine
 
-class CoreDataRepository<RepositoryObject>: Repository where RepositoryObject: Entity, RepositoryObject.StoreType: NSManagedObject, RepositoryObject.StoreType.EntityObject == RepositoryObject {
+protocol Repository {
+    func getAll<T: Entity>(where parameters: Dictionary<String, Any>?) -> Future<[T], Error>
+    func insert<T: Entity>(item: T)
+    func delete<T: Entity>(item: T)
+}
 
-    var persistentContainer: NSPersistentContainer{
-        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer
-    }
+class CoreDataRepository<T>: Repository where T: Entity, T.StoreType: NSManagedObject, T.StoreType.EntityObject == T {
 
-    init() {
-//        self.persistentContainer.loadPersistentStores { description, error in
-//            if let error = error {
-//                print("could not load store \(error.localizedDescription)")
-//                return
-//            }
-//            print("store loaded")
-//        }
+    let persistentContainer: NSPersistentContainer
+    
+    init(container: NSPersistentContainer){
+        self.persistentContainer = container
     }
     
-    func getAll(where predicate: NSPredicate?) throws -> [RepositoryObject]{
-        let objects = try getManagedObjects(with: predicate)
-        return objects.compactMap { $0.model }
+    convenience init() {
+        // Use the default container for production environment.
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            print("Can not get shared app delegate")
+            fatalError()
+        }
+        self.init(container: appDelegate.persistentContainer)
     }
 
-    func insert(item: RepositoryObject) {
-        persistentContainer.viewContext.insert(item.toStorable(in: persistentContainer.viewContext))
+    /// In case of success returns array of existing models againt given query, in case of failure returns error.
+    /// - Parameters:
+    ///   - parameters: Optional Dictionary<String, Any> containing query. Ex: ["courseId":"id1"].
+    /// - Returns: Future<[T], Error> where T is conformable to Entity protocol, meaning it has associated ManagedObject.
+    func getAll<T>(where parameters: Dictionary<String, Any>?) -> Future<[T], Error> where T : Entity {
+        return Future<[T], Error>{ promise in
+            do {
+                // TODO: Fix force casting to String
+                let predicate = parameters?.map{
+                     return NSPredicate(format: "\($0.key) == %@", $0.value as! String)
+                 }
+                let managedObjects = try self.getManagedObjects(with: predicate?.first)
+                let rawModels = managedObjects.compactMap{$0.model}
+                
+                guard let models = rawModels as? [T], !models.isEmpty else {
+                    promise(.failure(CoreDataError.noData))
+                    return
+                }
+                promise(.success(models))
+            }
+            catch let error{
+                promise(.failure(CoreDataError.failure(description: error.localizedDescription)))
+            }
+        }
+    }
+    
+    /// Inserts new entity to the context.
+    /// - Parameters:
+    ///   - item: Generic T which is conformable to Entity protocol.
+    func insert<T>(item: T) where T : Entity {
+        persistentContainer.viewContext.insert(item.toStorable(in: persistentContainer.viewContext) as! NSManagedObject)
         saveContext()
     }
     
-    func update(item: RepositoryObject) throws {
-        try delete(item: item)
-        insert(item: item)
-    }
-    
-    func delete(item: RepositoryObject) throws {
+    /// Deletes item from the context.
+    /// - Parameters:
+    ///   - item: Generic T which is conformable to Entity protocol.
+    func delete<T>(item: T) where T : Entity {
         let predicate = NSPredicate(format: "id == %@", item.id)
-        let items = try getManagedObjects(with: predicate)
-        persistentContainer.viewContext.delete(items.first!)
+        let items = try? getManagedObjects(with: predicate)
+        if let item = items?.first {
+            persistentContainer.viewContext.delete(item)
+        }
         saveContext()
     }
     
-    private func getManagedObjects(with predicate: NSPredicate?) throws -> [RepositoryObject.StoreType] {
-        let entityName = String(describing: RepositoryObject.StoreType.self)
-        let request = NSFetchRequest<RepositoryObject.StoreType>(entityName: entityName)
+    /// This method implements Object Relational Mapping. Converts T to the ManagedObject type.
+    /// - Parameters:
+    ///   - predicate: Optional Dictionary<String, Any> containing query. Ex: ["courseId":"id1"].
+    /// - Returns: Array of [T.StoreType] where StoreType is a ManagedObject associated with T.
+    private func getManagedObjects(with predicate: NSPredicate?) throws -> [T.StoreType] {
+        let entityName = String(describing: T.StoreType.self)
+        let request = NSFetchRequest<T.StoreType>(entityName: entityName)
         request.predicate = predicate
-        
         return try persistentContainer.viewContext.fetch(request)
     }
-    
+
     // MARK: - Core Data Saving support
-    
     private func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
