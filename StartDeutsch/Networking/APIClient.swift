@@ -54,7 +54,7 @@ final class APIClient: APIClientProtocol{
                     .tryMap{ token-> AnyPublisher<T, Error> in
                         print("New token \(token.accessToken)!")
                         var newRequest = request
-                        newRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                        newRequest.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
                         return self.fetch(newRequest)
             }.switchToLatest().eraseToAnyPublisher()
         }
