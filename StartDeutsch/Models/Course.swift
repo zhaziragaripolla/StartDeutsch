@@ -7,39 +7,30 @@
 //
 
 import Foundation
-import CoreData
 
-protocol ObjectConvertable {
-    var dictionary: [String : Any] { get }
-}
-
-
-public struct Course {
+public struct Course: Decodable {
     let title: String
     public let id: String
-    let documentPath: String
     let aliasName: String
-    let descriptionText: String
+    let description: String
 }
 
-extension Course: ObjectConvertable {
+extension Course{
     public var dictionary: [String: Any] {
         return ["id" : id,
                 "title" : title,
-                "documentPath" : documentPath,
                 "aliasName" : aliasName,
-                "descriptionText":descriptionText]
+                "descriptionText":description]
     }
 }
 
-extension Course: DocumentSerializable {
-
-    init?(dictionary: [String : Any], path: String) {
-        guard let title = dictionary["title"] as? String,
-            let id = dictionary["id"] as? String,
-            let aliasName = dictionary["aliasName"] as? String,
-            let description = dictionary["descriptionText"] as? String else { return nil}
-        
-        self.init(title: title, id: id, documentPath: path, aliasName: aliasName, descriptionText: description)
+extension Course: Equatable{
+    static public func ==(lhs: Course, rhs: Course) -> Bool {
+        if lhs.id == rhs.id{
+            return true
+        }
+        return false
     }
 }
+
+
