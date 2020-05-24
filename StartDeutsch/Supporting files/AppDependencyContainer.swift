@@ -10,14 +10,12 @@ import Foundation
 
 class AppDependencyContainer {
     
-    let sharedFirebaseManager: FirebaseManager
+    let sharedAPIClient: APIClient
     let sharedFirebaseStorageManager: FirebaseStorageManager
     let networkManager: NetworkManager
+    let requestBuilder: RequestBuilder
+    
     init(){
-        
-        func makeFirebaseManager()-> FirebaseManager {
-            return FirebaseManager()
-        }
         
         func makeFirebaseStorageManager()-> FirebaseStorageManager {
             return FirebaseStorageManager()
@@ -25,39 +23,67 @@ class AppDependencyContainer {
         func makeNetworkManager()->NetworkManager{
             return NetworkManager([])
         }
-        self.sharedFirebaseManager = makeFirebaseManager()
+        func makeRequestBuilder()->RequestBuilder{
+            return RequestBuilder()
+        }
+        
+        func makeAPIClient()->APIClient{
+            return APIClient(requestBuilder: makeRequestBuilder())
+        }
+        
         self.sharedFirebaseStorageManager = makeFirebaseStorageManager()
         self.networkManager = makeNetworkManager()
+        self.requestBuilder = makeRequestBuilder()
+        self.sharedAPIClient = makeAPIClient()
     }
     
     deinit {
         networkManager.stopNotifier()
     }
     
+    
     // MARK: Courses
     // TODO: rename to CourseList
     func makeCoursesViewController()-> CourseListViewController {
         let viewModel = makeCoursesViewModel()
-        networkManager.addDelegate(viewModel)
         return CourseListViewController(viewModel: viewModel)
         
     }
     
     func makeCoursesViewModel()-> CourseListViewModel {
-        let repo = CoreDataRepository<Course>()
-        return CourseListViewModel(firebaseManager: sharedFirebaseManager, repository: repo, networkManager: networkManager)
+        return CourseListViewModel(remoteRepo: makeCourseRemoteDataSource(),
+                                   localRepo: makeCourseLocalDataSource())
     }
     
+    func makeCourseRemoteDataSource()->CourseDataSourceProtocol{
+        return CourseRemoteDataSource(client: sharedAPIClient)
+    }
+    
+    func makeCourseLocalDataSource()->CourseDataSourceProtocol{
+        let courseCoreDataClient = CoreDataRepository<Course>()
+        return CourseLocalDataSource(client: courseCoreDataClient)
+    }
     
     // MARK: Tests
     func makeTestsViewController(course: Course)-> TestListViewController {
         let viewModel = makeTestsViewModel(course: course)
-        networkManager.addDelegate(viewModel)
         return TestListViewController(viewModel: viewModel)
     }
     
     func makeTestsViewModel(course: Course)-> TestListViewModel {
-        return TestListViewModel(firebaseManager: sharedFirebaseManager, course: course, repository: CoreDataRepository<Test>(), networkManager: networkManager)
+        return TestListViewModel(remoteRepo: makeTestRemoteDataSource(),
+                                 localRepo: makeTestLocalDataSource(),
+                                 networkManager: networkManager,
+                                 course: course)
+    }
+    
+    func makeTestRemoteDataSource()->TestDataSourceProtocol{
+        return TestRemoteRepository(client: sharedAPIClient)
+    }
+    
+    func makeTestLocalDataSource()->TestDataSourceProtocol{
+        let testCoreDataClient = CoreDataRepository<Test>()
+        return TestLocalRepository(client: testCoreDataClient)
     }
     
     // MARK: - Listening
@@ -68,7 +94,7 @@ class AppDependencyContainer {
     }
     
     func makeListeningQuestionsViewModel(test: Test)-> ListeningCourseViewModel {
-        return ListeningCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>(), networkManager: networkManager)
+        return ListeningCourseViewModel(firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>(), networkManager: networkManager)
     }
     
     // MARK: - Reading
@@ -79,48 +105,20 @@ class AppDependencyContainer {
     }
     
     func makeReadingQuestionsViewModel(test: Test)-> ReadingCourseViewModel {
-        return ReadingCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<ReadingQuestion>(), test: test, networkManager: networkManager)
+        return ReadingCourseViewModel(firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<ReadingQuestion>(), test: test, networkManager: networkManager)
     }
     
-    // MARK: - Writing
-    func makeWritingCourseViewController()-> WritingCourseViewController {
-        return WritingCourseViewController()
-    }
-    
-    func makeBlankListViewController()-> BlankListViewController{
-        let viewModel = BlankListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Blank>(), networkManager: networkManager)
-        networkManager.addDelegate(viewModel)
-        return BlankListViewController(viewModel: viewModel)
-    }
-    
-    func makeLetterListViewController()-> LetterListViewController {
-        let viewModel = LetterListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Letter>(), networkManager: networkManager)
-        networkManager.addDelegate(viewModel)
-        return LetterListViewController(viewModel: viewModel)
-    }
-    
-    func makeBlankDetailViewController(viewModel: BlankViewModel)-> BlankViewController{
-        return BlankViewController(viewModel: viewModel)
-    }
-    
-    func makeLetterDetailViewController(viewModel: LetterViewModel)-> LetterViewController{
-        return LetterViewController(viewModel: viewModel)
-    }
     
     // MARK: - Speaking
     
-    func makeSpeakingCourseViewController()-> SpeakingCourseViewController {
-          return SpeakingCourseViewController()
-      }
-    
     func makeWordListViewController()-> WordListViewController{
-        let viewModel = WordListViewModel(firebaseManager: sharedFirebaseManager, repository: CoreDataRepository<Word>(), networkManager: networkManager)
+        let viewModel = WordListViewModel( repository: CoreDataRepository<Word>(), networkManager: networkManager)
         networkManager.addDelegate(viewModel)
         return WordListViewController(viewModel: viewModel)
     }
     
     func makeCardListViewController()-> CardListViewController {
-        let viewModel = CardListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Card>(), networkManager: networkManager)
+        let viewModel = CardListViewModel( firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Card>(), networkManager: networkManager)
         networkManager.addDelegate(viewModel)
         return CardListViewController(viewModel: viewModel)
     }
