@@ -2,7 +2,7 @@
 //  ManagedCourse+CoreDataProperties.swift
 //  StartDeutsch
 //
-//  Created by Zhazira Garipolla on 1/28/20.
+//  Created by Zhazira Garipolla on 5/21/20.
 //  Copyright © 2020 Zhazira Garipolla. All rights reserved.
 //
 //
@@ -18,9 +18,8 @@ extension ManagedCourse {
     }
 
     @NSManaged public var aliasName: String
-    @NSManaged public var documentPath: String
+    @NSManaged public var descriptionText: String
     @NSManaged public var id: String
     @NSManaged public var title: String
-    @NSManaged public var descriptionText: String
 
 }
