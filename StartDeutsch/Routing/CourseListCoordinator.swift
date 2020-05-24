@@ -12,8 +12,8 @@ class CourseListCoordinator: Coordinator {
     private var presenter: UINavigationController
     private let container: AppDependencyContainer
     private var testListCoordinator: TestListCoordinator?
-    private var writingCourseCoordinator: WritingCourseCoordinator?
-    private var speakingCourseCoordinator: SpeakingCourseCoordinator?
+    private var cardListCoordinator: CardListCoordinator?
+    private var wordListCoordinator: WordListCoordinator?
 
     init(presenter: UINavigationController, container: AppDependencyContainer) {
         self.presenter = presenter
@@ -30,14 +30,14 @@ class CourseListCoordinator: Coordinator {
 
 extension CourseListCoordinator: CourseListViewControllerDelegate {
     func didSelectCourse(course: Course) {
-        switch course.aliasName {
-        case "speaking":
-            let coordinator = SpeakingCourseCoordinator(presenter: presenter, container: container)
-            self.speakingCourseCoordinator = coordinator
+        switch course.aliasName.lowercased() {
+        case "cards":
+            let coordinator = CardListCoordinator(presenter: presenter, container: container)
+            self.cardListCoordinator = coordinator
             coordinator.start()
-        case "writing":
-            let coordinator = WritingCourseCoordinator(presenter: presenter, container: container)
-            self.writingCourseCoordinator = coordinator
+        case "words":
+            let coordinator = WordListCoordinator(presenter: presenter, container: container)
+            self.wordListCoordinator = coordinator
             coordinator.start()
         default:
             let coordinator = TestListCoordinator(presenter: presenter, container: container, course: course)
