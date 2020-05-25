@@ -73,17 +73,16 @@ class AppDependencyContainer {
     func makeTestsViewModel(course: Course)-> TestListViewModel {
         return TestListViewModel(remoteRepo: makeTestRemoteDataSource(),
                                  localRepo: makeTestLocalDataSource(),
-                                 networkManager: networkManager,
                                  course: course)
     }
     
     func makeTestRemoteDataSource()->TestDataSourceProtocol{
-        return TestRemoteRepository(client: sharedAPIClient)
+        return TestRemoteDataSource(client: sharedAPIClient)
     }
     
     func makeTestLocalDataSource()->TestDataSourceProtocol{
         let testCoreDataClient = CoreDataRepository<Test>()
-        return TestLocalRepository(client: testCoreDataClient)
+        return TestLocalDataSource(client: testCoreDataClient)
     }
     
     // MARK: - Listening

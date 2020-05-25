@@ -37,7 +37,7 @@ extension ManagedTest: Storable {
  
     public var model: Test {
         get {
-            return Test(id: id, courseId: courseId, documentPath: documentPath)
+            return Test(id: id, courseId: courseId)
         }
     }
 }

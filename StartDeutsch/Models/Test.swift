@@ -8,23 +8,26 @@
 
 import Foundation
 
-public struct Test: Decodable {
+public struct Test: Decodable{
     public let id: String
     let courseId: String
-    let documentPath: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case courseId = "course"
+    }
     
     public var dictionary: [String: Any] {
         return ["id": id,
-                "courseId": courseId,
-                "documentPath": documentPath ]
+                "courseId": courseId]
     }
 }
 
-extension Test: DocumentSerializable {
-    init?(dictionary: [String : Any], path: String) {
-        guard let id = dictionary["id"] as? String,
-            let courseId = dictionary["courseId"] as? String else { return nil}
-        
-        self.init(id: id, courseId: courseId, documentPath: path)
+extension Test: Equatable{
+    static public func ==(lhs: Test, rhs: Test) -> Bool {
+        if lhs.id == rhs.id{
+            return true
+        }
+        return false
     }
 }

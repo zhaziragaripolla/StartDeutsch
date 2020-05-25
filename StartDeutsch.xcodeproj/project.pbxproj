@@ -83,6 +83,8 @@
 		56C776EC2396827E00D5C9DE /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776EB2396827E00D5C9DE /* Test.swift */; };
 		56C776EE2396829400D5C9DE /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C776ED2396829400D5C9DE /* Course.swift */; };
 		56C7A7D6247A8E9C00FCF55E /* CourseDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7D5247A8E9C00FCF55E /* CourseDataSourceProtocol.swift */; };
+		56C7A7D8247AAB8400FCF55E /* TestDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7D7247AAB8400FCF55E /* TestDataSourceProtocol.swift */; };
+		56C7A7DA247AB28D00FCF55E /* TestListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */; };
 		56D79870239913D800672302 /* Models+Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7986F239913D800672302 /* Models+Storable.swift */; };
 		56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACB2382F79A00CECC71 /* AppDelegate.swift */; };
 		56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */; };
@@ -190,6 +192,8 @@
 		56C776EB2396827E00D5C9DE /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		56C776ED2396829400D5C9DE /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		56C7A7D5247A8E9C00FCF55E /* CourseDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDataSourceProtocol.swift; sourceTree = "<group>"; };
+		56C7A7D7247AAB8400FCF55E /* TestDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDataSourceProtocol.swift; sourceTree = "<group>"; };
+		56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestListViewModelTests.swift; sourceTree = "<group>"; };
 		56D7986F239913D800672302 /* Models+Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+Storable.swift"; sourceTree = "<group>"; };
 		56D7BAC82382F79A00CECC71 /* Start Deutsch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Start Deutsch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D7BACB2382F79A00CECC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -312,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				56C7A7D5247A8E9C00FCF55E /* CourseDataSourceProtocol.swift */,
+				56C7A7D7247AAB8400FCF55E /* TestDataSourceProtocol.swift */,
 			);
 			path = Decorators;
 			sourceTree = "<group>";
@@ -474,6 +479,7 @@
 				56DC57AF246C6A7F004AF4AC /* RequestBuilderTests.swift */,
 				56DC57B3246DB7E0004AF4AC /* CoreDataRepositoryTests.swift */,
 				565039F724769A100093352A /* CourseListViewModelTests.swift */,
+				56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */,
 			);
 			path = StartDeutschTests;
 			sourceTree = "<group>";
@@ -704,6 +710,7 @@
 				56968CC423854D07008F56D9 /* CourseListViewModel.swift in Sources */,
 				569F4F4623AD3FF50054BC65 /* Extensions.swift in Sources */,
 				56503A1C2476C7DA0093352A /* APIError.swift in Sources */,
+				56C7A7D8247AAB8400FCF55E /* TestDataSourceProtocol.swift in Sources */,
 				56963EAD23C49AEF007ACE1D /* GradientLayer.swift in Sources */,
 				56963E9D23C1C435007ACE1D /* CardListViewModel.swift in Sources */,
 				56968CC823857512008F56D9 /* TestListViewModel.swift in Sources */,
@@ -757,6 +764,7 @@
 			files = (
 				56DC57B0246C6A7F004AF4AC /* RequestBuilderTests.swift in Sources */,
 				565039F824769A100093352A /* CourseListViewModelTests.swift in Sources */,
+				56C7A7DA247AB28D00FCF55E /* TestListViewModelTests.swift in Sources */,
 				56DC57B4246DB7E0004AF4AC /* CoreDataRepositoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
