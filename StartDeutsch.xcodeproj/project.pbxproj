@@ -87,6 +87,12 @@
 		56C7A7DA247AB28D00FCF55E /* TestListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */; };
 		56C7A7DC247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7DB247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift */; };
 		56C7A7DE247BD9D200FCF55E /* ListeningCourseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7DD247BD9D200FCF55E /* ListeningCourseViewModelTests.swift */; };
+		56C7A7E0247CE39400FCF55E /* ReadingCourseDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7DF247CE39400FCF55E /* ReadingCourseDataSourceProtocol.swift */; };
+		56C7A7E2247CE46800FCF55E /* ReadingCourseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7E1247CE46800FCF55E /* ReadingCourseViewModelTests.swift */; };
+		56C7A7E4247CE49A00FCF55E /* MockFirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7E3247CE49A00FCF55E /* MockFirebaseStorageManager.swift */; };
+		56C7A7E7247CE5BA00FCF55E /* MockListeningCourseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7E6247CE5BA00FCF55E /* MockListeningCourseDataSource.swift */; };
+		56C7A7E9247CE61400FCF55E /* MockTestListDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7E8247CE61400FCF55E /* MockTestListDataSourceProtocol.swift */; };
+		56C7A7EB247CE66E00FCF55E /* MockCourseListDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7EA247CE66E00FCF55E /* MockCourseListDataSourceProtocol.swift */; };
 		56D79870239913D800672302 /* Models+Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7986F239913D800672302 /* Models+Storable.swift */; };
 		56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACB2382F79A00CECC71 /* AppDelegate.swift */; };
 		56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */; };
@@ -198,6 +204,12 @@
 		56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestListViewModelTests.swift; sourceTree = "<group>"; };
 		56C7A7DB247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningCourseDataSourceProtocol.swift; sourceTree = "<group>"; };
 		56C7A7DD247BD9D200FCF55E /* ListeningCourseViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningCourseViewModelTests.swift; sourceTree = "<group>"; };
+		56C7A7DF247CE39400FCF55E /* ReadingCourseDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseDataSourceProtocol.swift; sourceTree = "<group>"; };
+		56C7A7E1247CE46800FCF55E /* ReadingCourseViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCourseViewModelTests.swift; sourceTree = "<group>"; };
+		56C7A7E3247CE49A00FCF55E /* MockFirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirebaseStorageManager.swift; sourceTree = "<group>"; };
+		56C7A7E6247CE5BA00FCF55E /* MockListeningCourseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListeningCourseDataSource.swift; sourceTree = "<group>"; };
+		56C7A7E8247CE61400FCF55E /* MockTestListDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTestListDataSourceProtocol.swift; sourceTree = "<group>"; };
+		56C7A7EA247CE66E00FCF55E /* MockCourseListDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCourseListDataSourceProtocol.swift; sourceTree = "<group>"; };
 		56D7986F239913D800672302 /* Models+Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+Storable.swift"; sourceTree = "<group>"; };
 		56D7BAC82382F79A00CECC71 /* Start Deutsch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Start Deutsch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D7BACB2382F79A00CECC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -322,6 +334,7 @@
 				56C7A7D5247A8E9C00FCF55E /* CourseDataSourceProtocol.swift */,
 				56C7A7D7247AAB8400FCF55E /* TestDataSourceProtocol.swift */,
 				56C7A7DB247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift */,
+				56C7A7DF247CE39400FCF55E /* ReadingCourseDataSourceProtocol.swift */,
 			);
 			path = Decorators;
 			sourceTree = "<group>";
@@ -433,6 +446,44 @@
 			path = "View Models";
 			sourceTree = "<group>";
 		};
+		56C7A7E5247CE4FA00FCF55E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				56C7A7E3247CE49A00FCF55E /* MockFirebaseStorageManager.swift */,
+				56C7A7E6247CE5BA00FCF55E /* MockListeningCourseDataSource.swift */,
+				56C7A7E8247CE61400FCF55E /* MockTestListDataSourceProtocol.swift */,
+				56C7A7EA247CE66E00FCF55E /* MockCourseListDataSourceProtocol.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		56C7A7EC247CE6FD00FCF55E /* View Model Tests */ = {
+			isa = PBXGroup;
+			children = (
+				565039F724769A100093352A /* CourseListViewModelTests.swift */,
+				56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */,
+				56C7A7DD247BD9D200FCF55E /* ListeningCourseViewModelTests.swift */,
+				56C7A7E1247CE46800FCF55E /* ReadingCourseViewModelTests.swift */,
+			);
+			path = "View Model Tests";
+			sourceTree = "<group>";
+		};
+		56C7A7ED247CE73100FCF55E /* Core Data Tests */ = {
+			isa = PBXGroup;
+			children = (
+				56DC57B3246DB7E0004AF4AC /* CoreDataRepositoryTests.swift */,
+			);
+			path = "Core Data Tests";
+			sourceTree = "<group>";
+		};
+		56C7A7EE247CE73B00FCF55E /* Networking Tests */ = {
+			isa = PBXGroup;
+			children = (
+				56DC57AF246C6A7F004AF4AC /* RequestBuilderTests.swift */,
+			);
+			path = "Networking Tests";
+			sourceTree = "<group>";
+		};
 		56D7BABF2382F79A00CECC71 = {
 			isa = PBXGroup;
 			children = (
@@ -481,11 +532,10 @@
 			isa = PBXGroup;
 			children = (
 				56D7BAE72382F7A200CECC71 /* Info.plist */,
-				56DC57AF246C6A7F004AF4AC /* RequestBuilderTests.swift */,
-				56DC57B3246DB7E0004AF4AC /* CoreDataRepositoryTests.swift */,
-				565039F724769A100093352A /* CourseListViewModelTests.swift */,
-				56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */,
-				56C7A7DD247BD9D200FCF55E /* ListeningCourseViewModelTests.swift */,
+				56C7A7EE247CE73B00FCF55E /* Networking Tests */,
+				56C7A7ED247CE73100FCF55E /* Core Data Tests */,
+				56C7A7EC247CE6FD00FCF55E /* View Model Tests */,
+				56C7A7E5247CE4FA00FCF55E /* Mocks */,
 			);
 			path = StartDeutschTests;
 			sourceTree = "<group>";
@@ -696,6 +746,7 @@
 				56503A172476B84C0093352A /* ManagedLetter+CoreDataProperties.swift in Sources */,
 				56503A182476B84C0093352A /* ManagedCard+CoreDataProperties.swift in Sources */,
 				56503A192476B84C0093352A /* ManagedBlank+CoreDataClass.swift in Sources */,
+				56C7A7E0247CE39400FCF55E /* ReadingCourseDataSourceProtocol.swift in Sources */,
 				56503A1A2476B84C0093352A /* ManagedLetter+CoreDataClass.swift in Sources */,
 				56C776EE2396829400D5C9DE /* Course.swift in Sources */,
 				56D7BAD02382F79A00CECC71 /* CourseListViewController.swift in Sources */,
@@ -770,10 +821,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				56DC57B0246C6A7F004AF4AC /* RequestBuilderTests.swift in Sources */,
+				56C7A7E7247CE5BA00FCF55E /* MockListeningCourseDataSource.swift in Sources */,
 				565039F824769A100093352A /* CourseListViewModelTests.swift in Sources */,
+				56C7A7E2247CE46800FCF55E /* ReadingCourseViewModelTests.swift in Sources */,
 				56C7A7DE247BD9D200FCF55E /* ListeningCourseViewModelTests.swift in Sources */,
 				56C7A7DA247AB28D00FCF55E /* TestListViewModelTests.swift in Sources */,
 				56DC57B4246DB7E0004AF4AC /* CoreDataRepositoryTests.swift in Sources */,
+				56C7A7EB247CE66E00FCF55E /* MockCourseListDataSourceProtocol.swift in Sources */,
+				56C7A7E4247CE49A00FCF55E /* MockFirebaseStorageManager.swift in Sources */,
+				56C7A7E9247CE61400FCF55E /* MockTestListDataSourceProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
