@@ -64,7 +64,7 @@ class ReadingCourseViewController: UIViewController {
     }
     
     @objc func didTapFinishButton(_ sender: UIBarButtonItem){
-        viewModel.checkUserAnswers(userAnswers: userAnswers)
+        viewModel.validate(userAnswers: userAnswers)
     }
 }
 

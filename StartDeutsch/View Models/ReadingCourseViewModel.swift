@@ -7,14 +7,15 @@
 //
 
 import Foundation
+import Combine
 
 class ReadingCourseViewModel {
+    
     // Dependencies
     private let storage: FirebaseStorageManagerProtocol
-    private let firebaseManager: FirebaseManagerProtocol
     private let test: Test
-    private let repository: CoreDataRepository<ReadingQuestion>
-    private let networkManager: NetworkManagerProtocol
+    private let remoteRepo: ReadingCourseDataSourceProtocol
+    private let localRepo: ReadingCourseDataSourceProtocol
     
     // Models
     var questions: [ReadingQuestion] = []
@@ -26,30 +27,52 @@ class ReadingCourseViewModel {
     weak var userAnswerDelegate: UserAnswerDelegate?
     
     private let fileManager = FileManager.default
+    private var cancellables: Set<AnyCancellable> = []
+    private var isNetworkCall: Bool = false
     
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, repository: CoreDataRepository<ReadingQuestion>, test: Test, networkManager: NetworkManagerProtocol) {
-        self.firebaseManager = firebaseManager
+    init(firebaseStorageManager: FirebaseStorageManagerProtocol,
+          remoteRepo: ReadingCourseDataSourceProtocol,
+          localRepo: ReadingCourseDataSourceProtocol,
+          test: Test) {
         self.test = test
         self.storage = firebaseStorageManager
-        self.repository = repository
-        self.networkManager = networkManager
+        self.remoteRepo = remoteRepo
+        self.localRepo = localRepo
     }
     
+    // MARK: - Fetching Reading questions
+    
     public func getQuestions() {
-        fetchFromLocalDatabase()
-        if questions.isEmpty {
-            if networkManager.isReachable(){
-                fetchFromRemoteDatabase()
-            }
-            else {
-                self.delegate?.networkOffline()
-            }
-        }
-        else {
-            self.questions.sort(by: { $0.orderNumber < $1.orderNumber})
-            self.delegate?.didDownloadData()
-        }
+       localRepo.getAll(where: ["testId": test.id])
+       .catch{ error-> Future<[ReadingQuestion], Error> in
+           if let error = error as? CoreDataError{
+               print(error.localizedDescription)
+           }
+           self.isNetworkCall = true
+           return self.remoteRepo.getAll(where: ["testId": self.test.id])
+       }
+       .receive(on: DispatchQueue.main)
+       .sink(receiveCompletion: { [weak self] result in
+           guard let self = self else { return }
+           switch result {
+           case .failure(let error):
+               self.errorDelegate?.showError(message: "Network error: \(error.localizedDescription). Try later.")
+           case .finished:
+               self.delegate?.didDownloadData()
+           }
+       }, receiveValue: { [weak self] questions in
+           guard let self = self else { return }
+           self.questions = questions
+           
+           if self.isNetworkCall{
+               questions.forEach{ question in
+                   self.localRepo.create(item: question)
+               }
+           }
+       }).store(in: &cancellables)
     }
+    
+    // MARK: - Returning Question View Model
     
     // TODO: change "url" to "path"
     public func viewModel(for index: Int)-> QuestionCellViewModel?{
@@ -57,53 +80,25 @@ class ReadingCourseViewModel {
         var viewModel: QuestionCellViewModel?
         switch question.section {
         case 1:
-            viewModel = ReadingQuestionPartOneViewModel(orderNumber: question.orderNumber, texts: question.questionTexts ?? [], url: question.imagePath ?? "")
+            viewModel = ReadingQuestionPartOneViewModel(orderNumber: question.orderNumber,
+                                                        texts: question.questionTexts ?? [],
+                                                        url: question.imagePath ?? "")
         case 2:
-            viewModel = ReadingPartTwoViewModel(orderNumber: question.orderNumber, text: question.questionText ?? "", urls: question.answerImagePaths ?? [])
+            viewModel = ReadingPartTwoViewModel(orderNumber: question.orderNumber,
+                                                text: question.questionText ?? "",
+                                                urls: question.answerImagePaths ?? [])
         case 3:
-            viewModel = ReadingPartThreeViewModel(orderNumber: question.orderNumber, text: question.questionText ?? "", description: question.description ?? "", url: question.imagePath ?? "")
+            viewModel = ReadingPartThreeViewModel(orderNumber: question.orderNumber,
+                                                  text: question.questionText ?? "",
+                                                  description: question.description ?? "",
+                                                  url: question.imagePath ?? "")
         default:
             return nil
         }
         return viewModel
     }
-
-    private func fetchFromLocalDatabase(){
-        do {
-            let predicate = NSPredicate(format: "testId == %@", test.id)
-            self.questions = try repository.getAll(where: predicate)
-        }
-        catch let error {
-            errorDelegate?.showError(message: error.localizedDescription)
-            fetchFromRemoteDatabase()
-        }
-    }
     
-    private func fetchFromRemoteDatabase(){
-        delegate?.didStartLoading()
-        firebaseManager.getDocuments(test.documentPath.appending("/questions")){ result in
-            switch result {
-            case .failure(let error):
-                if let message = error.errorDescription {
-                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
-                }
-            case .success(let response):
-                self.questions = response.map({
-                    return ReadingQuestion(dictionary: $0.data())!
-                })
-                self.delegate?.didCompleteLoading()
-                self.delegate?.didDownloadData()
-                self.saveToLocalDatabase()
-                self.questions.sort(by: { $0.orderNumber < $1.orderNumber})
-            }
-        }
-    }
-    
-    private func saveToLocalDatabase(){
-        questions.forEach({
-            repository.insert(item: $0)
-        })
-    }
+    // MARK: - User Answers Validation
     
     public func getCorrectAnswer(for index: Int)-> Any{
         let question = questions[index]
@@ -115,45 +110,25 @@ class ReadingCourseViewModel {
         }
     }
     
-    public func checkUserAnswers(userAnswers: Dictionary<Int, Any?>){
-        // TODO: Refactor
+    public func validate(userAnswers: Dictionary<Int, Any?>){
         var count = 0
-        print("checking..")
         for index in 0..<questions.count{
             let question = questions[index]
-            switch question.section {
-            case 1:
-                if let answers = userAnswers[index] as? Array<Bool?> {
-                    for i in 0..<answers.count{
-                        if answers[i] == question.correctAnswers?[i] {
-                            count += 1
-                        }
+            if question.section == 1{
+                guard let answers = userAnswers[index] as? Array<Bool?> else { return }
+                for i in 0..<answers.count{
+                    if let correctAnswers = question.correctAnswers?[i], answers[i] == correctAnswers {
+                        count += 1
                     }
                 }
-            default:
-                let answer = userAnswers[index] as? Int
-                if answer == question.correctChoiceIndex {
+            }
+            else {
+                if let answer = userAnswers[index] as? Int, answer == question.correctChoiceIndex {
                     count += 1
                 }
             }
         }
         print("Result is: \(count)")
         userAnswerDelegate?.didCheckUserAnswers(result: count)
-    }
-}
-
-extension ReadingCourseViewModel: NetworkManagerDelegate{
-    func reachabilityChanged(_ isReachable: Bool) {
-        if isReachable {
-            self.delegate?.networkOnline()
-            if questions.isEmpty {
-                fetchFromRemoteDatabase()
-            }
-        }
-        else {
-            if questions.isEmpty {
-                self.delegate?.networkOffline()
-            }
-        }
     }
 }

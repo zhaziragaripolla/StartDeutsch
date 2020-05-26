@@ -72,7 +72,7 @@ extension ReadingQuestion: Entity {
 extension ManagedReadingQuestion: Storable {
     public var model: ReadingQuestion {
         get {
-            return ReadingQuestion(id: id, testId: testId, imagePath: imagePath ?? "", orderNumber:Int(orderNumber), questionText: questionText, questionTexts: questionTexts, correctAnswers: correctAnswers, answerImagePaths: answerImagePaths, correctChoiceIndex: Int(correctChoiceIndex), description: questionDescription, section: Int(section))
+            return ReadingQuestion(id: id, testId: testId, imagePath: imagePath ?? "", orderNumber:Int(orderNumber), questionText: questionText, questionTexts: questionTexts, correctAnswers: correctAnswers, answerImagePaths: answerImagePaths, correctChoiceIndex: Int(correctChoiceIndex), description: descriptionText, section: Int(section))
         }
     }
 }

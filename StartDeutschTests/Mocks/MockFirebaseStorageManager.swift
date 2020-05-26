@@ -5,7 +5,7 @@
 //  Created by Zhazira Garipolla on 5/26/20.
 //  Copyright © 2020 Zhazira Garipolla. All rights reserved.
 //
-
+import Foundation
 @testable import Start_Deutsch
 
 class MockFirebaseStorageManager: FirebaseStorageManagerProtocol{
