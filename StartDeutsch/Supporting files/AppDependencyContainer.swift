@@ -133,9 +133,18 @@ class AppDependencyContainer {
     // MARK: - Speaking
     
     func makeWordListViewController()-> WordListViewController{
-        let viewModel = WordListViewModel( repository: CoreDataRepository<Word>(), networkManager: networkManager)
-        networkManager.addDelegate(viewModel)
+        let viewModel = WordListViewModel(remoteRepo: makeWordRemoteDataSource(),
+                                          localRepo: makeWordLocalDataSource())
         return WordListViewController(viewModel: viewModel)
+    }
+    
+    func makeWordRemoteDataSource()-> WordDataSourceProtocol{
+        return WordRemoteDataSource(client: sharedAPIClient)
+    }
+
+    func makeWordLocalDataSource()-> WordDataSourceProtocol{
+        let coreDataClient = CoreDataRepository<Word>()
+        return WordLocalDataSource(client: coreDataClient)
     }
     
     func makeCardListViewController()-> CardListViewController {

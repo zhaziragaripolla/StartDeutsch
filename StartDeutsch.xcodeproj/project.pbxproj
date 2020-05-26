@@ -46,6 +46,7 @@
 		56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */; };
 		56726A0B23CDCD7F00F3D7CB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0A23CDCD7F00F3D7CB /* CardView.swift */; };
 		567A370B23D84BA500FFB121 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567A370A23D84BA500FFB121 /* NetworkManager.swift */; };
+		5689FC4D247D53FE00851E1B /* WordDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5689FC4C247D53FE00851E1B /* WordDataSourceProtocol.swift */; };
 		56963E9523C1B982007ACE1D /* WordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9423C1B982007ACE1D /* WordListViewController.swift */; };
 		56963E9723C1C201007ACE1D /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9623C1C201007ACE1D /* WordListViewModel.swift */; };
 		56963E9923C1C219007ACE1D /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9823C1C219007ACE1D /* Word.swift */; };
@@ -165,6 +166,7 @@
 		56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCellViewModel.swift; sourceTree = "<group>"; };
 		56726A0A23CDCD7F00F3D7CB /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardView.swift; path = Reading/CardView.swift; sourceTree = "<group>"; };
 		567A370A23D84BA500FFB121 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = "StartDeutsch/View Controllers/NetworkManager.swift"; sourceTree = SOURCE_ROOT; };
+		5689FC4C247D53FE00851E1B /* WordDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDataSourceProtocol.swift; sourceTree = "<group>"; };
 		56963E9423C1B982007ACE1D /* WordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewController.swift; sourceTree = "<group>"; };
 		56963E9623C1C201007ACE1D /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
 		56963E9823C1C219007ACE1D /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				56C7A7DB247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift */,
 				56C7A7DF247CE39400FCF55E /* ReadingCourseDataSourceProtocol.swift */,
 				56C7A7F1247D1F4600FCF55E /* CardDataSourceProtocol.swift */,
+				5689FC4C247D53FE00851E1B /* WordDataSourceProtocol.swift */,
 			);
 			path = Decorators;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				56C7A7DC247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift in Sources */,
 				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,
 				569F4F4423ABC70C0054BC65 /* ReadingCourseCoordinator.swift in Sources */,
+				5689FC4D247D53FE00851E1B /* WordDataSourceProtocol.swift in Sources */,
 				569F4F3C23AB905F0054BC65 /* ReadingCourseViewController.swift in Sources */,
 				569F4E5E239921A00054BC65 /* Repository.swift in Sources */,
 				56968CC423854D07008F56D9 /* CourseListViewModel.swift in Sources */,
