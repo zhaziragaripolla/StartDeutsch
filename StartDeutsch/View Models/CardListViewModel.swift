@@ -48,7 +48,7 @@ class CardListViewModel {
             case .failure(let error):
                 self.errorDelegate?.showError(message: "Network error: \(error.localizedDescription). Try later.")
             case .finished:
-                self.delegate?.didDownloadData()
+                self.reloadImages()
             }
             }, receiveValue: { [weak self] cards in
                 guard let self = self else { return }
