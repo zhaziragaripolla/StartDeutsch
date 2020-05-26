@@ -8,10 +8,16 @@
 
 import Foundation
 
-public struct Card {
+public struct Card: Decodable {
     public let id: String
     let imageUrl: String
     let courseId: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case courseId = "course"
+        case imageUrl
+    }
     
     public var dictionary: [String: Any]{
         return [
@@ -19,14 +25,5 @@ public struct Card {
             "imageUrl":imageUrl,
             "courseId":courseId
         ]
-    }
-}
-
-extension Card{
-    init?(dictionary: [String : Any]) {
-        guard let id = dictionary["id"] as? String,
-            let courseId = dictionary["courseId"] as? String,
-            let imageUrl = dictionary["imagePath"] as? String else { return nil}
-        self.init(id: id, imageUrl: imageUrl, courseId: courseId)
     }
 }

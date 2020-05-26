@@ -94,6 +94,7 @@
 		56C7A7E9247CE61400FCF55E /* MockTestDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7E8247CE61400FCF55E /* MockTestDataSource.swift */; };
 		56C7A7EB247CE66E00FCF55E /* MockCourseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7EA247CE66E00FCF55E /* MockCourseDataSource.swift */; };
 		56C7A7F0247D1B9C00FCF55E /* MockReadingCourseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7EF247D1B9C00FCF55E /* MockReadingCourseDataSource.swift */; };
+		56C7A7F2247D1F4600FCF55E /* CardDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7F1247D1F4600FCF55E /* CardDataSourceProtocol.swift */; };
 		56D79870239913D800672302 /* Models+Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7986F239913D800672302 /* Models+Storable.swift */; };
 		56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACB2382F79A00CECC71 /* AppDelegate.swift */; };
 		56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */; };
@@ -212,6 +213,7 @@
 		56C7A7E8247CE61400FCF55E /* MockTestDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTestDataSource.swift; sourceTree = "<group>"; };
 		56C7A7EA247CE66E00FCF55E /* MockCourseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCourseDataSource.swift; sourceTree = "<group>"; };
 		56C7A7EF247D1B9C00FCF55E /* MockReadingCourseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReadingCourseDataSource.swift; sourceTree = "<group>"; };
+		56C7A7F1247D1F4600FCF55E /* CardDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDataSourceProtocol.swift; sourceTree = "<group>"; };
 		56D7986F239913D800672302 /* Models+Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+Storable.swift"; sourceTree = "<group>"; };
 		56D7BAC82382F79A00CECC71 /* Start Deutsch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Start Deutsch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D7BACB2382F79A00CECC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				56C7A7D7247AAB8400FCF55E /* TestDataSourceProtocol.swift */,
 				56C7A7DB247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift */,
 				56C7A7DF247CE39400FCF55E /* ReadingCourseDataSourceProtocol.swift */,
+				56C7A7F1247D1F4600FCF55E /* CardDataSourceProtocol.swift */,
 			);
 			path = Decorators;
 			sourceTree = "<group>";
@@ -795,6 +798,7 @@
 				56C7A7D6247A8E9C00FCF55E /* CourseDataSourceProtocol.swift in Sources */,
 				56503A2C247902BF0093352A /* ListResponse.swift in Sources */,
 				56DC57AB246C4F18004AF4AC /* Endpoint.swift in Sources */,
+				56C7A7F2247D1F4600FCF55E /* CardDataSourceProtocol.swift in Sources */,
 				56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */,
 				569F4F3E23AB90810054BC65 /* ReadingCourseViewModel.swift in Sources */,
 				569F4E60239C03D90054BC65 /* CoreDataRepository.swift in Sources */,

@@ -139,9 +139,18 @@ class AppDependencyContainer {
     }
     
     func makeCardListViewController()-> CardListViewController {
-        let viewModel = CardListViewModel( firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Card>(), networkManager: networkManager)
-        networkManager.addDelegate(viewModel)
+        let viewModel = CardListViewModel(remoteRepo: makeCardRemoteDataSource(),
+                                          localRepo: makeCardLocalDataSource())
         return CardListViewController(viewModel: viewModel)
+    }
+    
+    func makeCardRemoteDataSource()-> CardDataSourceProtocol{
+        return CardRemoteDataSource(client: sharedAPIClient)
+    }
+
+    func makeCardLocalDataSource()-> CardDataSourceProtocol{
+        let coreDataClient = CoreDataRepository<Card>()
+        return CardLocalDataSource(client: coreDataClient)
     }
     
 }

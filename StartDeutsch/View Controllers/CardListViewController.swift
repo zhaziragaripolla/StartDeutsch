@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class CardListViewController: UIViewController {
     
@@ -89,8 +90,9 @@ extension CardListViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
-        let path = viewModel.randomCards[indexPath.row].imageUrl
-        cell.cardImageView.load(from: path)
+        if let url = URL(string: viewModel.randomCards[indexPath.row].imageUrl){
+            cell.cardImageView.sd_setImage(with: url, completed: nil)
+        }
         return cell
     }
  
