@@ -1,5 +1,5 @@
 //
-//  MockCourseListDataSourceProtocol.swift
+//  MockCourseListDataSource.swift
 //  StartDeutschTests
 //
 //  Created by Zhazira Garipolla on 5/26/20.
@@ -9,7 +9,7 @@
 import Combine
 @testable import Start_Deutsch
 
-class MockCourseListDataSourceProtocol: CourseDataSourceProtocol{
+class MockCourseDataSource: CourseDataSourceProtocol{
     
     // By default returns success responses.
     var getAllCallCount: Int = 0

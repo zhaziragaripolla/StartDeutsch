@@ -13,16 +13,16 @@ import Combine
 class CourseListViewModelTests: XCTestCase {
     
     var sut: CourseListViewModel!
-    var localRepo: MockCourseListDataSourceProtocol!
-    var remoteRepo: MockCourseListDataSourceProtocol!
+    var localRepo: MockCourseDataSource!
+    var remoteRepo: MockCourseDataSource!
     
     private var callDidDownloadData: XCTestExpectation!
     private var callErrorDelegate: XCTestExpectation!
     
     override func setUp() {
         super.setUp()
-        localRepo = MockCourseListDataSourceProtocol()
-        remoteRepo = MockCourseListDataSourceProtocol()
+        localRepo = MockCourseDataSource()
+        remoteRepo = MockCourseDataSource()
         sut = CourseListViewModel(remoteRepo: remoteRepo,
                                   localRepo: localRepo)
         sut.delegate = self

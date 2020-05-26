@@ -10,7 +10,7 @@ import Combine
 import Foundation
 @testable import Start_Deutsch
 
-class MockTestListDataSourceProtocol: TestDataSourceProtocol{
+class MockTestDataSource: TestDataSourceProtocol{
 
     let tests: [Test] = [
         Test(id: UUID().description, courseId: "id1"),
