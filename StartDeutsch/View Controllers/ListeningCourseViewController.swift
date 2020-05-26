@@ -70,26 +70,11 @@ class ListeningCourseViewController: UIViewController {
 }
 
 extension ListeningCourseViewController: ViewModelDelegate, ListeningViewModelDelegate, ErrorDelegate, UserAnswerDelegate {
+    
     func didDownloadData() {
         collectionView.reloadData()
     }
-    
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-    }
-    
+   
     func didCheckUserAnswers(result: Int) {
         finishBarButtonItem.isEnabled = false
         viewModel.showCorrectAnswerEnabled = true

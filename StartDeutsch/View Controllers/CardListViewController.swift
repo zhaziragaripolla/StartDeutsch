@@ -115,25 +115,6 @@ extension CardListViewController: ViewModelDelegate, ErrorDelegate {
         present(alertController, animated: true, completion: nil)
     }
     
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-        collectionView.isHidden = true
-        assignmentLabel.isHidden = true
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-        collectionView.isHidden = false
-        assignmentLabel.isHidden = false
-    }
 }
 
 

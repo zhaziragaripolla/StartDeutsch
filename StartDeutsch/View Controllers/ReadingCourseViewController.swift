@@ -161,22 +161,6 @@ extension ReadingCourseViewController: ViewModelDelegate, ErrorDelegate, UserAns
         collectionView.reloadData()
     }
     
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-    }
-    
 }
 
 extension ReadingCourseViewController: AnswerToReadingQuestionSelectable{
