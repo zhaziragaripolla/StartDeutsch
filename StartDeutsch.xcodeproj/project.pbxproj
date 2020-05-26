@@ -85,6 +85,8 @@
 		56C7A7D6247A8E9C00FCF55E /* CourseDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7D5247A8E9C00FCF55E /* CourseDataSourceProtocol.swift */; };
 		56C7A7D8247AAB8400FCF55E /* TestDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7D7247AAB8400FCF55E /* TestDataSourceProtocol.swift */; };
 		56C7A7DA247AB28D00FCF55E /* TestListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */; };
+		56C7A7DC247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7DB247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift */; };
+		56C7A7DE247BD9D200FCF55E /* ListeningCourseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7A7DD247BD9D200FCF55E /* ListeningCourseViewModelTests.swift */; };
 		56D79870239913D800672302 /* Models+Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7986F239913D800672302 /* Models+Storable.swift */; };
 		56D7BACC2382F79A00CECC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACB2382F79A00CECC71 /* AppDelegate.swift */; };
 		56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */; };
@@ -194,6 +196,8 @@
 		56C7A7D5247A8E9C00FCF55E /* CourseDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDataSourceProtocol.swift; sourceTree = "<group>"; };
 		56C7A7D7247AAB8400FCF55E /* TestDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDataSourceProtocol.swift; sourceTree = "<group>"; };
 		56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestListViewModelTests.swift; sourceTree = "<group>"; };
+		56C7A7DB247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningCourseDataSourceProtocol.swift; sourceTree = "<group>"; };
+		56C7A7DD247BD9D200FCF55E /* ListeningCourseViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningCourseViewModelTests.swift; sourceTree = "<group>"; };
 		56D7986F239913D800672302 /* Models+Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+Storable.swift"; sourceTree = "<group>"; };
 		56D7BAC82382F79A00CECC71 /* Start Deutsch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Start Deutsch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D7BACB2382F79A00CECC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -317,6 +321,7 @@
 			children = (
 				56C7A7D5247A8E9C00FCF55E /* CourseDataSourceProtocol.swift */,
 				56C7A7D7247AAB8400FCF55E /* TestDataSourceProtocol.swift */,
+				56C7A7DB247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift */,
 			);
 			path = Decorators;
 			sourceTree = "<group>";
@@ -480,6 +485,7 @@
 				56DC57B3246DB7E0004AF4AC /* CoreDataRepositoryTests.swift */,
 				565039F724769A100093352A /* CourseListViewModelTests.swift */,
 				56C7A7D9247AB28D00FCF55E /* TestListViewModelTests.swift */,
+				56C7A7DD247BD9D200FCF55E /* ListeningCourseViewModelTests.swift */,
 			);
 			path = StartDeutschTests;
 			sourceTree = "<group>";
@@ -703,6 +709,7 @@
 				56DC57A7246C20DA004AF4AC /* APIClient.swift in Sources */,
 				5696837223927397008AF9A4 /* Coordinator.swift in Sources */,
 				569F4F4823AE2D6D0054BC65 /* ReadingQuestionViewModel.swift in Sources */,
+				56C7A7DC247BD97C00FCF55E /* ListeningCourseDataSourceProtocol.swift in Sources */,
 				56968367238EF9E8008AF9A4 /* FirebaseStorageManager.swift in Sources */,
 				569F4F4423ABC70C0054BC65 /* ReadingCourseCoordinator.swift in Sources */,
 				569F4F3C23AB905F0054BC65 /* ReadingCourseViewController.swift in Sources */,
@@ -764,6 +771,7 @@
 			files = (
 				56DC57B0246C6A7F004AF4AC /* RequestBuilderTests.swift in Sources */,
 				565039F824769A100093352A /* CourseListViewModelTests.swift in Sources */,
+				56C7A7DE247BD9D200FCF55E /* ListeningCourseViewModelTests.swift in Sources */,
 				56C7A7DA247AB28D00FCF55E /* TestListViewModelTests.swift in Sources */,
 				56DC57B4246DB7E0004AF4AC /* CoreDataRepositoryTests.swift in Sources */,
 			);

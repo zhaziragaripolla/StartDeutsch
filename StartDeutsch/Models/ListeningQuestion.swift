@@ -8,19 +8,28 @@
 
 import Foundation
 
-public struct ListeningQuestion {
+public struct ListeningQuestion: Decodable {
+    
     public var id: String = ""
     var testId: String
     var questionText: String
     var orderNumber: Int
     var answerChoices: [String]?
     var correctChoiceIndex: Int // index of the correct answer in choices array
+    var audioPath: String
     var isMultipleChoice: Bool {
         return answerChoices != nil ? true : false
     }
-    var audioPath: String
-//    var documentPath: String
-//    var storedAudioPath: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case questionText
+        case orderNumber
+        case answerChoices
+        case correctChoiceIndex
+        case audioPath
+        case testId = "test"
+    }
     
     public var dictionary: [String: Any] {
         switch isMultipleChoice {
@@ -33,7 +42,6 @@ public struct ListeningQuestion {
                 "answerChoices": answerChoices ?? [],
                 "correctChoiceIndex": correctChoiceIndex,
                 "audioPath" : audioPath,
-//                "documentPath": documentPath
         ]
         default:
             return [
@@ -43,25 +51,16 @@ public struct ListeningQuestion {
                 "correctChoiceIndex": correctChoiceIndex,
                 "orderNumber": orderNumber,
                 "audioPath" : audioPath,
-//                "documentPath": documentPath
             ]
         }
     }
-    
 }
 
-extension ListeningQuestion {
-    init?(dictionary: [String : Any]) {
-        guard let id = dictionary["id"] as? String,
-            let testId = dictionary["testId"] as? String,
-            let questionText = dictionary["questionText"] as? String,
-            let correctChoiceIndex = dictionary["correctChoiceIndex"] as? Int,
-            let orderNumber = dictionary["orderNumber"] as? Int,
-            let audioPath = dictionary["audioPath"] as? String,
-            let answerChoices = dictionary["answerChoices"] as? [String]?
-            else {return nil}
-             
-        self.init(id: id, testId: testId, questionText: questionText, orderNumber: orderNumber, answerChoices: answerChoices, correctChoiceIndex: correctChoiceIndex, audioPath : audioPath)
-     }
+extension ListeningQuestion: Equatable{
+    static public func ==(lhs: ListeningQuestion, rhs: ListeningQuestion) -> Bool {
+        if lhs.id == rhs.id{
+            return true
+        }
+        return false
+    }
 }
-

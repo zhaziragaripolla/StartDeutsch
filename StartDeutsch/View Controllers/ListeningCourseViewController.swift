@@ -64,7 +64,7 @@ class ListeningCourseViewController: UIViewController {
     }
     
     @objc func didTapFinishButton(_ sender: UIBarButtonItem){
-        viewModel.checkUserAnswers(answers: userAnswers)
+        viewModel.validate(userAnswers: userAnswers)
     }
  
 }
@@ -92,7 +92,7 @@ extension ListeningCourseViewController: ViewModelDelegate, ListeningViewModelDe
     
     func didCheckUserAnswers(result: Int) {
         finishBarButtonItem.isEnabled = false
-        viewModel.showsCorrectAnswer = true
+        viewModel.showCorrectAnswerEnabled = true
         let alertController = UIAlertController(title: "Result", message: "Here is your score: \(result)", preferredStyle: .alert)
               let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
               alertController.addAction(cancelButton)
@@ -142,7 +142,7 @@ extension ListeningCourseViewController: UICollectionViewDelegate, UICollectionV
         
         if let userAnswer = userAnswers[indexPath.row] {
             questionCell.resetView()
-            if viewModel.showsCorrectAnswer {
+            if viewModel.showCorrectAnswerEnabled {
                 questionCell.buttons.forEach({$0.isEnabled = false})
                 if userAnswer == viewModel.getCorrectAnswer(for: indexPath.row) {
                     questionCell.changeButtonState(for: userAnswer, state: .correct)

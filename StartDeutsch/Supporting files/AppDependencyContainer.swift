@@ -88,18 +88,28 @@ class AppDependencyContainer {
     // MARK: - Listening
     func makeListeningCourseViewController(test: Test)-> ListeningCourseViewController {
         let viewModel = makeListeningQuestionsViewModel(test: test)
-        networkManager.addDelegate(viewModel)
         return ListeningCourseViewController(viewModel: viewModel)
     }
     
     func makeListeningQuestionsViewModel(test: Test)-> ListeningCourseViewModel {
-        return ListeningCourseViewModel(firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>(), networkManager: networkManager)
+        return ListeningCourseViewModel(firebaseStorageManager: sharedFirebaseStorageManager,
+                                        remoteRepo: makeListeningQuestionRemoteDataSource(),
+                                        localRepo: makeListeningQuestionLocalDataSource(),
+                                        test: test)
+    }
+    
+    func makeListeningQuestionRemoteDataSource()-> ListeningCourseDataSourceProtocol{
+        return ListeningCourseRemoteDataSource(client: sharedAPIClient)
+    }
+    
+    func makeListeningQuestionLocalDataSource()-> ListeningCourseDataSourceProtocol{
+        let coreDataClient = CoreDataRepository<ListeningQuestion>()
+        return ListeningCourseLocalDataSource(client: coreDataClient)
     }
     
     // MARK: - Reading
     func makeReadingCourseViewController(test: Test)-> ReadingCourseViewController {
         let viewModel = makeReadingQuestionsViewModel(test: test)
-        networkManager.addDelegate(viewModel)
         return ReadingCourseViewController(viewModel: viewModel)
     }
     
