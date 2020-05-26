@@ -28,7 +28,7 @@ class ReadingCourseViewModelTests: XCTestCase {
         remoteRepo = MockReadingCourseDataSource()
         localRepo = MockReadingCourseDataSource()
         firebaseStorage = MockFirebaseStorageManager()
-        test = Test(id: "", courseId: "")
+        test = Test(id: "id1", courseId: "")
         sut = ReadingCourseViewModel(firebaseStorageManager: firebaseStorage,
                                      remoteRepo: remoteRepo,
                                      localRepo: localRepo,
