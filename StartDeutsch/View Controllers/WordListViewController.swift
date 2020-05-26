@@ -103,9 +103,11 @@ extension WordListViewController: UICollectionViewDelegate, UICollectionViewData
 
 
 extension WordListViewController: ViewModelDelegate, ErrorDelegate {
+    
     func didDownloadData() {
         collectionView.reloadData()
     }
+    
     func showError(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -113,23 +115,6 @@ extension WordListViewController: ViewModelDelegate, ErrorDelegate {
         present(alertController, animated: true, completion: nil)
     }
     
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-        assignmentLabel.isHidden = true
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-        assignmentLabel.isHidden = false
-    }
 }
 
 

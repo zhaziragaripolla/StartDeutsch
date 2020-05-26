@@ -47,6 +47,7 @@
 		56726A0B23CDCD7F00F3D7CB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0A23CDCD7F00F3D7CB /* CardView.swift */; };
 		567A370B23D84BA500FFB121 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567A370A23D84BA500FFB121 /* NetworkManager.swift */; };
 		5689FC4D247D53FE00851E1B /* WordDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5689FC4C247D53FE00851E1B /* WordDataSourceProtocol.swift */; };
+		5689FC4F247D7BC100851E1B /* ViewModelDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5689FC4E247D7BC100851E1B /* ViewModelDelegates.swift */; };
 		56963E9523C1B982007ACE1D /* WordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9423C1B982007ACE1D /* WordListViewController.swift */; };
 		56963E9723C1C201007ACE1D /* WordListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9623C1C201007ACE1D /* WordListViewModel.swift */; };
 		56963E9923C1C219007ACE1D /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56963E9823C1C219007ACE1D /* Word.swift */; };
@@ -167,6 +168,7 @@
 		56726A0A23CDCD7F00F3D7CB /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardView.swift; path = Reading/CardView.swift; sourceTree = "<group>"; };
 		567A370A23D84BA500FFB121 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = "StartDeutsch/View Controllers/NetworkManager.swift"; sourceTree = SOURCE_ROOT; };
 		5689FC4C247D53FE00851E1B /* WordDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDataSourceProtocol.swift; sourceTree = "<group>"; };
+		5689FC4E247D7BC100851E1B /* ViewModelDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelDelegates.swift; sourceTree = "<group>"; };
 		56963E9423C1B982007ACE1D /* WordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewController.swift; sourceTree = "<group>"; };
 		56963E9623C1C201007ACE1D /* WordListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewModel.swift; sourceTree = "<group>"; };
 		56963E9823C1C219007ACE1D /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 				56963E9623C1C201007ACE1D /* WordListViewModel.swift */,
 				56963E9C23C1C435007ACE1D /* CardListViewModel.swift */,
 				56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */,
+				5689FC4E247D7BC100851E1B /* ViewModelDelegates.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -806,6 +809,7 @@
 				56D7BACE2382F79A00CECC71 /* SceneDelegate.swift in Sources */,
 				569F4F3E23AB90810054BC65 /* ReadingCourseViewModel.swift in Sources */,
 				569F4E60239C03D90054BC65 /* CoreDataRepository.swift in Sources */,
+				5689FC4F247D7BC100851E1B /* ViewModelDelegates.swift in Sources */,
 				56113D4E238A5C2300A7DA6B /* ListeningQuestion.swift in Sources */,
 				56D79870239913D800672302 /* Models+Storable.swift in Sources */,
 				5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */,

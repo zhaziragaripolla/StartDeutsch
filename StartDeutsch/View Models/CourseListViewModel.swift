@@ -7,16 +7,7 @@
 //
 
 import Foundation
-import os
 import Combine
-
-protocol ViewModelDelegate: class {
-    func didDownloadData()
-    func networkOffline()
-    func networkOnline()
-    func didStartLoading()
-    func didCompleteLoading()
-}
 
 class CourseListViewModel {
     

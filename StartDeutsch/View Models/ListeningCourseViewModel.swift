@@ -9,17 +9,6 @@
 import Foundation
 import Combine
 
-protocol ListeningViewModelDelegate: class {
-    func didDownloadAudio(path: URL)
-}
-
-protocol UserAnswerDelegate: class {
-    func didCheckUserAnswers(result: Int)
-}
-
-protocol ErrorDelegate: class {
-    func showError(message: String)
-}
 
 class ListeningCourseViewModel {
     

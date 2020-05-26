@@ -71,22 +71,7 @@ extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension TestListViewController: ViewModelDelegate {
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-    }
-    
+
     func showError(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
