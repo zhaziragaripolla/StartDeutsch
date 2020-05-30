@@ -11,10 +11,28 @@ import SnapKit
 import MessageUI
 
 class CourseListViewController: UIViewController {
-
-    private let tableView = UITableView()
-    weak var delegate: CourseListViewControllerDelegate?
+    
+    // View model
     private var viewModel: CourseListViewModel!
+    
+    // Delegates
+    weak var delegate: CourseListViewControllerDelegate?
+    
+    // UI
+    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private var headerView = UIView()
+    private var helpBarItem: UIBarButtonItem!
+    private var tableViewHeaderHeight: CGFloat = {
+        return UIScreen.main.bounds.height * 0.35
+    }()
+    let headerTitles = ["Courses"]
+    
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
     
     init(viewModel: CourseListViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -25,34 +43,85 @@ class CourseListViewController: UIViewController {
         super.init(coder: coder)
     }
     
-    fileprivate func setupTableView() {
+    fileprivate func setupUI() {
+        
+        view.backgroundColor = .white
+        title = "Start Deutsch"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        // Help button
+        helpBarItem = UIBarButtonItem(title: "Help", style: .plain, target: self, action: #selector(didTapHelpButton(_:)))
+        self.navigationItem.setRightBarButton(helpBarItem, animated: true)
+        
+        // Header's image view
+        headerView.addSubview(imageView)
+        imageView.snp.makeConstraints{ make in
+            make.width.equalToSuperview().multipliedBy(0.65)
+            make.height.equalToSuperview().multipliedBy(0.65)
+            make.center.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        imageView.image = UIImage(named: "background.png")
+        
+        // Table view
+        tableView.tableHeaderView = nil
+        tableView.addSubview(headerView)
+        tableView.contentInset = UIEdgeInsets(top: tableViewHeaderHeight , left: 0, bottom: 30, right: 0)
+        tableView.contentOffset = CGPoint(x: 0, y: -tableViewHeaderHeight)
+        tableView.backgroundColor = .white
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
-            make.top.bottom.trailing.leading.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.centerX.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         })
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CourseTableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.tableFooterView = UIView()
     }
     
-    var helpBarItem: UIBarButtonItem!
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Start Deutsch"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        helpBarItem = UIBarButtonItem(title: "Help", style: .plain, target: self, action: #selector(didTapHelpButton(_:)))
-        self.navigationItem.setRightBarButton(helpBarItem, animated: true)
-        setupTableView()
+        
+        // UI configuration
+        setupUI()
+        updateHeaderView()
+        
+        // View model configuration
         viewModel.delegate = self
         viewModel.errorDelegate = self
         viewModel.getCourses()
     }
 
+    func updateHeaderView() {
+        var headerRect = CGRect(x: 0, y: -tableViewHeaderHeight, width: tableView.bounds.width, height: tableViewHeaderHeight)
+        if tableView.contentOffset.y < -tableViewHeaderHeight {
+            headerRect.origin.y = tableView.contentOffset.y
+            headerRect.size.height = -tableView.contentOffset.y
+        }
+        headerView.frame = headerRect
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateHeaderView()
+    }
+
 }
 
 extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return headerTitles[section]
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.courses.count
     }
@@ -60,6 +129,7 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CourseTableViewCell
         let course = viewModel.courses[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
         cell.configure(course: course)
         return cell
     }
@@ -71,7 +141,7 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.height/5
+        return 50
     }
 }
 
