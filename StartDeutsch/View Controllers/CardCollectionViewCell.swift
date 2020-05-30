@@ -10,6 +10,12 @@ import UIKit
 
 class CardCollectionViewCell: UICollectionViewCell {
     
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     let cardImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +36,11 @@ class CardCollectionViewCell: UICollectionViewCell {
             make.center.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalToSuperview()
+        })
+        
+        addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints({ make in
+            make.center.equalToSuperview()
         })
     }
     
