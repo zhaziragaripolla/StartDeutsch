@@ -67,4 +67,7 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 *.xconfig
-Environment.swift
+StartDeutsch/Environment.swift
+
+# Firebase setup
+GoogleService-Info.plist
