@@ -8,12 +8,21 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class TestListViewController: UIViewController {
     
-    private let tableView = UITableView()
+    // View model
     private var viewModel: TestListViewModel!
+    
+    // Delegate
     weak var delegate: TestListViewControllerDelegate?
+    
+    // Cancellables
+    private var cancellables: Set<AnyCancellable> = []
+    
+    // UI
+    private let tableView = UITableView()
     
     init(viewModel: TestListViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -24,7 +33,17 @@ class TestListViewController: UIViewController {
         super.init(coder: coder)
     }
     
-    fileprivate func setupTableView() {
+    fileprivate func setupUI() {
+        
+        title = viewModel.course.title
+        view.backgroundColor = .white
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        // Reload button
+        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
+        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
+        
+        // Table View
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
             make.width.equalToSuperview().multipliedBy(0.9)
@@ -39,17 +58,37 @@ class TestListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // UI configuration
+        setupUI()
         
-        title = viewModel.course.title
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        
-        setupTableView()
-        view.backgroundColor = .white
-        viewModel.delegate = self
+        // View model configuration
         viewModel.getTests()
+        
+        // View model state subscription
+        viewModel.$state.sink(receiveValue: { [unowned self] state in
+            switch state{
+            case .loading:
+                LoadingOverlay.shared.showOverlay(view: self.view)
+            case .finish:
+                self.tableView.reloadData()
+                LoadingOverlay.shared.hideOverlayView()
+            case .error(let error):
+                guard let urlError = error as? URLError, urlError.code == URLError.notConnectedToInternet else {
+                        ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.other)
+                        return
+                }
+                ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.noInternetConnection)
+            default: break
+            }
+        }).store(in: &cancellables)
     }
     
-
+    @objc private func didTapReloadButton(){
+        if viewModel.tests.isEmpty{
+            viewModel.getTests()
+        }
+    }
+    
 }
 
 extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -76,16 +115,17 @@ extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension TestListViewController: ViewModelDelegate {
-
-    func showError(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelButton)
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    func didDownloadData() {
-        tableView.reloadData()
+extension TestListViewController: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            // hide internet connection failure
+            ConnectionFailOverlay.shared.hideOverlayView()
+            
+            // show loading view
+            LoadingOverlay.shared.showOverlay(view: view)
+            
+            // load data
+            viewModel.getTests()
+        }
     }
 }

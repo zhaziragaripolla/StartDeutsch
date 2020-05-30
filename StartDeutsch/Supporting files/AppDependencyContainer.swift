@@ -67,8 +67,9 @@ class AppDependencyContainer {
     
     // MARK: Tests
     func makeTestsViewController(course: Course)-> TestListViewController {
-        let viewModel = makeTestsViewModel(course: course)
-        return TestListViewController(viewModel: viewModel)
+        let viewController = TestListViewController(viewModel: makeTestsViewModel(course: course))
+        networkManager.addDelegate(viewController)
+        return viewController
     }
     
     func makeTestsViewModel(course: Course)-> TestListViewModel {
