@@ -25,9 +25,8 @@ public class LoadingOverlay {
         overlayView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         overlayView.center = view.center
         overlayView.alpha = 0.7
-        overlayView.backgroundColor = .lightGray
+        overlayView.backgroundColor = .black
         overlayView.clipsToBounds = true
-        overlayView.layer.cornerRadius = 10
 
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         activityIndicator.style = UIActivityIndicatorView.Style.medium
@@ -53,7 +52,11 @@ public class LoadingOverlay {
 
 public class ConnectionFailOverlay {
     
-    var overlayView = UIView()
+    var overlayView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
     
     var label: UILabel =  {
         let label = UILabel()
@@ -61,10 +64,9 @@ public class ConnectionFailOverlay {
         label.font = .boldSystemFont(ofSize: 20)
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
-        label.textColor = .darkGray
+        label.textColor = .systemGray6
         label.numberOfLines = 0
         label.clipsToBounds = true
-        label.text = "This device appears to be offline, please check the internet connection."
         return label
     }()
     
@@ -75,8 +77,9 @@ public class ConnectionFailOverlay {
         return Static.instance
     }
 
-    public func showOverlay(view: UIView) {
+    public func showOverlay(view: UIView, message: String) {
         overlayView.addSubview(label)
+        label.text = message
         label.snp.makeConstraints({ make in
             make.center.equalToSuperview()
             make.width.equalToSuperview()
@@ -85,8 +88,8 @@ public class ConnectionFailOverlay {
         view.addSubview(overlayView)
         overlayView.snp.makeConstraints({ make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
-            make.height.equalToSuperview().multipliedBy(0.3)
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
         })
     }
 
