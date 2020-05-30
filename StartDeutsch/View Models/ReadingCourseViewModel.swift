@@ -12,7 +12,6 @@ import Combine
 class ReadingCourseViewModel {
     
     // Dependencies
-    private let storage: FirebaseStorageManagerProtocol
     private let test: Test
     private let remoteRepo: ReadingCourseDataSourceProtocol
     private let localRepo: ReadingCourseDataSourceProtocol
@@ -30,12 +29,10 @@ class ReadingCourseViewModel {
     private var cancellables: Set<AnyCancellable> = []
     private var isNetworkCall: Bool = false
     
-    init(firebaseStorageManager: FirebaseStorageManagerProtocol,
-          remoteRepo: ReadingCourseDataSourceProtocol,
+    init(remoteRepo: ReadingCourseDataSourceProtocol,
           localRepo: ReadingCourseDataSourceProtocol,
           test: Test) {
         self.test = test
-        self.storage = firebaseStorageManager
         self.remoteRepo = remoteRepo
         self.localRepo = localRepo
     }

@@ -114,8 +114,7 @@ class AppDependencyContainer {
     }
     
     func makeReadingQuestionsViewModel(test: Test)-> ReadingCourseViewModel {
-        return ReadingCourseViewModel(firebaseStorageManager: sharedFirebaseStorageManager,
-                                      remoteRepo: makeReadingQuestionRemoteDataSource(),
+        return ReadingCourseViewModel(remoteRepo: makeReadingQuestionRemoteDataSource(),
                                       localRepo: makeReadingQuestionLocalDataSource(),
                                       test: test)
     }
