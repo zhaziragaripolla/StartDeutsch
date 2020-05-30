@@ -44,6 +44,7 @@
 		5665596F2482299C00505B1A /* TestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5665596E2482299C00505B1A /* TestTableViewCell.swift */; };
 		566559712482982C00505B1A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566559702482982C00505B1A /* Constants.swift */; };
 		566559732482985B00505B1A /* CourseListViewController+MessageUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566559722482985B00505B1A /* CourseListViewController+MessageUI.swift */; };
+		566559752482C22D00505B1A /* ViewModelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566559742482C22D00505B1A /* ViewModelState.swift */; };
 		5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */; };
 		56726A0723CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */; };
 		56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */; };
@@ -168,6 +169,7 @@
 		5665596E2482299C00505B1A /* TestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTableViewCell.swift; sourceTree = "<group>"; };
 		566559702482982C00505B1A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		566559722482985B00505B1A /* CourseListViewController+MessageUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CourseListViewController+MessageUI.swift"; sourceTree = "<group>"; };
+		566559742482C22D00505B1A /* ViewModelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelState.swift; sourceTree = "<group>"; };
 		5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
 		56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionCollectionViewCell.swift; sourceTree = "<group>"; };
 		56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCellViewModel.swift; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				56963E9C23C1C435007ACE1D /* CardListViewModel.swift */,
 				56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */,
 				5689FC4E247D7BC100851E1B /* ViewModelDelegates.swift */,
+				566559742482C22D00505B1A /* ViewModelState.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -831,6 +834,7 @@
 				56963EA323C1C595007ACE1D /* WordListCoordinator.swift in Sources */,
 				5696838123929A09008AF9A4 /* TestListViewControllerDelegate.swift in Sources */,
 				5696837923927A99008AF9A4 /* CourseListCoordinator.swift in Sources */,
+				566559752482C22D00505B1A /* ViewModelState.swift in Sources */,
 				56113D332386C0BA00A7DA6B /* ListeningCourseViewController.swift in Sources */,
 				56113D2F23859BC700A7DA6B /* TestListViewController.swift in Sources */,
 				569F4F5223AF79A90054BC65 /* ReadingQuestionCollectionViewCell.swift in Sources */,
