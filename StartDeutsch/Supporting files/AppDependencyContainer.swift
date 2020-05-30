@@ -138,7 +138,9 @@ class AppDependencyContainer {
     func makeWordListViewController()-> WordListViewController{
         let viewModel = WordListViewModel(remoteRepo: makeWordRemoteDataSource(),
                                           localRepo: makeWordLocalDataSource())
-        return WordListViewController(viewModel: viewModel)
+        let viewController = WordListViewController(viewModel: viewModel)
+        networkManager.addDelegate(viewController)
+        return viewController
     }
     
     func makeWordRemoteDataSource()-> WordDataSourceProtocol{
@@ -153,7 +155,9 @@ class AppDependencyContainer {
     func makeCardListViewController()-> CardListViewController {
         let viewModel = CardListViewModel(remoteRepo: makeCardRemoteDataSource(),
                                           localRepo: makeCardLocalDataSource())
-        return CardListViewController(viewModel: viewModel)
+        let viewController = CardListViewController(viewModel: viewModel)
+        networkManager.addDelegate(viewController)
+        return viewController
     }
     
     func makeCardRemoteDataSource()-> CardDataSourceProtocol{

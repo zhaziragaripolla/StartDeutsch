@@ -13,22 +13,16 @@ class WordListViewModel {
     
     // Models
     private var words: [Word] = []
-    public var randomWords: [Word] = [] {
-        didSet{
-            delegate?.didDownloadData()
-        }
-    }
+    public var randomWords: [Word] = []
     
     // Dependencies
     private let remoteRepo: WordDataSourceProtocol
     private let localRepo: WordDataSourceProtocol
     
-    // Delegates
-    weak var delegate: ViewModelDelegate?
-    weak var errorDelegate: ErrorDelegate?
-    
     private var cancellables: Set<AnyCancellable> = []
     private var isNetworkCall: Bool = false
+    @Published var state: ViewModelState = .initialized
+    
     
     init(remoteRepo: WordDataSourceProtocol,
          localRepo: WordDataSourceProtocol){
@@ -37,6 +31,7 @@ class WordListViewModel {
     }
     
     public func getWords(){
+        state = .loading
         localRepo.getAll(where: nil)
             .catch{  [unowned self] error-> Future<[Word], Error> in
                 if let error = error as? CoreDataError{
@@ -44,16 +39,16 @@ class WordListViewModel {
                 }
                 self.isNetworkCall = true
                 return self.remoteRepo.getAll(where: nil)
-        }
-        .receive(on: DispatchQueue.main)
-        .sink(receiveCompletion: { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                self.errorDelegate?.showError(message: "Network error: \(error.localizedDescription). Try later.")
-            case .finished:
-                self.reloadWords()
             }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.state = .error(error)
+                case .finished:
+                    self.reloadWords()
+                }
             }, receiveValue: { [weak self] words in
                 guard let self = self else { return }
                 self.words = words
@@ -63,12 +58,13 @@ class WordListViewModel {
                         self.localRepo.create(item: word)
                     }
                 }
-        }).store(in: &cancellables)
+            }).store(in: &cancellables)
     }
     
     public func reloadWords(){
         randomWords.removeAll()
         generateRandomWords()
+        self.state = .finish
     }
     
     private func generateRandomWords(){

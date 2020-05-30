@@ -19,12 +19,9 @@ class CardListViewModel {
     private let remoteRepo: CardDataSourceProtocol
     private let localRepo: CardDataSourceProtocol
     
-    // Delegates
-    weak var delegate: ViewModelDelegate?
-    weak var errorDelegate: ErrorDelegate?
-    
     private var cancellables: Set<AnyCancellable> = []
     private var isNetworkCall: Bool = false
+    @Published var state: ViewModelState = .initialized
     
     init(remoteRepo: CardDataSourceProtocol,
          localRepo: CardDataSourceProtocol){
@@ -33,6 +30,7 @@ class CardListViewModel {
     }
     
     public func getCards(){
+        state = .loading
         localRepo.getAll(where: nil)
             .catch{ [unowned self] error-> Future<[Card], Error> in
                 if let error = error as? CoreDataError{
@@ -40,16 +38,16 @@ class CardListViewModel {
                 }
                 self.isNetworkCall = true
                 return self.remoteRepo.getAll(where: nil)
-        }
-        .receive(on: DispatchQueue.main)
-        .sink(receiveCompletion: { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                self.errorDelegate?.showError(message: "Network error: \(error.localizedDescription). Try later.")
-            case .finished:
-                self.reloadImages()
             }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.state = .error(error)
+                case .finished:
+                    self.reloadImages()
+                }
             }, receiveValue: { [weak self] cards in
                 guard let self = self else { return }
                 self.cards = cards
@@ -59,13 +57,13 @@ class CardListViewModel {
                         self.localRepo.create(item: card)
                     }
                 }
-        }).store(in: &cancellables)
+            }).store(in: &cancellables)
     }
     
     public func reloadImages(){
         randomCards.removeAll()
         generateRandomCards()
-        delegate?.didDownloadData()
+        state = .finish
     }
     
     private func generateRandomCards(){
