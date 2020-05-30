@@ -34,7 +34,7 @@ class CardListViewModel {
     
     public func getCards(){
         localRepo.getAll(where: nil)
-            .catch{ error-> Future<[Card], Error> in
+            .catch{ [unowned self] error-> Future<[Card], Error> in
                 if let error = error as? CoreDataError{
                     print(error.localizedDescription)
                 }

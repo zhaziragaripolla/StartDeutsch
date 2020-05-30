@@ -36,7 +36,7 @@ class TestListViewModel {
     
     public func getTests(){
         localRepo.getAll(where: ["courseId": course.id])
-        .catch{ error-> Future<[Test], Error> in
+        .catch{ [unowned self] error-> Future<[Test], Error> in
             if let error = error as? CoreDataError{
                 print(error.localizedDescription)
             }

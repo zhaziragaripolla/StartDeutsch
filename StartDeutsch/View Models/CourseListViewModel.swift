@@ -33,7 +33,7 @@ class CourseListViewModel {
     /// Fetches list of courses from local or remote repositories.
     public func getCourses(){
         localRepo.getAll(where: nil)
-            .catch{ error-> Future<[Course], Error> in
+            .catch{ [unowned self] error-> Future<[Course], Error> in
                 if let error = error as? CoreDataError{
                     print(error.localizedDescription)
                 }

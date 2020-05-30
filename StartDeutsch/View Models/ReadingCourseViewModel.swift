@@ -44,7 +44,7 @@ class ReadingCourseViewModel {
     
     public func getQuestions() {
        localRepo.getAll(where: ["testId": test.id])
-       .catch{ error-> Future<[ReadingQuestion], Error> in
+       .catch{  [unowned self] error-> Future<[ReadingQuestion], Error> in
            if let error = error as? CoreDataError{
                print(error.localizedDescription)
            }

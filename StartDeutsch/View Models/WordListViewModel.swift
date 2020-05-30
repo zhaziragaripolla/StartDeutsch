@@ -38,7 +38,7 @@ class WordListViewModel {
     
     public func getWords(){
         localRepo.getAll(where: nil)
-            .catch{ error-> Future<[Word], Error> in
+            .catch{  [unowned self] error-> Future<[Word], Error> in
                 if let error = error as? CoreDataError{
                     print(error.localizedDescription)
                 }

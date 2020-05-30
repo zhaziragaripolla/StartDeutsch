@@ -51,7 +51,7 @@ final class APIClient: APIClientProtocol{
                 }
                 print("Catching error: 401. Refreshing token🤔")
                 return self.refreshToken()
-                    .tryMap{ token-> AnyPublisher<T, Error> in
+                    .tryMap{ [unowned self] token-> AnyPublisher<T, Error> in
                         print("New token \(token.accessToken)!")
                         var newRequest = request
                         newRequest.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")

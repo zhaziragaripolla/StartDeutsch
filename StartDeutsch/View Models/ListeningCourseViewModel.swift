@@ -47,7 +47,7 @@ class ListeningCourseViewModel {
     
     public func getQuestions() {
         localRepo.getAll(where: ["testId": test.id])
-        .catch{ error-> Future<[ListeningQuestion], Error> in
+        .catch{ [unowned self] error-> Future<[ListeningQuestion], Error> in
             if let error = error as? CoreDataError{
                 print(error.localizedDescription)
             }
@@ -122,7 +122,8 @@ class ListeningCourseViewModel {
     }
 
     private func downloadAudio(for question: ListeningQuestion) {
-        storage.downloadFileFromPath(question.audioPath) { response in
+        storage.downloadFileFromPath(question.audioPath) { [weak self] response in
+            guard let self = self else { return }
             switch response {
             case .failure(let error):
                 if let message = error.errorDescription {
