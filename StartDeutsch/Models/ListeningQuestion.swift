@@ -10,7 +10,7 @@ import Foundation
 
 public struct ListeningQuestion: Decodable {
     
-    public var id: String = ""
+    public var id: String
     var testId: String
     var questionText: String
     var orderNumber: Int
@@ -18,7 +18,8 @@ public struct ListeningQuestion: Decodable {
     var correctChoiceIndex: Int // index of the correct answer in choices array
     var audioPath: String
     var isMultipleChoice: Bool {
-        return answerChoices != nil ? true : false
+        guard let choices = answerChoices else { return false}
+        return choices.isEmpty ? false : true
     }
     
     enum CodingKeys: String, CodingKey {
