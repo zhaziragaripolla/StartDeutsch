@@ -21,13 +21,12 @@ class ReadingCourseViewModel {
     public var showsCorrectAnswer: Bool = false
     
     // Delegates
-    weak var delegate: ViewModelDelegate?
-    weak var errorDelegate: ErrorDelegate?
     weak var userAnswerDelegate: UserAnswerDelegate?
     
     private let fileManager = FileManager.default
     private var cancellables: Set<AnyCancellable> = []
     private var isNetworkCall: Bool = false
+    @Published var state: ViewModelState = .initialized
     
     init(remoteRepo: ReadingCourseDataSourceProtocol,
           localRepo: ReadingCourseDataSourceProtocol,
@@ -40,33 +39,34 @@ class ReadingCourseViewModel {
     // MARK: - Fetching Reading questions
     
     public func getQuestions() {
-       localRepo.getAll(where: ["testId": test.id])
-       .catch{  [unowned self] error-> Future<[ReadingQuestion], Error> in
-           if let error = error as? CoreDataError{
-               print(error.localizedDescription)
-           }
-           self.isNetworkCall = true
-           return self.remoteRepo.getAll(where: ["testId": self.test.id])
-       }
-       .receive(on: DispatchQueue.main)
-       .sink(receiveCompletion: { [weak self] result in
-           guard let self = self else { return }
-           switch result {
-           case .failure(let error):
-               self.errorDelegate?.showError(message: "Network error: \(error.localizedDescription). Try later.")
-           case .finished:
-               self.delegate?.didDownloadData()
-           }
-       }, receiveValue: { [weak self] questions in
-           guard let self = self else { return }
-           self.questions = questions
-           
-           if self.isNetworkCall{
-               questions.forEach{ question in
-                   self.localRepo.create(item: question)
+        state = .loading
+        localRepo.getAll(where: ["testId": test.id])
+           .catch{  [unowned self] error-> Future<[ReadingQuestion], Error> in
+               if let error = error as? CoreDataError{
+                   print(error.localizedDescription)
                }
+               self.isNetworkCall = true
+               return self.remoteRepo.getAll(where: ["testId": self.test.id])
            }
-       }).store(in: &cancellables)
+           .receive(on: DispatchQueue.main)
+           .sink(receiveCompletion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.state = .error(error)
+                default: break
+                }
+           }, receiveValue: { [weak self] questions in
+               guard let self = self else { return }
+               self.questions = questions
+               self.state = .finish
+            
+               if self.isNetworkCall{
+                   questions.forEach{ question in
+                       self.localRepo.create(item: question)
+                   }
+               }
+           }).store(in: &cancellables)
     }
     
     // MARK: - Returning Question View Model

@@ -9,13 +9,19 @@
 import UIKit
 import SnapKit
 import os
+import Combine
 
 class ReadingCourseViewController: UIViewController {
 
+    // View model
     private var viewModel: ReadingCourseViewModel!
     private var userAnswers: Dictionary<Int, Any?> = [:]
-    private var finishBarButtonItem = UIBarButtonItem()
     
+    // Cancellables
+    private var cancellables: Set<AnyCancellable> = []
+    
+    // UI
+    private var finishBarButtonItem = UIBarButtonItem()
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 40, right: 10)
@@ -57,10 +63,26 @@ class ReadingCourseViewController: UIViewController {
               finishBarButtonItem.isEnabled = false
         navigationItem.setRightBarButton(finishBarButtonItem, animated: true)
         view.backgroundColor = .white
-        viewModel.delegate = self
         viewModel.userAnswerDelegate = self
-        viewModel.errorDelegate = self
         viewModel.getQuestions()
+        
+        // View model state subscription
+        viewModel.$state.sink(receiveValue: { [unowned self] state in
+            switch state{
+            case .loading:
+                LoadingOverlay.shared.showOverlay(view: self.view)
+            case .finish:
+                self.collectionView.reloadData()
+                LoadingOverlay.shared.hideOverlayView()
+            case .error(let error):
+                guard let urlError = error as? URLError, urlError.code == URLError.notConnectedToInternet else {
+                    ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.other)
+                    return
+                }
+                ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.noInternetConnection)
+            default: break
+            }
+        }).store(in: &cancellables)
     }
     
     @objc func didTapFinishButton(_ sender: UIBarButtonItem){
@@ -107,6 +129,7 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
         if let userAnswer = userAnswers[indexPath.row] as? [Bool?], let correctAnswer = viewModel.getCorrectAnswer(for: indexPath.row) as? [Bool?] {
             if viewModel.showsCorrectAnswer {
                 questionCellPart1.buttons.forEach({$0.isEnabled = false})
+                // TODO: get rid of force unwrapping
                 let userAnswerInt = userAnswer.map({return $0!.toInt})
                 let correctAnswerInt = correctAnswer.map({return $0!.toInt})
                 questionCellPart1.setResult(userAnswer: userAnswerInt, correctAnswer: correctAnswerInt)
@@ -137,7 +160,7 @@ extension ReadingCourseViewController: UICollectionViewDelegate, UICollectionVie
     }
 }
 
-extension ReadingCourseViewController: ViewModelDelegate, ErrorDelegate, UserAnswerDelegate{
+extension ReadingCourseViewController: UserAnswerDelegate{
     
     func didCheckUserAnswers(result: Int) {
         finishBarButtonItem.isEnabled = false
@@ -147,17 +170,6 @@ extension ReadingCourseViewController: ViewModelDelegate, ErrorDelegate, UserAns
               alertController.addAction(cancelButton)
         present(alertController, animated: true, completion: nil)
         collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: false)
-        collectionView.reloadData()
-    }
- 
-    func showError(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelButton)
-        present(alertController, animated: true, completion: nil)
-    }
-
-    func didDownloadData() {
         collectionView.reloadData()
     }
     
@@ -185,6 +197,22 @@ extension ReadingCourseViewController: AnswerToReadingQuestionSelectable{
     }
     
 }
+
+extension ReadingCourseViewController: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            // hide internet connection failure
+            ConnectionFailOverlay.shared.hideOverlayView()
+            
+            // show loading view
+            LoadingOverlay.shared.showOverlay(view: view)
+            
+            // load data
+            viewModel.getQuestions()
+        }
+    }
+}
+
 
 extension Bool {
     var toInt: Int {

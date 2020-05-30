@@ -112,8 +112,9 @@ class AppDependencyContainer {
     
     // MARK: - Reading
     func makeReadingCourseViewController(test: Test)-> ReadingCourseViewController {
-        let viewModel = makeReadingQuestionsViewModel(test: test)
-        return ReadingCourseViewController(viewModel: viewModel)
+        let viewController = ReadingCourseViewController(viewModel: makeReadingQuestionsViewModel(test: test))
+        networkManager.addDelegate(viewController)
+        return viewController
     }
     
     func makeReadingQuestionsViewModel(test: Test)-> ReadingCourseViewModel {
