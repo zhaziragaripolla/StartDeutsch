@@ -119,7 +119,7 @@ class ListeningQuestionCollectionViewCell: UICollectionViewCell, CellConfigurabl
         orderNumberLabel.snp.makeConstraints({ make in
             make.top.equalToSuperview().offset(10)
             make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.05)
+            make.trailing.leading.equalToSuperview()
         })
 
         addSubview(questionLabel)
