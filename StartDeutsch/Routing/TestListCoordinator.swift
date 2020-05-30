@@ -35,10 +35,10 @@ extension TestListCoordinator: TestListViewControllerDelegate {
     func didSelectTest(test: Test) {
         var coordinator: Coordinator?
         switch test.courseId {
-        case "E0DB28E3-E5DD-4300-BE1F-7FA060D03629": // listening
+        case "a2336bc7-ba54-4d8e-a13b-62458be238b8": // listening
             coordinator = ListeningCourseCoordinator(presenter: presenter, container: container, test: test)
             self.listeningCourseCoordinator = coordinator as? ListeningCourseCoordinator
-        case "7122B041-2CAA-440B-9D51-A124F6059B3F":  // reading
+        case "30c83904-d711-4833-bb5a-df86978ea2f2":  // reading
             coordinator = ReadingCourseCoordinator(presenter: presenter, container: container, test: test)
             self.readingCourseCoordinator = coordinator as? ReadingCourseCoordinator
         default: break
