@@ -27,11 +27,13 @@ class TestListViewController: UIViewController {
     fileprivate func setupTableView() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
-            make.top.bottom.trailing.leading.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.centerX.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         })
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(TestTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.tableFooterView = UIView()
     }
     
@@ -56,8 +58,8 @@ extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "Test \(indexPath.row+1)"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TestTableViewCell
+        cell.titleLabel.text = "Test \(indexPath.row+1)"
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -66,6 +68,10 @@ extension TestListViewController: UITableViewDelegate, UITableViewDataSource {
         let test = viewModel.tests[indexPath.row]
         delegate?.didSelectTest(test: test)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
     
 }

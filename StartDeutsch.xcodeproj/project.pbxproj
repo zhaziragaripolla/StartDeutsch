@@ -41,6 +41,7 @@
 		56503A242476C94B0093352A /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56503A232476C94B0093352A /* String+Extensions.swift */; };
 		56503A2A2476DC3D0093352A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56503A292476DC3D0093352A /* GoogleService-Info.plist */; };
 		56503A2C247902BF0093352A /* ListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56503A2B247902BF0093352A /* ListResponse.swift */; };
+		5665596F2482299C00505B1A /* TestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5665596E2482299C00505B1A /* TestTableViewCell.swift */; };
 		5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */; };
 		56726A0723CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */; };
 		56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */; };
@@ -162,6 +163,7 @@
 		56503A232476C94B0093352A /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		56503A292476DC3D0093352A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		56503A2B247902BF0093352A /* ListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListResponse.swift; sourceTree = "<group>"; };
+		5665596E2482299C00505B1A /* TestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTableViewCell.swift; sourceTree = "<group>"; };
 		5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
 		56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionCollectionViewCell.swift; sourceTree = "<group>"; };
 		56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCellViewModel.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				56963EAC23C49AEF007ACE1D /* GradientLayer.swift */,
 				569F4F5123AF79A90054BC65 /* ReadingQuestionCollectionViewCell.swift */,
 				56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */,
+				5665596E2482299C00505B1A /* TestTableViewCell.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -783,6 +786,7 @@
 				56503A1C2476C7DA0093352A /* APIError.swift in Sources */,
 				56C7A7D8247AAB8400FCF55E /* TestDataSourceProtocol.swift in Sources */,
 				56963EAD23C49AEF007ACE1D /* GradientLayer.swift in Sources */,
+				5665596F2482299C00505B1A /* TestTableViewCell.swift in Sources */,
 				56963E9D23C1C435007ACE1D /* CardListViewModel.swift in Sources */,
 				56968CC823857512008F56D9 /* TestListViewModel.swift in Sources */,
 				56113D59238D8C0C00A7DA6B /* ListeningQuestionViewModel.swift in Sources */,
