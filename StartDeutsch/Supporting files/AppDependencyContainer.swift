@@ -89,8 +89,9 @@ class AppDependencyContainer {
     
     // MARK: - Listening
     func makeListeningCourseViewController(test: Test)-> ListeningCourseViewController {
-        let viewModel = makeListeningQuestionsViewModel(test: test)
-        return ListeningCourseViewController(viewModel: viewModel)
+        let viewController = ListeningCourseViewController(viewModel: makeListeningQuestionsViewModel(test: test))
+        networkManager.addDelegate(viewController)
+        return viewController
     }
     
     func makeListeningQuestionsViewModel(test: Test)-> ListeningCourseViewModel {
