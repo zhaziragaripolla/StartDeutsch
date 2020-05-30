@@ -7,97 +7,58 @@
 //
 
 import Foundation
-import os
+import Combine
 
 class TestListViewModel {
-    // Models
-    public var tests: [Test] = []
-    public let course: Course
-    
-    // Delegate
-    weak var errorDelegate: ErrorDelegate?
-    weak var delegate: ViewModelDelegate?
     
     // Dependencies
-    private let firebaseManager: FirebaseManagerProtocol
-    private let repository: CoreDataRepository<Test>
-    private let networkManager: NetworkManagerProtocol
+    private let remoteRepo: TestDataSourceProtocol
+    private let localRepo: TestDataSourceProtocol
+    public let course: Course
     
-    init(firebaseManager: FirebaseManagerProtocol, course: Course, repository: CoreDataRepository<Test>, networkManager: NetworkManagerProtocol) {
-        self.firebaseManager = firebaseManager
+    // Model
+    public var tests: [Test] = []
+    
+    private var cancellables: Set<AnyCancellable> = []
+    private var isNetworkCall: Bool = false
+    @Published var state: ViewModelState = .initialized
+    
+    init(remoteRepo: TestDataSourceProtocol,
+         localRepo: TestDataSourceProtocol,
+         course: Course){
+        self.remoteRepo = remoteRepo
+        self.localRepo = localRepo
         self.course = course
-        self.repository = repository
-        self.networkManager = networkManager
     }
     
     public func getTests(){
-        fetchFromLocalDatabase()
-        if tests.isEmpty{
-            if networkManager.isReachable(){
-                fetchFromRemoteDatabase()
-            }
-            else {
-                self.delegate?.networkOffline()
-            }
-        }
-        else {
-            delegate?.didDownloadData()
-        }
-    }
-    
-    private func fetchFromLocalDatabase(){
-        do {
-            let predicate = NSPredicate(format: "courseId == %@", course.id)
-            self.tests = try repository.getAll(where: predicate)
-        }
-        catch let error {
-            print(error)
-            fetchFromRemoteDatabase()
-        }
-        
-    }
-    
-    private func fetchFromRemoteDatabase(){
-        delegate?.didStartLoading()
-        firebaseManager.getDocuments(course.documentPath.appending("/tests")) { result in
-            switch result {
-            case .failure(let error):
-                if let message = error.errorDescription {
-                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
+        state = .loading
+        localRepo.getAll(where: ["courseId": course.id])
+            .catch{ [unowned self] error-> Future<[Test], Error> in
+                if let error = error as? CoreDataError{
+                    print(error.localizedDescription)
                 }
-            case .success(let response):
-                self.tests = response.map({ return Test(dictionary: $0.data(), path: $0.reference.path)! })
-                self.delegate?.didCompleteLoading()
-                self.delegate?.didDownloadData()
-                self.saveToLocalDatabase()
+                self.isNetworkCall = true
+                return self.remoteRepo.getAll(where: ["courseId": self.course.id])
             }
-        }
-    }
-    
-    private func saveToLocalDatabase(){
-        tests.forEach({
-            repository.insert(item: $0)
-            print("saved")
-        })
-    }
-    
-}
-
-extension TestListViewModel: NetworkManagerDelegate{
-    func reachabilityChanged(_ isReachable: Bool) {
-        if isReachable {
-            os_log("Change of intenet connection. Device is online.")
-            self.delegate?.networkOnline()
-            if tests.isEmpty {
-                fetchFromRemoteDatabase()
-            }
-        }
-        else {
-            os_log("Change of intenet connection. Device is offline.")
-            if tests.isEmpty {
-                self.delegate?.networkOffline()
-            }
-        }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.state = .error(error)
+                default: break
+                }
+            }, receiveValue: { [weak self] tests in
+                guard let self = self else { return }
+                self.tests = tests
+                self.state = .finish
+                
+                if self.isNetworkCall{
+                    tests.forEach{ test in
+                        self.localRepo.create(item: test)
+                    }
+                }
+            }).store(in: &cancellables)
     }
 }
-

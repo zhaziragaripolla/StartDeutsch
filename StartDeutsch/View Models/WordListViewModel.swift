@@ -7,47 +7,64 @@
 //
 
 import Foundation
+import Combine
 
 class WordListViewModel {
     
     // Models
     private var words: [Word] = []
-    public var randomWords: [Word] = [] {
-        didSet{
-            delegate?.didDownloadData()
-        }
-    }
+    public var randomWords: [Word] = []
     
     // Dependencies
-    private let firebaseManager: FirebaseManagerProtocol
-    private let repository: CoreDataRepository<Word>
-    private let networkManager: NetworkManagerProtocol
+    private let remoteRepo: WordDataSourceProtocol
+    private let localRepo: WordDataSourceProtocol
     
-    // Delegates
-    weak var delegate: ViewModelDelegate?
-    weak var errorDelegate: ErrorDelegate?
+    private var cancellables: Set<AnyCancellable> = []
+    private var isNetworkCall: Bool = false
+    @Published var state: ViewModelState = .initialized
     
-    init(firebaseManager: FirebaseManagerProtocol, repository: CoreDataRepository<Word>, networkManager: NetworkManagerProtocol){
-        self.firebaseManager = firebaseManager
-        self.repository = repository
-        self.networkManager = networkManager
+    
+    init(remoteRepo: WordDataSourceProtocol,
+         localRepo: WordDataSourceProtocol){
+        self.remoteRepo = remoteRepo
+        self.localRepo = localRepo
     }
     
     public func getWords(){
-        fetchFromLocalDatabase()
-        if words.isEmpty{
-            if networkManager.isReachable(){
-                fetchFromRemoteDatabase()
+        state = .loading
+        localRepo.getAll(where: nil)
+            .catch{  [unowned self] error-> Future<[Word], Error> in
+                if let error = error as? CoreDataError{
+                    print(error.localizedDescription)
+                }
+                self.isNetworkCall = true
+                return self.remoteRepo.getAll(where: nil)
             }
-            else {
-                self.delegate?.networkOffline()
-            }
-        }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.state = .error(error)
+                case .finished:
+                    self.reloadWords()
+                }
+            }, receiveValue: { [weak self] words in
+                guard let self = self else { return }
+                self.words = words
+                
+                if self.isNetworkCall{
+                    words.forEach{ word in
+                        self.localRepo.create(item: word)
+                    }
+                }
+            }).store(in: &cancellables)
     }
     
     public func reloadWords(){
         randomWords.removeAll()
         generateRandomWords()
+        self.state = .finish
     }
     
     private func generateRandomWords(){
@@ -61,58 +78,4 @@ class WordListViewModel {
         }
     }
     
-    private func fetchFromRemoteDatabase(){
-        delegate?.didStartLoading()
-        firebaseManager.getDocuments("/courses/speaking/words"){ result in
-            switch result {
-            case .success(let response):
-                self.words = response.map({
-                    return Word(dictionary: $0.data())!
-                })
-                self.reloadWords()
-                self.delegate?.didCompleteLoading()
-                self.saveToLocalDatabase()
-                print("fetched from Firebase")
-            case .failure(let error):
-                if let message = error.errorDescription {
-                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
-                }
-            }
-        }
-    }
-    
-    private func saveToLocalDatabase(){
-        words.forEach({
-            repository.insert(item: $0)
-        })
-    }
-    
-    
-    private func fetchFromLocalDatabase(){
-        do {
-            words = try repository.getAll(where: nil)
-            reloadWords()
-        }
-        catch {
-            //            errorDelegate?.showError(message: error.localizedDescription)
-            fetchFromRemoteDatabase()
-        }
-    }
-    
-}
-
-extension WordListViewModel: NetworkManagerDelegate{
-    func reachabilityChanged(_ isReachable: Bool) {
-        if isReachable {
-            self.delegate?.networkOnline()
-            if words.isEmpty {
-                fetchFromRemoteDatabase()
-            }
-        }
-        else {
-            if words.isEmpty {
-                self.delegate?.networkOffline()
-            }
-        }
-    }
 }

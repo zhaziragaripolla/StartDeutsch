@@ -7,15 +7,24 @@
 //
 
 import UIKit
+import Combine
+import SDWebImage
 
 class CardListViewController: UIViewController {
     
+    // View model
+    private var viewModel: CardListViewModel!
+    
+    // Cancellables
+    private var cancellables: Set<AnyCancellable> = []
+    
+    // UI
     private let assignmentLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .italicSystemFont(ofSize: 18)
-        label.textAlignment = .center
-        label.textColor = .systemPurple
+        label.font = .systemFont(ofSize: 14)
+        label.textAlignment = .left
+        label.textColor = .systemGray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -33,14 +42,25 @@ class CardListViewController: UIViewController {
         return collectionView
     }()
     
-    fileprivate func setupView() {
-         view.addSubview(assignmentLabel)
+    fileprivate func setupUI() {
+        title = "Bitten formulieren"
+        view.backgroundColor = .white
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        // Reload button
+        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
+        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
+        
+        // Assignment label
+        view.addSubview(assignmentLabel)
+        assignmentLabel.text = "Practice making polite requests using objects on the cards."
         assignmentLabel.snp.makeConstraints({ make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(20)
         })
         
+        // Collection View
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -51,7 +71,6 @@ class CardListViewController: UIViewController {
         })
     }
     
-    private var viewModel: CardListViewModel!
     
     init(viewModel: CardListViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -64,15 +83,30 @@ class CardListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = true
-        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
-        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
-        setupView()
-        assignmentLabel.text = "Practice making polite requests using objects on the cards."
-        viewModel.delegate = self
-        viewModel.errorDelegate = self
+        
+        // UI configuration
+        setupUI()
+        
+        // View model configuration
         viewModel.getCards()
+        
+        // View model state subscription
+        viewModel.$state.sink(receiveValue: { [unowned self] state in
+            switch state{
+            case .loading:
+                LoadingOverlay.shared.showOverlay(view: self.view)
+            case .finish:
+                self.collectionView.reloadData()
+                LoadingOverlay.shared.hideOverlayView()
+            case .error(let error):
+                guard let urlError = error as? URLError, urlError.code == URLError.notConnectedToInternet else {
+                    ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.other)
+                    return
+                }
+                ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.noInternetConnection)
+            default: break
+            }
+        }).store(in: &cancellables)
     }
     
     @objc private func didTapReloadButton(){
@@ -89,8 +123,21 @@ extension CardListViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
-        let path = viewModel.randomCards[indexPath.row].imageUrl
-        cell.cardImageView.load(from: path)
+        cell.activityIndicator.startAnimating()
+        if let url = URL(string: viewModel.randomCards[indexPath.row].imageUrl){
+            cell.cardImageView.sd_setImage(with: url) { (image, error, cache, urls) in
+                guard let urlError = error as? URLError, urlError.code == URLError.notConnectedToInternet else {
+                    // Successful in loading image
+                    cell.activityIndicator.stopAnimating()
+                    cell.cardImageView.image = image
+                    return
+                }
+                // Failure
+                ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.noInternetConnection)
+                cell.cardImageView.image = UIImage(named: "placeholder")
+                cell.activityIndicator.stopAnimating()
+            }
+        }
         return cell
     }
  
@@ -101,39 +148,19 @@ extension CardListViewController: UICollectionViewDelegate, UICollectionViewData
 }
 
 
-extension CardListViewController: ViewModelDelegate, ErrorDelegate {
-    func didDownloadData() {
-        collectionView.reloadData()
-    }
-    
-    func showError(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelButton)
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-        collectionView.isHidden = true
-        assignmentLabel.isHidden = true
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-        collectionView.isHidden = false
-        assignmentLabel.isHidden = false
+extension CardListViewController: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            // hide internet connection failure
+            ConnectionFailOverlay.shared.hideOverlayView()
+            
+            // show loading view
+            LoadingOverlay.shared.showOverlay(view: view)
+            
+            // load data
+            viewModel.getCards()
+        }
     }
 }
-
-
 
 

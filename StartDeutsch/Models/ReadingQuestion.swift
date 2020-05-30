@@ -8,7 +8,8 @@
 
 import Foundation
 
-public struct ReadingQuestion{
+public struct ReadingQuestion: Decodable{
+    
     public var id: String
     var testId: String
     var imagePath: String?
@@ -21,6 +22,20 @@ public struct ReadingQuestion{
     var description: String?
     var section: Int
     
+    enum CodingKeys: String, CodingKey {
+        case id
+        case testId = "test"
+        case imagePath
+        case orderNumber
+        case questionText
+        case questionTexts
+        case correctAnswers
+        case answerImagePaths
+        case correctChoiceIndex
+        case description
+        case section
+    }
+    
     public var dictionary: Dictionary<String, Any>  {
         return [
             "id":id,
@@ -32,25 +47,17 @@ public struct ReadingQuestion{
             "questionText":questionText ?? "",
             "answerImagePaths":answerImagePaths ?? [],
             "correctChoiceIndex":correctChoiceIndex ?? -1,
-            "questionDescription": description ?? "",
+            "descriptionText": description ?? "",
             "section":section
         ]
     }
 }
 
-extension ReadingQuestion{
-    init?(dictionary: [String : Any]) {
-        guard let id = dictionary["id"] as? String,
-            let testId = dictionary["testId"] as? String,
-            let imagePath = dictionary["imagePath"] as? String?,
-            let questionTexts = dictionary["questionTexts"] as? [String]?,
-            let correctAnswers = dictionary["correctAnswers"] as? [Bool]?,
-            let orderNumber = dictionary["orderNumber"] as? Int,
-            let questionText = dictionary["questionText"] as? String?,
-            let answerImagePaths = dictionary["answerImagePaths"] as? [String]?,
-            let correctChoiceIndex = dictionary["correctChoiceIndex"] as? Int?,
-            let description = dictionary["description"] as? String?,
-            let section = dictionary["section"] as? Int else { return nil}
-        self.init(id: id, testId: testId, imagePath: imagePath, orderNumber: orderNumber, questionText: questionText, questionTexts: questionTexts, correctAnswers: correctAnswers, answerImagePaths: answerImagePaths, correctChoiceIndex: correctChoiceIndex, description: description, section: section)
+extension ReadingQuestion: Equatable{
+    static public func ==(lhs: ReadingQuestion, rhs: ReadingQuestion) -> Bool {
+        if lhs.id == rhs.id{
+            return true
+        }
+        return false
     }
 }

@@ -17,7 +17,7 @@ extension ManagedListeningQuestion {
         return NSFetchRequest<ManagedListeningQuestion>(entityName: "ManagedListeningQuestion")
     }
 
-    @NSManaged public var answerChoices: [String]?
+    @NSManaged public var answerChoices: [String]
     @NSManaged public var audioPath: String
     @NSManaged public var correctChoiceIndex: Int16
     @NSManaged public var id: String

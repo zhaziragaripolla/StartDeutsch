@@ -6,7 +6,6 @@
 //  Copyright © 2019 Zhazira Garipolla. All rights reserved.
 //
 
-import Foundation
 import CoreData
 
 extension Course: Entity {
@@ -21,7 +20,7 @@ extension ManagedCourse: Storable {
     
     public var model: Course {
         get {
-            return Course(title: title, id: id, documentPath: documentPath, aliasName: aliasName, descriptionText: descriptionText)
+            return Course(title: title, id: id, aliasName: aliasName, description: descriptionText)
         }
     }
 }
@@ -38,7 +37,7 @@ extension ManagedTest: Storable {
  
     public var model: Test {
         get {
-            return Test(id: id, courseId: courseId, documentPath: documentPath)
+            return Test(id: id, courseId: courseId)
         }
     }
 }
@@ -73,7 +72,7 @@ extension ReadingQuestion: Entity {
 extension ManagedReadingQuestion: Storable {
     public var model: ReadingQuestion {
         get {
-            return ReadingQuestion(id: id, testId: testId, imagePath: imagePath ?? "", orderNumber:Int(orderNumber), questionText: questionText, questionTexts: questionTexts, correctAnswers: correctAnswers, answerImagePaths: answerImagePaths, correctChoiceIndex: Int(correctChoiceIndex), description: questionDescription, section: Int(section))
+            return ReadingQuestion(id: id, testId: testId, imagePath: imagePath ?? "", orderNumber:Int(orderNumber), questionText: questionText, questionTexts: questionTexts, correctAnswers: correctAnswers, answerImagePaths: answerImagePaths, correctChoiceIndex: Int(correctChoiceIndex), description: descriptionText, section: Int(section))
         }
     }
 }

@@ -7,15 +7,32 @@
 //
 
 import UIKit
+import Combine
 
 class WordListViewController: UIViewController {
     
+    // View model
+    private var viewModel: WordListViewModel!
+    
+    init(viewModel: WordListViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    // Cancellables
+    private var cancellables: Set<AnyCancellable> = []
+    
+    // UI
     private let assignmentLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .italicSystemFont(ofSize: 18)
-        label.textAlignment = .center
-        label.textColor = .systemPurple
+        label.font = .systemFont(ofSize: 14)
+        label.textAlignment = .left
+        label.textColor = .systemGray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -33,47 +50,62 @@ class WordListViewController: UIViewController {
         return collectionView
     }()
     
-    fileprivate func setupView() {
+    fileprivate func setupUI() {
+        title = "Fragen formulieren"
+        view.backgroundColor = .white
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        //  Reload button
+        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
+        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
+        
+        // Assignment label
         view.addSubview(assignmentLabel)
+        assignmentLabel.text = "Practice asking questions using given word cards on different topics."
         assignmentLabel.snp.makeConstraints({ make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(20)
         })
         
+        // Collection view
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.snp.makeConstraints({ make in
-            make.top.equalTo(assignmentLabel.snp.bottom)
+            make.top.equalTo(assignmentLabel.snp.bottom).offset(10)
             make.trailing.leading.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         })
     }
     
-    private var viewModel: WordListViewModel!
-    
-    init(viewModel: WordListViewModel) {
-        super.init(nibName: nil, bundle: nil)
-        self.viewModel = viewModel
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = true
-    
-        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
-        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
-        setupView()
-        assignmentLabel.text = "Practice asking questions using given word cards on different topics."
-        viewModel.errorDelegate = self
-        viewModel.delegate = self
+        
+        // UI configuration
+        setupUI()
+        
+        // View model configuration
         viewModel.getWords()
+        
+        // View model state subscription
+        viewModel.$state.sink(receiveValue: { [unowned self] state in
+            switch state{
+            case .loading:
+                LoadingOverlay.shared.showOverlay(view: self.view)
+            case .finish:
+                self.viewModel.reloadWords()
+                self.collectionView.reloadData()
+                LoadingOverlay.shared.hideOverlayView()
+            case .error(let error):
+                guard let urlError = error as? URLError, urlError.code == URLError.notConnectedToInternet else {
+                    ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.other)
+                    return
+                }
+                ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.noInternetConnection)
+            default: break
+            }
+        }).store(in: &cancellables)
     }
     
     @objc private func didTapReloadButton(){
@@ -101,37 +133,20 @@ extension WordListViewController: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-
-extension WordListViewController: ViewModelDelegate, ErrorDelegate {
-    func didDownloadData() {
-        collectionView.reloadData()
-    }
-    func showError(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelButton)
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-        assignmentLabel.isHidden = true
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-        assignmentLabel.isHidden = false
+extension WordListViewController: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            // hide internet connection failure
+            ConnectionFailOverlay.shared.hideOverlayView()
+            
+            // show loading view
+            LoadingOverlay.shared.showOverlay(view: view)
+            
+            // load data
+            viewModel.getWords()
+        }
     }
 }
-
 
 
 

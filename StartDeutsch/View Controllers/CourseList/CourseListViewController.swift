@@ -8,13 +8,33 @@
 
 import UIKit
 import SnapKit
-import MessageUI
+import Combine
 
 class CourseListViewController: UIViewController {
-
-    private let tableView = UITableView()
-    weak var delegate: CourseListViewControllerDelegate?
+    
+    // View model
     private var viewModel: CourseListViewModel!
+    
+    // Delegates
+    weak var delegate: CourseListViewControllerDelegate?
+    
+    // UI
+    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private var headerView = UIView()
+    private var tableViewHeaderHeight: CGFloat = {
+        return UIScreen.main.bounds.height * 0.35
+    }()
+    let headerTitles = ["Courses"]
+    
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
+    // Cancellables
+    private var cancellables: Set<AnyCancellable> = []
     
     init(viewModel: CourseListViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -25,41 +45,122 @@ class CourseListViewController: UIViewController {
         super.init(coder: coder)
     }
     
-    fileprivate func setupTableView() {
+    // MARK: - Setup UI
+    fileprivate func setupUI() {
+        
+        view.backgroundColor = .white
+        title = "Start Deutsch"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        // Help button
+        let helpBarItem = UIBarButtonItem(title: "Help", style: .plain, target: self, action: #selector(didTapHelpButton(_:)))
+        self.navigationItem.setLeftBarButton(helpBarItem, animated: true)
+        
+        // Reload button
+        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
+        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
+        
+        // Header's image view
+        headerView.addSubview(imageView)
+        imageView.snp.makeConstraints{ make in
+            make.width.equalToSuperview().multipliedBy(0.65)
+            make.height.equalToSuperview().multipliedBy(0.65)
+            make.center.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        imageView.image = UIImage(named: "background.png")
+        
+        // Table view
+        tableView.tableHeaderView = nil
+        tableView.addSubview(headerView)
+        tableView.contentInset = UIEdgeInsets(top: tableViewHeaderHeight , left: 0, bottom: 30, right: 0)
+        tableView.contentOffset = CGPoint(x: 0, y: -tableViewHeaderHeight)
+        tableView.backgroundColor = .white
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints({ make in
-            make.top.bottom.trailing.leading.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.centerX.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         })
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CourseTableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.tableFooterView = UIView()
     }
     
-    var helpBarItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Start Deutsch"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        helpBarItem = UIBarButtonItem(title: "Help", style: .plain, target: self, action: #selector(didTapHelpButton(_:)))
-        self.navigationItem.setRightBarButton(helpBarItem, animated: true)
-        setupTableView()
-        viewModel.delegate = self
-        viewModel.errorDelegate = self
+        
+        // UI configuration
+        setupUI()
+        updateHeaderView()
+        
+        // View model configuration
         viewModel.getCourses()
+        
+        // View model state subscription
+        viewModel.$state.sink(receiveValue: { [unowned self] state in
+            switch state{
+            case .loading:
+                LoadingOverlay.shared.showOverlay(view: self.view)
+            case .finish:
+                self.tableView.reloadData()
+                LoadingOverlay.shared.hideOverlayView()
+            case .error(let error):
+                guard let urlError = error as? URLError, urlError.code == URLError.notConnectedToInternet else {
+                        ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.other)
+                        return
+                }
+                ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.noInternetConnection)
+            default: break
+            }
+        }).store(in: &cancellables)
+    }
+
+    func updateHeaderView() {
+        var headerRect = CGRect(x: 0, y: -tableViewHeaderHeight,
+                                width: tableView.bounds.width,
+                                height: tableViewHeaderHeight)
+        if tableView.contentOffset.y < -tableViewHeaderHeight {
+            headerRect.origin.y = tableView.contentOffset.y
+            headerRect.size.height = -tableView.contentOffset.y
+        }
+        headerView.frame = headerRect
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateHeaderView()
+    }
+    
+    @objc private func didTapReloadButton(){
+        if viewModel.courses.isEmpty{
+            viewModel.getCourses()
+        }
     }
 
 }
 
 extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return headerTitles[section]
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.courses.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CourseTableViewCell
         let course = viewModel.courses[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
         cell.configure(course: course)
         return cell
     }
@@ -71,98 +172,21 @@ extension CourseListViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.height/5
+        return 50
     }
 }
 
-extension CourseListViewController: ViewModelDelegate, ErrorDelegate {
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-    }
-    
-    func showError(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelButton)
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    func didDownloadData() {
-        tableView.reloadData()
-    }
-    
-}
-
-extension CourseListViewController: MFMailComposeViewControllerDelegate{
-    @objc func didTapHelpButton(_ sender: UIButton) {
-        // Modify following variables with your text / recipient
-        let recipientEmail = "help.startdeutsch@gmail.com"
-        var body: String = ""
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            body.append("App Version: \(version)\n")
+extension CourseListViewController: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            // hide internet connection failure
+            ConnectionFailOverlay.shared.hideOverlayView()
+            
+            // show loading view
+            LoadingOverlay.shared.showOverlay(view: view)
+            
+            // load data
+            viewModel.getCourses()
         }
-        
-        let os = ProcessInfo().operatingSystemVersion
-        let osVersionString = "\(os.majorVersion.description).\(os.minorVersion.description).\(os.patchVersion.description)"
-        body.append("Device iOS version: \(osVersionString)\n")
-        body.append("Model: \(modelIdentifier())")
-        
-        // Show default mail composer
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients([recipientEmail])
-            mail.setMessageBody(body, isHTML: false)
-            present(mail, animated: true)
-        }
-//        else if let emailUrl = createEmailUrl(to: recipientEmail, subject: "", body: body) {
-//            UIApplication.shared.open(emailUrl)
-//        }
-        else {
-             UIApplication.shared.open(URL(string: "https://startdeutschapp.wixsite.com/startdeutsch")!, options: [:], completionHandler: nil)
-        }
-    }
-    
-    func modelIdentifier() -> String {
-        if let simulatorModelIdentifier = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] { return simulatorModelIdentifier }
-        var sysinfo = utsname()
-        uname(&sysinfo) // ignore return value
-        return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
-    }
-    
-    private func createEmailUrl(to: String, subject: String, body: String) -> URL? {
-        let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        
-        let gmailUrl = URL(string: "googlegmail://co?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
-        let outlookUrl = URL(string: "ms-outlook://compose?to=\(to)&subject=\(subjectEncoded)")
-        let yahooMail = URL(string: "ymail://mail/compose?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
-        let defaultUrl = URL(string: "mailto:\(to)?subject=\(subjectEncoded)&body=\(bodyEncoded)")
-        
-        if let gmailUrl = gmailUrl, UIApplication.shared.canOpenURL(gmailUrl) {
-            return gmailUrl
-        } else if let outlookUrl = outlookUrl, UIApplication.shared.canOpenURL(outlookUrl) {
-            return outlookUrl
-        } else if let yahooMail = yahooMail, UIApplication.shared.canOpenURL(yahooMail) {
-            return yahooMail
-        }
-        
-        return defaultUrl
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
     }
 }

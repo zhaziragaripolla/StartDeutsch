@@ -7,101 +7,100 @@
 //
 
 import Foundation
-import os
+import Combine
 
-protocol ListeningViewModelDelegate: class {
-    func didDownloadAudio(path: URL)
-}
-
-protocol UserAnswerDelegate: class {
-    func didCheckUserAnswers(result: Int)
-}
-
-protocol ErrorDelegate: class {
-    func showError(message: String)
-}
 
 class ListeningCourseViewModel {
     
     // Dependencies
     private let storage: FirebaseStorageManagerProtocol
-    private let firebaseManager: FirebaseManagerProtocol
     private let test: Test
-    private let repository: CoreDataRepository<ListeningQuestion>
-    private let networkManager: NetworkManagerProtocol
+    private let remoteRepo: ListeningCourseDataSourceProtocol
+    private let localRepo: ListeningCourseDataSourceProtocol
     
     // Models
     public var storedAudioPaths = [URL?](repeating: nil, count: 15)
     public var questions: [ListeningQuestion] = []
-    public var showsCorrectAnswer: Bool = false
+    public var showCorrectAnswerEnabled: Bool = false
     
     // Delegates
     weak var audioDelegate: ListeningViewModelDelegate?
-    weak var delegate: ViewModelDelegate?
-    weak var errorDelegate: ErrorDelegate?
     weak var userAnswerDelegate: UserAnswerDelegate?
     
     private let fileManager = FileManager.default
-  
-    init(firebaseManager: FirebaseManagerProtocol, firebaseStorageManager: FirebaseStorageManagerProtocol, test: Test, repository: CoreDataRepository<ListeningQuestion>, networkManager: NetworkManagerProtocol) {
-        self.firebaseManager = firebaseManager
+    private var cancellables: Set<AnyCancellable> = []
+    private var isNetworkCall: Bool = false
+    @Published var state: ViewModelState = .initialized
+    
+    let timer = Timer()
+    
+    init(firebaseStorageManager: FirebaseStorageManagerProtocol,
+         remoteRepo: ListeningCourseDataSourceProtocol,
+         localRepo: ListeningCourseDataSourceProtocol,
+         test: Test) {
         self.test = test
         self.storage = firebaseStorageManager
-        self.repository = repository
-        self.networkManager = networkManager
+        self.remoteRepo = remoteRepo
+        self.localRepo = localRepo
+    }
+
+    // MARK: - Fetching Listening Questions
+    
+    public func getQuestions() {
+        state = .loading
+        localRepo.getAll(where: ["testId": test.id])
+            .catch{ [unowned self] error-> Future<[ListeningQuestion], Error> in
+                if let error = error as? CoreDataError{
+                    print(error.localizedDescription)
+                }
+                self.isNetworkCall = true
+                return self.remoteRepo.getAll(where: ["testId": self.test.id])
+            }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.state = .error(error)
+                default: break
+                }
+            }, receiveValue: { [weak self] questions in
+                guard let self = self else { return }
+                self.questions = questions
+                self.state = .finish
+                
+                if self.isNetworkCall{
+                    questions.forEach{ question in
+                        self.localRepo.create(item: question)
+                    }
+                }
+            }).store(in: &cancellables)
     }
     
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
+    // MARK: - Returning Question View Model
     
     public func viewModel(for index: Int)-> QuestionCellViewModel {
         let question = questions[index]
-        if question.isMultipleChoice {
-            return ListeningQuestionMultipleChoiceViewModel(question: question.questionText, orderNumber: question.orderNumber, answerChoices: question.answerChoices ?? [])
-        }
-        return ListeningQuestionBinaryChoiceViewModel(question: question.questionText, orderNumber: question.orderNumber)
+        
+        guard question.isMultipleChoice else {
+            return ListeningQuestionBinaryChoiceViewModel(question: question.questionText,
+                                                          orderNumber: question.orderNumber) }
+        
+        return ListeningQuestionMultipleChoiceViewModel(question: question.questionText,
+                                                        orderNumber: question.orderNumber,
+                                                        answerChoices: question.answerChoices ?? [])
     }
     
-    public func getQuestions() {
-        fetchFromLocalDatabase()
-        if questions.isEmpty{
-            if networkManager.isReachable(){
-                fetchFromRemoteDatabase()
-            }
-            else {
-                self.delegate?.networkOffline()
-            }
-        }
-        else {
-            delegate?.didDownloadData()
-        }
-    }
+    // MARK: - Returning Correct Answer
     
     public func getCorrectAnswer(for index: Int)-> Int{
         let question = questions[index]
         return question.correctChoiceIndex
     }
     
-    private func fetchFromLocalDatabase(){
-        do {
-            let predicate = NSPredicate(format: "testId == %@", test.id)
-            self.questions = try repository.getAll(where: predicate)
-        }
-        catch let error {
-            errorDelegate?.showError(message: error.localizedDescription)
-            fetchFromRemoteDatabase()
-        }
-    }
+    // MARK: - Fetching/Saving Audio
     
-    func getAudioStoredPath(id: String)-> URL {
-        let documentDirectory = getDocumentsDirectory()
-        return documentDirectory.appendingPathComponent("\(id).mp3")
-    }
-    
-    func getAudio(for index: Int){
+    public func getAudio(for index: Int){
         let question = questions[index]
         let path = getAudioStoredPath(id: question.id)
         if fileManager.fileExists(atPath: path.path) {
@@ -112,38 +111,24 @@ class ListeningCourseViewModel {
             self.downloadAudio(for: question)
         }
     }
-
-    private func fetchFromRemoteDatabase() {
-        firebaseManager.getDocuments(test.documentPath.appending("/questions")) { result in
-            switch result {
-            case .failure(let error):
-                if let message = error.errorDescription {
-                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
-                }
-            case .success(let response):
-                self.questions = response.map({
-                    return ListeningQuestion(dictionary: $0.data())!
-                })
-                self.questions.sort(by: { $0.orderNumber < $1.orderNumber })
-                self.delegate?.didDownloadData()
-                self.saveToLocalDatabase()
-            }
-        }
+    
+    private func getDocumentDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentDirectory = paths[0]
+        return documentDirectory
     }
     
-    private func saveToLocalDatabase(){
-        questions.forEach({
-            repository.insert(item: $0)
-        })
+    private func getAudioStoredPath(id: String)-> URL {
+        let documentDirectory = getDocumentDirectory()
+        return documentDirectory.appendingPathComponent("\(id).mp3")
     }
 
     private func downloadAudio(for question: ListeningQuestion) {
-        storage.downloadFileFromPath(question.audioPath) { response in
+        storage.downloadFileFromPath(question.audioPath) { [weak self] response in
+            guard let self = self else { return }
             switch response {
             case .failure(let error):
-                if let message = error.errorDescription {
-                    self.errorDelegate?.showError(message: "Code: \(error.code). \(message)")
-                }
+                self.state = .error(error)
             case .success(let data):
                 do {
                     let fileURL = self.getAudioStoredPath(id: question.id)
@@ -154,37 +139,21 @@ class ListeningCourseViewModel {
                     self.audioDelegate?.didDownloadAudio(path: fileURL)
                 }
                 catch {
-                    self.errorDelegate?.showError(message: error.localizedDescription)
+                    self.state = .error(error)
                 }
             }
         }
     }
 
-    public func checkUserAnswers(answers: [Int?]){
+    // MARK: - User Answers Validation
+    
+    public func validate(userAnswers: [Int?]){
         var count = 0
         for index in 0..<questions.count{
-            if (questions[index].correctChoiceIndex == answers[index]) {
+            if (questions[index].correctChoiceIndex == userAnswers[index]) {
                 count += 1
             }
         }
         userAnswerDelegate?.didCheckUserAnswers(result: count)
-    }
-}
-
-extension ListeningCourseViewModel: NetworkManagerDelegate{
-    func reachabilityChanged(_ isReachable: Bool) {
-    if isReachable {
-            os_log("Change of intenet connection. Device is online.")
-            self.delegate?.networkOnline()
-            if questions.isEmpty {
-                fetchFromRemoteDatabase()
-            }
-        }
-        else {
-            os_log("Change of intenet connection. Device is offline.")
-            if questions.isEmpty {
-                self.delegate?.networkOffline()
-            }
-        }
     }
 }

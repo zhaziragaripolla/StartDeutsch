@@ -65,8 +65,7 @@ class ReadingQuestionCollectionViewCell: UICollectionViewCell, CellConfigurable 
         addSubview(orderNumberLabel)
         orderNumberLabel.snp.makeConstraints({ make in
             make.top.equalToSuperview().offset(5)
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.05)
+            make.width.leading.equalToSuperview()
         })
 
     }

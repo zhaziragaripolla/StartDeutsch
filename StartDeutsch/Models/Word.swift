@@ -8,11 +8,18 @@
 
 import Foundation
 
-public struct Word {
+public struct Word: Decodable {
     public let id: String
     let courseId: String
     let theme: String
     let value: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case courseId = "course"
+        case theme
+        case value
+    }
     
     public var dictionary: [String: Any]{
         return [
@@ -21,15 +28,5 @@ public struct Word {
             "theme":theme,
             "value":value
         ]
-    }
-}
-
-extension Word{
-    init?(dictionary: [String : Any]) {
-        guard let id = dictionary["id"] as? String,
-            let courseId = dictionary["courseId"] as? String,
-            let theme = dictionary["theme"] as? String,
-            let value = dictionary["value"] as? String else { return nil}
-        self.init(id: id, courseId: courseId, theme: theme, value: value)
     }
 }

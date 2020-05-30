@@ -10,14 +10,20 @@ import UIKit
 import SnapKit
 import AVFoundation
 import os
+import Combine
 
 class ListeningCourseViewController: UIViewController {
     
+    // View model
     private var viewModel: ListeningCourseViewModel!
-    private var audioPlayer = AVAudioPlayer()
     private var userAnswers = [Int?](repeating: nil, count: 15)
-    private var finishBarButtonItem = UIBarButtonItem()
     
+    // Cancellables
+    private var cancellables: Set<AnyCancellable> = []
+    
+    // UI
+    private var audioPlayer = AVAudioPlayer()
+    private var finishBarButtonItem = UIBarButtonItem()
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 40, right: 10)
@@ -32,7 +38,13 @@ class ListeningCourseViewController: UIViewController {
         return collectionView
     }()
     
-    fileprivate func setupCollectionView() {
+    fileprivate func setupUI() {
+        // Finish button
+        finishBarButtonItem = UIBarButtonItem(title: "Finish", style: .done, target: self, action: #selector(didTapFinishButton(_:)))
+        finishBarButtonItem.isEnabled = false
+        navigationItem.setRightBarButton(finishBarButtonItem, animated: true)
+        
+        // Collection View
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -52,47 +64,45 @@ class ListeningCourseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        finishBarButtonItem = UIBarButtonItem(title: "Finish", style: .done, target: self, action: #selector(didTapFinishButton(_:)))
-        finishBarButtonItem.isEnabled = false
-        navigationItem.setRightBarButton(finishBarButtonItem, animated: true)
-        setupCollectionView()
+        
+        // UI configuration
+        setupUI()
+        
+        // View model configuration
         viewModel.audioDelegate = self
-        viewModel.errorDelegate = self
-        viewModel.delegate = self
         viewModel.userAnswerDelegate = self
         viewModel.getQuestions()
+        
+        // View model state subscription
+        viewModel.$state.sink(receiveValue: { [unowned self] state in
+            switch state{
+            case .loading:
+                LoadingOverlay.shared.showOverlay(view: self.view)
+            case .finish:
+                self.collectionView.reloadData()
+                LoadingOverlay.shared.hideOverlayView()
+            case .error(let error):
+                guard let urlError = error as? URLError, urlError.code == URLError.notConnectedToInternet else {
+                        ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.other)
+                        return
+                }
+                ConnectionFailOverlay.shared.showOverlay(view: self.view, message: Constants.FailureMessage.noInternetConnection)
+            default: break
+            }
+        }).store(in: &cancellables)
     }
     
     @objc func didTapFinishButton(_ sender: UIBarButtonItem){
-        viewModel.checkUserAnswers(answers: userAnswers)
+        viewModel.validate(userAnswers: userAnswers)
     }
  
 }
 
-extension ListeningCourseViewController: ViewModelDelegate, ListeningViewModelDelegate, ErrorDelegate, UserAnswerDelegate {
-    func didDownloadData() {
-        collectionView.reloadData()
-    }
-    
-    func didStartLoading() {
-        LoadingOverlay.shared.showOverlay(view: view)
-    }
-    
-    func didCompleteLoading() {
-        LoadingOverlay.shared.hideOverlayView()
-    }
-    
-    func networkOffline() {
-        ConnectionFailOverlay.shared.showOverlay(view: view)
-    }
-    
-    func networkOnline() {
-        ConnectionFailOverlay.shared.hideOverlayView()
-    }
+extension ListeningCourseViewController: ListeningViewModelDelegate, UserAnswerDelegate {
     
     func didCheckUserAnswers(result: Int) {
         finishBarButtonItem.isEnabled = false
-        viewModel.showsCorrectAnswer = true
+        viewModel.showCorrectAnswerEnabled = true
         let alertController = UIAlertController(title: "Result", message: "Here is your score: \(result)", preferredStyle: .alert)
               let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
               alertController.addAction(cancelButton)
@@ -115,13 +125,6 @@ extension ListeningCourseViewController: ViewModelDelegate, ListeningViewModelDe
             }
         }
     }
-
-    func showError(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelButton)
-        present(alertController, animated: true, completion: nil)
-    }
     
 }
 
@@ -142,7 +145,7 @@ extension ListeningCourseViewController: UICollectionViewDelegate, UICollectionV
         
         if let userAnswer = userAnswers[indexPath.row] {
             questionCell.resetView()
-            if viewModel.showsCorrectAnswer {
+            if viewModel.showCorrectAnswerEnabled {
                 questionCell.buttons.forEach({$0.isEnabled = false})
                 if userAnswer == viewModel.getCorrectAnswer(for: indexPath.row) {
                     questionCell.changeButtonState(for: userAnswer, state: .correct)
@@ -191,4 +194,23 @@ extension ListeningCourseViewController: ListeningQuestionDelegate {
         }
     }
 
+}
+
+extension ListeningCourseViewController: NetworkManagerDelegate{
+    func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            // hide internet connection failure
+            ConnectionFailOverlay.shared.hideOverlayView()
+            
+            // show loading view
+            LoadingOverlay.shared.showOverlay(view: view)
+            
+            // load data
+            viewModel.getQuestions()
+        }
+        else {
+            // show internet connection failure
+            ConnectionFailOverlay.shared.showOverlay(view: view, message: Constants.FailureMessage.noInternetConnection)
+        }
+    }
 }

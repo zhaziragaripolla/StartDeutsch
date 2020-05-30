@@ -10,14 +10,12 @@ import Foundation
 
 class AppDependencyContainer {
     
-    let sharedFirebaseManager: FirebaseManager
+    let sharedAPIClient: APIClient
     let sharedFirebaseStorageManager: FirebaseStorageManager
     let networkManager: NetworkManager
+    let requestBuilder: RequestBuilder
+    
     init(){
-        
-        func makeFirebaseManager()-> FirebaseManager {
-            return FirebaseManager()
-        }
         
         func makeFirebaseStorageManager()-> FirebaseStorageManager {
             return FirebaseStorageManager()
@@ -25,104 +23,150 @@ class AppDependencyContainer {
         func makeNetworkManager()->NetworkManager{
             return NetworkManager([])
         }
-        self.sharedFirebaseManager = makeFirebaseManager()
+        func makeRequestBuilder()->RequestBuilder{
+            return RequestBuilder()
+        }
+        
+        func makeAPIClient()->APIClient{
+            return APIClient(requestBuilder: makeRequestBuilder())
+        }
+        
         self.sharedFirebaseStorageManager = makeFirebaseStorageManager()
         self.networkManager = makeNetworkManager()
+        self.requestBuilder = makeRequestBuilder()
+        self.sharedAPIClient = makeAPIClient()
     }
     
     deinit {
         networkManager.stopNotifier()
     }
     
+    
     // MARK: Courses
     // TODO: rename to CourseList
     func makeCoursesViewController()-> CourseListViewController {
-        let viewModel = makeCoursesViewModel()
-        networkManager.addDelegate(viewModel)
-        return CourseListViewController(viewModel: viewModel)
+        let viewController = CourseListViewController(viewModel: makeCoursesViewModel())
+        networkManager.addDelegate(viewController)
+        return viewController
         
     }
     
     func makeCoursesViewModel()-> CourseListViewModel {
-        let repo = CoreDataRepository<Course>()
-        return CourseListViewModel(firebaseManager: sharedFirebaseManager, repository: repo, networkManager: networkManager)
+        return CourseListViewModel(remoteRepo: makeCourseRemoteDataSource(),
+                                   localRepo: makeCourseLocalDataSource())
     }
     
+    func makeCourseRemoteDataSource()->CourseDataSourceProtocol{
+        return CourseRemoteDataSource(client: sharedAPIClient)
+    }
+    
+    func makeCourseLocalDataSource()->CourseDataSourceProtocol{
+        let courseCoreDataClient = CoreDataRepository<Course>()
+        return CourseLocalDataSource(client: courseCoreDataClient)
+    }
     
     // MARK: Tests
     func makeTestsViewController(course: Course)-> TestListViewController {
-        let viewModel = makeTestsViewModel(course: course)
-        networkManager.addDelegate(viewModel)
-        return TestListViewController(viewModel: viewModel)
+        let viewController = TestListViewController(viewModel: makeTestsViewModel(course: course))
+        networkManager.addDelegate(viewController)
+        return viewController
     }
     
     func makeTestsViewModel(course: Course)-> TestListViewModel {
-        return TestListViewModel(firebaseManager: sharedFirebaseManager, course: course, repository: CoreDataRepository<Test>(), networkManager: networkManager)
+        return TestListViewModel(remoteRepo: makeTestRemoteDataSource(),
+                                 localRepo: makeTestLocalDataSource(),
+                                 course: course)
+    }
+    
+    func makeTestRemoteDataSource()->TestDataSourceProtocol{
+        return TestRemoteDataSource(client: sharedAPIClient)
+    }
+    
+    func makeTestLocalDataSource()->TestDataSourceProtocol{
+        let testCoreDataClient = CoreDataRepository<Test>()
+        return TestLocalDataSource(client: testCoreDataClient)
     }
     
     // MARK: - Listening
     func makeListeningCourseViewController(test: Test)-> ListeningCourseViewController {
-        let viewModel = makeListeningQuestionsViewModel(test: test)
-        networkManager.addDelegate(viewModel)
-        return ListeningCourseViewController(viewModel: viewModel)
+        let viewController = ListeningCourseViewController(viewModel: makeListeningQuestionsViewModel(test: test))
+        networkManager.addDelegate(viewController)
+        return viewController
     }
     
     func makeListeningQuestionsViewModel(test: Test)-> ListeningCourseViewModel {
-        return ListeningCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, test: test, repository: CoreDataRepository<ListeningQuestion>(), networkManager: networkManager)
+        return ListeningCourseViewModel(firebaseStorageManager: sharedFirebaseStorageManager,
+                                        remoteRepo: makeListeningQuestionRemoteDataSource(),
+                                        localRepo: makeListeningQuestionLocalDataSource(),
+                                        test: test)
+    }
+    
+    func makeListeningQuestionRemoteDataSource()-> ListeningCourseDataSourceProtocol{
+        return ListeningCourseRemoteDataSource(client: sharedAPIClient)
+    }
+    
+    func makeListeningQuestionLocalDataSource()-> ListeningCourseDataSourceProtocol{
+        let coreDataClient = CoreDataRepository<ListeningQuestion>()
+        return ListeningCourseLocalDataSource(client: coreDataClient)
     }
     
     // MARK: - Reading
     func makeReadingCourseViewController(test: Test)-> ReadingCourseViewController {
-        let viewModel = makeReadingQuestionsViewModel(test: test)
-        networkManager.addDelegate(viewModel)
-        return ReadingCourseViewController(viewModel: viewModel)
+        let viewController = ReadingCourseViewController(viewModel: makeReadingQuestionsViewModel(test: test))
+        networkManager.addDelegate(viewController)
+        return viewController
     }
     
     func makeReadingQuestionsViewModel(test: Test)-> ReadingCourseViewModel {
-        return ReadingCourseViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<ReadingQuestion>(), test: test, networkManager: networkManager)
+        return ReadingCourseViewModel(remoteRepo: makeReadingQuestionRemoteDataSource(),
+                                      localRepo: makeReadingQuestionLocalDataSource(),
+                                      test: test)
     }
     
-    // MARK: - Writing
-    func makeWritingCourseViewController()-> WritingCourseViewController {
-        return WritingCourseViewController()
+    func makeReadingQuestionRemoteDataSource()-> ReadingCourseDataSourceProtocol{
+        return ReadingCourseRemoteDataSource(client: sharedAPIClient)
+    }
+
+    func makeReadingQuestionLocalDataSource()-> ReadingCourseDataSourceProtocol{
+        let coreDataClient = CoreDataRepository<ReadingQuestion>()
+        return ReadingCourseLocalDataSource(client: coreDataClient)
     }
     
-    func makeBlankListViewController()-> BlankListViewController{
-        let viewModel = BlankListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Blank>(), networkManager: networkManager)
-        networkManager.addDelegate(viewModel)
-        return BlankListViewController(viewModel: viewModel)
-    }
-    
-    func makeLetterListViewController()-> LetterListViewController {
-        let viewModel = LetterListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Letter>(), networkManager: networkManager)
-        networkManager.addDelegate(viewModel)
-        return LetterListViewController(viewModel: viewModel)
-    }
-    
-    func makeBlankDetailViewController(viewModel: BlankViewModel)-> BlankViewController{
-        return BlankViewController(viewModel: viewModel)
-    }
-    
-    func makeLetterDetailViewController(viewModel: LetterViewModel)-> LetterViewController{
-        return LetterViewController(viewModel: viewModel)
-    }
     
     // MARK: - Speaking
     
-    func makeSpeakingCourseViewController()-> SpeakingCourseViewController {
-          return SpeakingCourseViewController()
-      }
-    
     func makeWordListViewController()-> WordListViewController{
-        let viewModel = WordListViewModel(firebaseManager: sharedFirebaseManager, repository: CoreDataRepository<Word>(), networkManager: networkManager)
-        networkManager.addDelegate(viewModel)
-        return WordListViewController(viewModel: viewModel)
+        let viewModel = WordListViewModel(remoteRepo: makeWordRemoteDataSource(),
+                                          localRepo: makeWordLocalDataSource())
+        let viewController = WordListViewController(viewModel: viewModel)
+        networkManager.addDelegate(viewController)
+        return viewController
+    }
+    
+    func makeWordRemoteDataSource()-> WordDataSourceProtocol{
+        return WordRemoteDataSource(client: sharedAPIClient)
+    }
+
+    func makeWordLocalDataSource()-> WordDataSourceProtocol{
+        let coreDataClient = CoreDataRepository<Word>()
+        return WordLocalDataSource(client: coreDataClient)
     }
     
     func makeCardListViewController()-> CardListViewController {
-        let viewModel = CardListViewModel(firebaseManager: sharedFirebaseManager, firebaseStorageManager: sharedFirebaseStorageManager, repository: CoreDataRepository<Card>(), networkManager: networkManager)
-        networkManager.addDelegate(viewModel)
-        return CardListViewController(viewModel: viewModel)
+        let viewModel = CardListViewModel(remoteRepo: makeCardRemoteDataSource(),
+                                          localRepo: makeCardLocalDataSource())
+        let viewController = CardListViewController(viewModel: viewModel)
+        networkManager.addDelegate(viewController)
+        return viewController
+    }
+    
+    func makeCardRemoteDataSource()-> CardDataSourceProtocol{
+        return CardRemoteDataSource(client: sharedAPIClient)
+    }
+
+    func makeCardLocalDataSource()-> CardDataSourceProtocol{
+        let coreDataClient = CoreDataRepository<Card>()
+        return CardLocalDataSource(client: coreDataClient)
     }
     
 }
