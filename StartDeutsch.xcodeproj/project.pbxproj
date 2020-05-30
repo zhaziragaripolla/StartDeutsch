@@ -42,6 +42,8 @@
 		56503A2A2476DC3D0093352A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56503A292476DC3D0093352A /* GoogleService-Info.plist */; };
 		56503A2C247902BF0093352A /* ListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56503A2B247902BF0093352A /* ListResponse.swift */; };
 		5665596F2482299C00505B1A /* TestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5665596E2482299C00505B1A /* TestTableViewCell.swift */; };
+		566559712482982C00505B1A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566559702482982C00505B1A /* Constants.swift */; };
+		566559732482985B00505B1A /* CourseListViewController+MessageUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566559722482985B00505B1A /* CourseListViewController+MessageUI.swift */; };
 		5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */; };
 		56726A0723CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */; };
 		56726A0923CA26FA00F3D7CB /* QuestionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */; };
@@ -164,6 +166,8 @@
 		56503A292476DC3D0093352A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		56503A2B247902BF0093352A /* ListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListResponse.swift; sourceTree = "<group>"; };
 		5665596E2482299C00505B1A /* TestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTableViewCell.swift; sourceTree = "<group>"; };
+		566559702482982C00505B1A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		566559722482985B00505B1A /* CourseListViewController+MessageUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CourseListViewController+MessageUI.swift"; sourceTree = "<group>"; };
 		5671AAF523C9ACA100BB1A3D /* CourseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
 		56726A0623CA220200F3D7CB /* ListeningQuestionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningQuestionCollectionViewCell.swift; sourceTree = "<group>"; };
 		56726A0823CA26FA00F3D7CB /* QuestionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCellViewModel.swift; sourceTree = "<group>"; };
@@ -394,6 +398,7 @@
 				567A370A23D84BA500FFB121 /* NetworkManager.swift */,
 				56D7BACD2382F79A00CECC71 /* SceneDelegate.swift */,
 				5696836F23912957008AF9A4 /* AppDependencyContainer.swift */,
+				566559702482982C00505B1A /* Constants.swift */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
@@ -418,6 +423,7 @@
 			children = (
 				5696837C23927FFF008AF9A4 /* CourseListViewControllerDelegate.swift */,
 				56D7BACF2382F79A00CECC71 /* CourseListViewController.swift */,
+				566559722482985B00505B1A /* CourseListViewController+MessageUI.swift */,
 			);
 			path = CourseList;
 			sourceTree = "<group>";
@@ -768,6 +774,7 @@
 				5696837023912957008AF9A4 /* AppDependencyContainer.swift in Sources */,
 				565039FA24769E590093352A /* CoreDataError.swift in Sources */,
 				56963EA723C34601007ACE1D /* CardCollectionViewCell.swift in Sources */,
+				566559712482982C00505B1A /* Constants.swift in Sources */,
 				56963E9B23C1C275007ACE1D /* CardListViewController.swift in Sources */,
 				56DC57A9246C4EEC004AF4AC /* RequestBuilder.swift in Sources */,
 				56113D53238A848300A7DA6B /* UserAnswer.swift in Sources */,
@@ -819,6 +826,7 @@
 				5671AAF623C9ACA100BB1A3D /* CourseTableViewCell.swift in Sources */,
 				5696837D23927FFF008AF9A4 /* CourseListViewControllerDelegate.swift in Sources */,
 				56963E9F23C1C44C007ACE1D /* Card.swift in Sources */,
+				566559732482985B00505B1A /* CourseListViewController+MessageUI.swift in Sources */,
 				56963E9523C1B982007ACE1D /* WordListViewController.swift in Sources */,
 				56963EA323C1C595007ACE1D /* WordListCoordinator.swift in Sources */,
 				5696838123929A09008AF9A4 /* TestListViewControllerDelegate.swift in Sources */,
