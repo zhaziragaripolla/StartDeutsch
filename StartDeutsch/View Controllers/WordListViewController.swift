@@ -13,9 +13,9 @@ class WordListViewController: UIViewController {
     private let assignmentLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .italicSystemFont(ofSize: 18)
-        label.textAlignment = .center
-        label.textColor = .systemPurple
+        label.font = .systemFont(ofSize: 14)
+        label.textAlignment = .left
+        label.textColor = .systemGray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -33,19 +33,30 @@ class WordListViewController: UIViewController {
         return collectionView
     }()
     
-    fileprivate func setupView() {
+    fileprivate func setupUI() {
+        title = "Fragen formulieren"
+        view.backgroundColor = .white
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        //  Reload button
+        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
+        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
+        
+        // Assignment label
         view.addSubview(assignmentLabel)
+        assignmentLabel.text = "Practice asking questions using given word cards on different topics."
         assignmentLabel.snp.makeConstraints({ make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(20)
         })
         
+        // Collection view
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.snp.makeConstraints({ make in
-            make.top.equalTo(assignmentLabel.snp.bottom)
+            make.top.equalTo(assignmentLabel.snp.bottom).offset(10)
             make.trailing.leading.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         })
@@ -64,13 +75,7 @@ class WordListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = true
-    
-        let reloadBarItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(didTapReloadButton))
-        self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
-        setupView()
-        assignmentLabel.text = "Practice asking questions using given word cards on different topics."
+        setupUI()
         viewModel.errorDelegate = self
         viewModel.delegate = self
         viewModel.getWords()
