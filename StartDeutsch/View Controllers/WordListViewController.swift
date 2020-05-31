@@ -94,7 +94,6 @@ class WordListViewController: UIViewController {
             case .loading:
                 LoadingOverlay.shared.showOverlay(view: self.view)
             case .finish:
-                self.viewModel.reloadWords()
                 self.collectionView.reloadData()
                 LoadingOverlay.shared.hideOverlayView()
             case .error(let error):

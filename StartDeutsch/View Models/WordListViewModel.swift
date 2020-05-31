@@ -46,13 +46,12 @@ class WordListViewModel {
                 switch result {
                 case .failure(let error):
                     self.state = .error(error)
-                case .finished:
-                    self.reloadWords()
+                default: break
                 }
             }, receiveValue: { [weak self] words in
                 guard let self = self else { return }
                 self.words = words
-                
+                self.reloadWords()
                 if self.isNetworkCall{
                     words.forEach{ word in
                         self.localRepo.create(item: word)

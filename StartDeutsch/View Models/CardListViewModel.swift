@@ -45,13 +45,12 @@ class CardListViewModel {
                 switch result {
                 case .failure(let error):
                     self.state = .error(error)
-                case .finished:
-                    self.reloadImages()
+                default: break
                 }
             }, receiveValue: { [weak self] cards in
                 guard let self = self else { return }
                 self.cards = cards
-                
+                self.reloadImages()
                 if self.isNetworkCall{
                     cards.forEach{ card in
                         self.localRepo.create(item: card)
