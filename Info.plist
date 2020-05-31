@@ -60,5 +60,7 @@
     <string>$(CLIENT_ID)</string>
     <key>CLIENT_SECRET</key>
     <string>$(CLIENT_SECRET)</string>
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
 </dict>
 </plist>
