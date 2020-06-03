@@ -61,6 +61,8 @@ class CourseListViewController: UIViewController {
         self.navigationItem.setRightBarButton(reloadBarItem, animated: true)
         
         // Header's image view
+        tableView.tableHeaderView = nil
+        tableView.addSubview(headerView)
         headerView.addSubview(imageView)
         imageView.snp.makeConstraints{ make in
             make.width.equalToSuperview().multipliedBy(0.65)
@@ -69,12 +71,9 @@ class CourseListViewController: UIViewController {
             make.bottom.equalToSuperview()
         }
         imageView.image = UIImage(named: "background.png")
-        
+       
         // Table view
-        tableView.tableHeaderView = nil
-        tableView.addSubview(headerView)
-        tableView.contentInset = UIEdgeInsets(top: tableViewHeaderHeight , left: 0, bottom: 30, right: 0)
-        tableView.contentOffset = CGPoint(x: 0, y: -tableViewHeaderHeight)
+        tableView.contentInset = UIEdgeInsets(top: tableViewHeaderHeight , left: 0, bottom: 0, right: 0)
         tableView.backgroundColor = .white
         
         view.addSubview(tableView)
@@ -96,7 +95,6 @@ class CourseListViewController: UIViewController {
         
         // UI configuration
         setupUI()
-        updateHeaderView()
         
         // View model configuration
         viewModel.getCourses()
@@ -122,7 +120,7 @@ class CourseListViewController: UIViewController {
 
     func updateHeaderView() {
         var headerRect = CGRect(x: 0, y: -tableViewHeaderHeight,
-                                width: tableView.bounds.width,
+                                width: tableViewHeaderHeight*1.2,
                                 height: tableViewHeaderHeight)
         if tableView.contentOffset.y < -tableViewHeaderHeight {
             headerRect.origin.y = tableView.contentOffset.y
