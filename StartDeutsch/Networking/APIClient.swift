@@ -18,6 +18,7 @@ final class APIClient: APIClientProtocol{
 
     let session: URLSession
     let requestBuilder: RequestBuilderProtocol
+    let userDefaults = UserDefaults.standard
 
     private lazy var tokenRequest: URLRequest = {
         return requestBuilder.buildRequest(from: StartDeutschEndpoint.postToken)
@@ -33,7 +34,10 @@ final class APIClient: APIClientProtocol{
     ///   - endpoint: The instance of EndpointType to make a call.
     /// - Returns: The result as a Publisher with Output of specified type T and Error.
     func get<T: Decodable>(from endpoint: EndpointType) -> AnyPublisher<T, Error> {
-        let request = requestBuilder.buildRequest(from: endpoint)
+        var request = requestBuilder.buildRequest(from: endpoint)
+        if let token = userDefaults.object(forKey: "token") as? String{
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
         return fetch(request).eraseToAnyPublisher()
     }
 
@@ -53,13 +57,14 @@ final class APIClient: APIClientProtocol{
                 return self.refreshToken()
                     .tryMap{ [unowned self] token-> AnyPublisher<T, Error> in
                         print("New token \(token.accessToken)!")
+                        self.userDefaults.set(token.accessToken, forKey: "token")
                         var newRequest = request
                         newRequest.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
                         return self.fetch(newRequest)
             }.switchToLatest().eraseToAnyPublisher()
         }
         .eraseToAnyPublisher()
-    }
+    }    
     
     /// Returns the result of refreshing token request : AnyPublisher<Output, Failure>.
     /// - Returns: The type-erasing  AnyPublisher<Output, Failure> where Output is a Token model(conformed to Decodable protocol). Failure is conformed to Error protocol.
