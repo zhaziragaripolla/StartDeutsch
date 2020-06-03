@@ -52,7 +52,10 @@ class TestRemoteDataSource: TestDataSourceProtocol{
         
         guard let parameters = parameters,
             let courseId = parameters["courseId"] as? String else {
-                fatalError()
+                print("Error: course_id parameters is undefined. Cannot make a query.")
+                return Future { promise in
+                    promise(.failure(APIError.noData))
+                }
         }
         
         return Future{ [unowned self] promise in

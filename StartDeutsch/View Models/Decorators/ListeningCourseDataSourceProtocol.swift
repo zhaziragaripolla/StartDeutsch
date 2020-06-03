@@ -51,7 +51,10 @@ class ListeningCourseRemoteDataSource: ListeningCourseDataSourceProtocol{
         
         guard let parameters = parameters,
             let testId = parameters["testId"] as? String else {
-                fatalError()
+                print("Error: test_id parameters is undefined. Cannot make a query.")
+                return Future { promise in
+                    promise(.failure(APIError.noData))
+                }
         }
         
         return Future{ [unowned self] promise in
