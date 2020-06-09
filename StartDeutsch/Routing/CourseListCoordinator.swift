@@ -21,7 +21,7 @@ class CourseListCoordinator: Coordinator {
     }
     
     func start() {
-        let vc = container.makeCoursesViewController()
+        let vc = container.makeCourseListViewController()
         vc.delegate = self
         presenter.pushViewController(vc, animated: true)
     }

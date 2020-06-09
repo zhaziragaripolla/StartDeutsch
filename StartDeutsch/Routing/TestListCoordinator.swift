@@ -23,7 +23,7 @@ class TestListCoordinator: Coordinator {
     }
     
     func start() {
-        let vc = container.makeTestsViewController(course: course)
+        let vc = container.makeTestListViewController(course: course)
         vc.delegate = self
         presenter.pushViewController(vc, animated: true)
     }

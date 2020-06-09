@@ -43,15 +43,14 @@ class AppDependencyContainer {
     
     
     // MARK: Courses
-    // TODO: rename to CourseList
-    func makeCoursesViewController()-> CourseListViewController {
-        let viewController = CourseListViewController(viewModel: makeCoursesViewModel())
+    func makeCourseListViewController()-> CourseListViewController {
+        let viewController = CourseListViewController(viewModel: makeCourseListViewModel())
         networkManager.addDelegate(viewController)
         return viewController
         
     }
     
-    func makeCoursesViewModel()-> CourseListViewModel {
+    func makeCourseListViewModel()-> CourseListViewModel {
         return CourseListViewModel(remoteRepo: makeCourseRemoteDataSource(),
                                    localRepo: makeCourseLocalDataSource())
     }
@@ -66,13 +65,13 @@ class AppDependencyContainer {
     }
     
     // MARK: Tests
-    func makeTestsViewController(course: Course)-> TestListViewController {
-        let viewController = TestListViewController(viewModel: makeTestsViewModel(course: course))
+    func makeTestListViewController(course: Course)-> TestListViewController {
+        let viewController = TestListViewController(viewModel: makeTestListViewModel(course: course))
         networkManager.addDelegate(viewController)
         return viewController
     }
     
-    func makeTestsViewModel(course: Course)-> TestListViewModel {
+    func makeTestListViewModel(course: Course)-> TestListViewModel {
         return TestListViewModel(remoteRepo: makeTestRemoteDataSource(),
                                  localRepo: makeTestLocalDataSource(),
                                  course: course)
@@ -89,45 +88,45 @@ class AppDependencyContainer {
     
     // MARK: - Listening
     func makeListeningCourseViewController(test: Test)-> ListeningCourseViewController {
-        let viewController = ListeningCourseViewController(viewModel: makeListeningQuestionsViewModel(test: test))
+        let viewController = ListeningCourseViewController(viewModel: makeListeningCourseViewModel(test: test))
         networkManager.addDelegate(viewController)
         return viewController
     }
     
-    func makeListeningQuestionsViewModel(test: Test)-> ListeningCourseViewModel {
+    func makeListeningCourseViewModel(test: Test)-> ListeningCourseViewModel {
         return ListeningCourseViewModel(firebaseStorageManager: sharedFirebaseStorageManager,
-                                        remoteRepo: makeListeningQuestionRemoteDataSource(),
-                                        localRepo: makeListeningQuestionLocalDataSource(),
+                                        remoteRepo: makeListeningCourseRemoteDataSource(),
+                                        localRepo: makeListeningCourseLocalDataSource(),
                                         test: test)
     }
     
-    func makeListeningQuestionRemoteDataSource()-> ListeningCourseDataSourceProtocol{
+    func makeListeningCourseRemoteDataSource()-> ListeningCourseDataSourceProtocol{
         return ListeningCourseRemoteDataSource(client: sharedAPIClient)
     }
     
-    func makeListeningQuestionLocalDataSource()-> ListeningCourseDataSourceProtocol{
+    func makeListeningCourseLocalDataSource()-> ListeningCourseDataSourceProtocol{
         let coreDataClient = CoreDataRepository<ListeningQuestion>()
         return ListeningCourseLocalDataSource(client: coreDataClient)
     }
     
     // MARK: - Reading
     func makeReadingCourseViewController(test: Test)-> ReadingCourseViewController {
-        let viewController = ReadingCourseViewController(viewModel: makeReadingQuestionsViewModel(test: test))
+        let viewController = ReadingCourseViewController(viewModel: makeReadingCourseViewModel(test: test))
         networkManager.addDelegate(viewController)
         return viewController
     }
     
-    func makeReadingQuestionsViewModel(test: Test)-> ReadingCourseViewModel {
-        return ReadingCourseViewModel(remoteRepo: makeReadingQuestionRemoteDataSource(),
-                                      localRepo: makeReadingQuestionLocalDataSource(),
+    func makeReadingCourseViewModel(test: Test)-> ReadingCourseViewModel {
+        return ReadingCourseViewModel(remoteRepo: makeReadingCourseRemoteDataSource(),
+                                      localRepo: makeReadingCourseLocalDataSource(),
                                       test: test)
     }
     
-    func makeReadingQuestionRemoteDataSource()-> ReadingCourseDataSourceProtocol{
+    func makeReadingCourseRemoteDataSource()-> ReadingCourseDataSourceProtocol{
         return ReadingCourseRemoteDataSource(client: sharedAPIClient)
     }
 
-    func makeReadingQuestionLocalDataSource()-> ReadingCourseDataSourceProtocol{
+    func makeReadingCourseLocalDataSource()-> ReadingCourseDataSourceProtocol{
         let coreDataClient = CoreDataRepository<ReadingQuestion>()
         return ReadingCourseLocalDataSource(client: coreDataClient)
     }
